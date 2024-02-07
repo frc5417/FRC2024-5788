@@ -10,12 +10,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.Constants;
 
-import java.util.Optional;
-
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBase extends SubsystemBase {
@@ -63,7 +59,7 @@ public class DriveBase extends SubsystemBase {
 
         moduleGroup = new Module[4];
         for (int i = 0; i < 4; i++) {
-            moduleGroup[i] = new Module(i, Constants.DriveTrainConstants.invertedMotors[i]);
+            moduleGroup[i] = new Module(i, Constants.ModuleConstants.invertedMotors[i]);
             encoderOffset[i] = moduleGroup[i].getAngleInRadians();
             encoderDriveOffset[i] = moduleGroup[i].integratedDriveEncoder.getPosition();
         }
@@ -71,7 +67,7 @@ public class DriveBase extends SubsystemBase {
         targetModuleStates = new Module.ModuleState[4];
 
         for (int i = 0; i < 4; i++)
-            targetModuleStates[i] = new Module.ModuleState(0, Constants.MotorConstants.motorDegrees[i] * (Math.PI/180));
+            targetModuleStates[i] = new Module.ModuleState(0, Constants.ModuleConstants.motorDegrees[i] * (Math.PI/180));
 
         m_sdkOdom = new SwerveDriveOdometry(
             m_skdKine, m_ahrs.getRotation2d(), new SwerveModulePosition[] {

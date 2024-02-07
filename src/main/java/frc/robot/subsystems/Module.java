@@ -47,13 +47,13 @@ public class Module {
     this.moduleNum = module;
 
      /* Angle Motor Config */
-     angleMotor = new CANSparkMax(Constants.MotorConstants.angleMotorIDS[this.moduleNum], MotorType.kBrushless);
+     angleMotor = new CANSparkMax(Constants.ModuleConstants.angleMotorIDS[this.moduleNum], MotorType.kBrushless);
      configAngleMotor();
 
      integratedAngleEncoder = angleMotor.getEncoder();
      angleMotor.getPIDController();
 
-     _CANCoder = new CANcoder(Constants.MotorConstants.CANCoderID[this.moduleNum], "canivore");
+     _CANCoder = new CANcoder(Constants.ModuleConstants.CANCoderID[this.moduleNum], "canivore");
      configurator = _CANCoder.getConfigurator();
 
     //  _CANCoder.setPositionToAbsolute(0);
@@ -61,7 +61,7 @@ public class Module {
     //  _CANCoder.setPosition(0);
     
      /* Drive Motor Config */
-     driveMotor = new CANSparkMax(Constants.MotorConstants.driveMotorIDS[this.moduleNum], MotorType.kBrushless);
+     driveMotor = new CANSparkMax(Constants.ModuleConstants.driveMotorIDS[this.moduleNum], MotorType.kBrushless);
      configDriveMotor();
 
      integratedDriveEncoder = driveMotor.getEncoder();
@@ -112,7 +112,7 @@ public class Module {
   }
 
   public double getAngleInRadians() { 
-    return (_CANCoder.getAbsolutePosition().getValueAsDouble() * 360.0 - Constants.MotorConstants.motorDegrees[this.moduleNum]) * (Math.PI/180.0);
+    return (_CANCoder.getAbsolutePosition().getValueAsDouble() * 360.0 - Constants.ModuleConstants.motorDegrees[this.moduleNum]) * (Math.PI/180.0);
   }
 
   public double getAngle() {
@@ -150,7 +150,7 @@ public class Module {
     // String name = "Mod" + String.valueOf(this.moduleNum);
     // SmartDashboard.putNumber(name, this.getAngleInRadians());
 
-    if (Math.abs(this.pid.getSetpoint() - this.getAngleInRadians()) > (Constants.MotorConstants.degTolerance*(Math.PI/180))) {
+    if (Math.abs(this.pid.getSetpoint() - this.getAngleInRadians()) > (Constants.ModuleConstants.degTolerance*(Math.PI/180))) {
       this.angleMotor.set(MathUtil.clamp(this.pid.calculate(this.getAngleInRadians()), -1, 1));
     } else {
       this.angleMotor.set(0.0);

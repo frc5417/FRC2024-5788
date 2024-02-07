@@ -19,10 +19,8 @@ import frc.robot.commands.AutonLoader;
 import frc.robot.commands.SetLightConfig;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.DriveBase;
-import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Kinematics;
 import frc.robot.subsystems.LightsControl;
-import frc.robot.subsystems.Manipulator;
 import edu.wpi.first.hal.HALUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
@@ -39,10 +37,9 @@ public class RobotContainer {
   public static AHRS ahrs = new AHRS(SerialPort.Port.kMXP);
   public static Kinematics kinematics = new Kinematics(ahrs);
   public static DriveBase driveBase = new DriveBase(kinematics, ahrs);
-  public static Manipulator manipulator = new Manipulator();
-  public static Elevator elevator = new Elevator();
-  public static AutonLoader autonLoader = new AutonLoader(driveBase, manipulator, elevator); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
-  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, manipulator, elevator); //ALL SUBSYSTEMS
+
+  public static AutonLoader autonLoader = new AutonLoader(driveBase); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
+  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase); //ALL SUBSYSTEMS
   private final static CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverPort);
   private final static CommandXboxController m_manipulatorController = new CommandXboxController(OperatorConstants.kManipulatorPort);
 
