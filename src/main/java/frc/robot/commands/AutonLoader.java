@@ -1,8 +1,10 @@
 package frc.robot.commands;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -17,7 +19,7 @@ public class AutonLoader {
     private final DriveBase m_driveBase;
     private static SendableChooser<Command> chooser;
     private final ReplanningConfig replanningConfig = new ReplanningConfig();
-    private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, replanningConfig);
+    private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(new PIDConstants(5.0, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0), Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, new ReplanningConfig());
 
     //PathPlanner auton groups
     private static PathPlannerPath trajectory = PathPlannerPath.fromPathFile("moose");
@@ -26,14 +28,15 @@ public class AutonLoader {
     // private static List<PathPlannerPath> bozo = PathPlannerAuto.getPathGroupFromAutoFile("newsf");
     // private static List<PathPlannerPath> straightline = PathPlannerAuto.getPathGroupFromAutoFile("straightline");
 
+    private final SendableChooser<Command> autoChooser;
+
     public AutonLoader(DriveBase driveBase) {
 
         m_driveBase = driveBase;
-        chooser = new SendableChooser<>();       
 
-        AutoBuilder.configureHolonomic(m_driveBase::getCurrentPose, m_driveBase::resetOdometry, m_driveBase::getRelativeChassisSpeeds, m_driveBase::setAutoSpeed, holonomic_config, m_driveBase::shouldFlipPath, m_driveBase);
+        AutoBuilder.configureHolonomic(m_driveBase::getCurrentPose, m_driveBase::resetOdometry, m_driveBase::getRobotRelativeChassisSpeeds, m_driveBase::setAutoSpeed, holonomic_config, m_driveBase::shouldFlipPath, m_driveBase);
 
-        
+        autoChooser = AutoBuilder.buildAutoChooser();
         
         // for (String path : Constants.Auton.paths) {
             // chooser.addOption(path, getAutonFromPath(path));
@@ -47,7 +50,7 @@ public class AutonLoader {
         // chooser.addOption("straightline", AutoBuilder.followPath((PathPlannerPath) straightline));
         // chooser.addOption("newsf", AutoBuilder.followPathWithEvents((PathPlannerPath) newsf));
 
-        SmartDashboard.putData(chooser);
+        SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
     // private Command getAutonFromPath(String path) {
@@ -58,8 +61,9 @@ public class AutonLoader {
         // return chooser.getSelected();
         // return autoBuilder.fullAuto(pathGroup);
         // return AutoBuilder.buildAuto("test");
-        m_driveBase.resetOdometry(new Pose2d(trajectory.getPoint(0).position, new Rotation2d(-90)));
+        // m_driveBase.resetOdometry(new Pose2d(trajectory.getPoint(0).position, new Rotation2d(-90)));
         // return AutoBuilder.followPath(trajectory);
-        return AutoBuilder.buildAuto("test");
+        // return autoChooser.getSelected();
+        return new PathPlannerAuto("test");
     }    
 }

@@ -9,7 +9,9 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.RobotCentric;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -90,9 +92,9 @@ public class DriveBase extends SubsystemBase {
         return new Pose2d(globalPose.getX(), globalPose.getY(), new Rotation2d(globalPose.getRotation().getRadians()+Math.PI/2));
     }
 
-    public ChassisSpeeds getRelativeChassisSpeeds() {
+    public ChassisSpeeds getRobotRelativeChassisSpeeds() {
         // return new ChassisSpeeds(m_ahrs.getVelocityY(), -1 * m_ahrs.getVelocityX(), m_ahrs.getRate() * (Math.PI/180.0));
-        return ChassisSpeeds.fromRobotRelativeSpeeds(m_ahrs.getVelocityY(), -1 * m_ahrs.getVelocityX(), m_ahrs.getRawGyroZ() * (Math.PI/180.0), m_ahrs.getRotation2d());
+        return new ChassisSpeeds(m_ahrs.getVelocityX() * -1, m_ahrs.getVelocityY(), m_ahrs.getRate() * (Math.PI/180.0))//(m_ahrs.getVelocityY(), -1 * m_ahrs.getVelocityX(), m_ahrs.getRate() * (Math.PI/180.0), m_ahrs.getRotation2d());
     }
 
     public boolean shouldFlipPath() {
@@ -126,7 +128,7 @@ public class DriveBase extends SubsystemBase {
 
     public void setAutoSpeed(ChassisSpeeds chassisSpeeds) {
         autoSetSpeed = chassisSpeeds;
-        ChassisSpeeds computed = new ChassisSpeeds(chassisSpeeds.vxMetersPerSecond/Constants.Swerve.maxVelocity, chassisSpeeds.vyMetersPerSecond/Constants.Swerve.maxVelocity, chassisSpeeds.omegaRadiansPerSecond/Constants.Swerve.maxAngularVelocity); //
+        ChassisSpeeds computed = RobotContainer.getSaturatedSpeeds(autoSetSpeed.vxMetersPerSecond, autoSetSpeed.vyMetersPerSecond, autoSetSpeed.omegaRadiansPerSecond); //
         targetModuleStates = m_kinematics.getComputedModuleStates(computed);
     }
 

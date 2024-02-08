@@ -38,9 +38,9 @@ public final class Constants {
   public static class ManipulatorConstants {}
   
   public static class Swerve {
-    public static final Double angularPercentage = 1.0;
-    public static final Double XPercentage = -1.0;
-    public static final Double YPercentage = -1.0;
+    public static final Double angularPercentage = -0.1;
+    public static final Double XPercentage = -0.3;
+    public static final Double YPercentage = -0.3;
 
     public static final IdleMode angleNeutralMode = IdleMode.kBrake;
     public static final IdleMode driveNeutralMode = IdleMode.kBrake;
