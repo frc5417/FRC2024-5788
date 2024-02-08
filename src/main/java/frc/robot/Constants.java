@@ -26,10 +26,10 @@ public final class Constants {
 
   public static class ModuleConstants {
     // 0 indexing
-    public static final Integer[] driveMotorIDS = {11, 21, 41, 31}; 
-    public static final Integer[] angleMotorIDS = {12, 22, 42, 32};
-    public static final Integer[] CANCoderID = {13, 23, 43, 33};
-    public static final Double[] motorDegrees = {165.6738, 316.40616, 327.48048, 255.1464};
+    public static final Integer[] driveMotorIDS = {11, 21, 31, 41}; 
+    public static final Integer[] angleMotorIDS = {12, 22, 32, 42};
+    public static final Integer[] CANCoderID = {13, 23, 33, 43};
+    public static final Double[] motorDegrees = {165.2324, 315.5274, 161.98236, 81.03528};
     public static final Double degTolerance = 0.75;
     public static final boolean[] invertedMotors = {true, true, false, true};
 
