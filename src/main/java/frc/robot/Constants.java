@@ -29,9 +29,9 @@ public final class Constants {
     public static final Integer[] driveMotorIDS = {11, 21, 31, 41}; 
     public static final Integer[] angleMotorIDS = {12, 22, 32, 42};
     public static final Integer[] CANCoderID = {13, 23, 33, 43};
-    public static final Double[] motorDegrees = {165.2324, 315.5274, 161.98236, 81.03528};
+    public static final Double[] motorDegrees = {165.2324, 315.5274, 298.03716, 81.03528};
     public static final Double degTolerance = 0.75;
-    public static final boolean[] invertedMotors = {true, true, false, true};
+    public static final boolean[] invertedMotors = {true, true, true, true};
 
   }
 
@@ -46,7 +46,7 @@ public final class Constants {
     public static final IdleMode driveNeutralMode = IdleMode.kBrake;
     public static final double maxVelocity = 3.8; // m/s
     public static final double maxAngularVelocity = 10; //rad/sec
-    public static final double maxModuleSpeed = 3.8;
+    public static final double maxModuleSpeed = 0.3;
     public static final boolean shouldFlipAuto = true;
   }
 

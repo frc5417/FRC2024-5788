@@ -61,7 +61,7 @@ public class AutonLoader {
         // return chooser.getSelected();
         // return autoBuilder.fullAuto(pathGroup);
         // return AutoBuilder.buildAuto("test");
-        // m_driveBase.resetOdometry(new Pose2d(trajectory.getPoint(0).position, new Rotation2d(-90)));
+        // m_driveBase.resetOdometry(trajectory.getPathPoses().get(0));
         // return AutoBuilder.followPath(trajectory);
         // return autoChooser.getSelected();
         return new PathPlannerAuto("test");
