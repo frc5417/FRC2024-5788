@@ -18,11 +18,9 @@ import frc.robot.subsystems.DriveBase;
 public class AutonLoader {
     private final DriveBase m_driveBase;
     private static SendableChooser<Command> chooser;
-    private final ReplanningConfig replanningConfig = new ReplanningConfig();
-    private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(new PIDConstants(5.0, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0), Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, new ReplanningConfig());
+    private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(new PIDConstants(0.5, 0.0, 0.0), new PIDConstants(0.5, 0.0, 0.0), Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, new ReplanningConfig());
 
     //PathPlanner auton groups
-    private static PathPlannerPath trajectory = PathPlannerPath.fromPathFile("moose");
 
     // private static List<PathPlannerPath> sf8 = PathPlannerAuto.getPathGroupFromAutoFile("sf8");
     // private static List<PathPlannerPath> bozo = PathPlannerAuto.getPathGroupFromAutoFile("newsf");

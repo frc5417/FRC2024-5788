@@ -85,8 +85,7 @@ public class DriveBase extends SubsystemBase {
                 new SwerveModulePosition(odomDeltas[2], new Rotation2d(odomAngles[2])),
                 new SwerveModulePosition(odomDeltas[1], new Rotation2d(odomAngles[1])),
                 new SwerveModulePosition(odomDeltas[0], new Rotation2d(odomAngles[0]))
-            }, new Pose2d (2.0, 7.0, new Rotation2d())
-        );
+            });
 
 
     
@@ -104,9 +103,11 @@ public class DriveBase extends SubsystemBase {
     public ChassisSpeeds getRobotRelativeChassisSpeeds() {
         // return new ChassisSpeeds(m_ahrs.getVelocityY(), -1 * m_ahrs.getVelocityX(), m_ahrs.getRate() * (Math.PI/180.0));
         SwerveModuleState[] states = new SwerveModuleState[moduleGroup.length];
-        for (int i = 0; i < 4; i++) {
-            states[i] = new SwerveModuleState(moduleGroup[i].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[i].getAngleInRadians()));   
-        }
+        states[0] = new SwerveModuleState(moduleGroup[3].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[3].getAngleInRadians())); //The velocity is RPM so convert to M/S
+        states[1] = new SwerveModuleState(moduleGroup[2].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[2].getAngleInRadians()));//The velocity is RPM so convert to M/S
+        states[2] = new SwerveModuleState(moduleGroup[1].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[1].getAngleInRadians()));//The velocity is RPM so convert to M/S
+        states[3] = new SwerveModuleState(moduleGroup[0].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[0].getAngleInRadians()));//The velocity is RPM so convert to M/S
+
         return m_skdKine.toChassisSpeeds(states);//new ChassisSpeeds(m_ahrs.getVelocityX() * -1, m_ahrs.getVelocityY() * -1, 0.0); //(m_ahrs.getVelocityY(), -1 * m_ahrs.getVelocityX(), m_ahrs.getRate() * (Math.PI/180.0), m_ahrs.getRotation2d());
     }
 
