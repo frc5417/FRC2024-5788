@@ -1,5 +1,4 @@
 package frc.robot.subsystems;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -11,10 +10,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Module.ModuleState;
-
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.RobotCentric;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -81,10 +76,10 @@ public class DriveBase extends SubsystemBase {
 
         m_sdkOdom = new SwerveDriveOdometry(
             m_skdKine, m_ahrs.getRotation2d(), new SwerveModulePosition[] {
-                new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3])),
-                new SwerveModulePosition(odomDeltas[2], new Rotation2d(odomAngles[2])),
+                new SwerveModulePosition(odomDeltas[0], new Rotation2d(odomAngles[0])),
                 new SwerveModulePosition(odomDeltas[1], new Rotation2d(odomAngles[1])),
-                new SwerveModulePosition(odomDeltas[0], new Rotation2d(odomAngles[0]))
+                new SwerveModulePosition(odomDeltas[2], new Rotation2d(odomAngles[2])),
+                new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3]))
             });
 
 
@@ -103,10 +98,10 @@ public class DriveBase extends SubsystemBase {
     public ChassisSpeeds getRobotRelativeChassisSpeeds() {
         // return new ChassisSpeeds(m_ahrs.getVelocityY(), -1 * m_ahrs.getVelocityX(), m_ahrs.getRate() * (Math.PI/180.0));
         SwerveModuleState[] states = new SwerveModuleState[moduleGroup.length];
-        states[0] = new SwerveModuleState(moduleGroup[3].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[3].getAngleInRadians())); //The velocity is RPM so convert to M/S
-        states[1] = new SwerveModuleState(moduleGroup[2].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[2].getAngleInRadians()));//The velocity is RPM so convert to M/S
-        states[2] = new SwerveModuleState(moduleGroup[1].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[1].getAngleInRadians()));//The velocity is RPM so convert to M/S
-        states[3] = new SwerveModuleState(moduleGroup[0].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[0].getAngleInRadians()));//The velocity is RPM so convert to M/S
+        states[0] = new SwerveModuleState(moduleGroup[0].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[0].getAngleInRadians())); //The velocity is RPM so convert to M/S
+        states[1] = new SwerveModuleState(moduleGroup[1].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[1].getAngleInRadians()));//The velocity is RPM so convert to M/S
+        states[2] = new SwerveModuleState(moduleGroup[2].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[2].getAngleInRadians()));//The velocity is RPM so convert to M/S
+        states[3] = new SwerveModuleState(moduleGroup[3].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[3].getAngleInRadians()));//The velocity is RPM so convert to M/S
 
         return m_skdKine.toChassisSpeeds(states);//new ChassisSpeeds(m_ahrs.getVelocityX() * -1, m_ahrs.getVelocityY() * -1, 0.0); //(m_ahrs.getVelocityY(), -1 * m_ahrs.getVelocityX(), m_ahrs.getRate() * (Math.PI/180.0), m_ahrs.getRotation2d());
     }
@@ -135,10 +130,10 @@ public class DriveBase extends SubsystemBase {
             odomAngles[i] = smallestAngle(moduleGroup[i].getAngleInRadians());//smallestAngle(moduleGroup[i].getAngleInRadians()*(180.0/Math.PI)) * (Math.PI/180.0);
         }
         SwerveModulePosition[] modulePositions = new SwerveModulePosition[] {
-                new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3])),
-                new SwerveModulePosition(odomDeltas[2], new Rotation2d(odomAngles[2])),
+                new SwerveModulePosition(odomDeltas[0], new Rotation2d(odomAngles[0])),
                 new SwerveModulePosition(odomDeltas[1], new Rotation2d(odomAngles[1])),
-                new SwerveModulePosition(odomDeltas[0], new Rotation2d(odomAngles[0]))
+                new SwerveModulePosition(odomDeltas[2], new Rotation2d(odomAngles[2])),
+                new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3]))
         };
         m_sdkOdom.resetPosition(m_ahrs.getRotation2d(), modulePositions, pose);
     }
@@ -183,11 +178,12 @@ public class DriveBase extends SubsystemBase {
         
 
         m_sdkOdom.update(m_ahrs.getRotation2d(), new SwerveModulePosition[] {
-            new SwerveModulePosition(Math.abs(odomDeltas[3]), new Rotation2d(odomAngles[3])),
-            new SwerveModulePosition(Math.abs(odomDeltas[2]), new Rotation2d(odomAngles[2])),
+            new SwerveModulePosition(Math.abs(odomDeltas[0]), new Rotation2d(odomAngles[0])),
             new SwerveModulePosition(Math.abs(odomDeltas[1]), new Rotation2d(odomAngles[1])),
-            new SwerveModulePosition(Math.abs(odomDeltas[0]), new Rotation2d(odomAngles[0]))
+            new SwerveModulePosition(Math.abs(odomDeltas[2]), new Rotation2d(odomAngles[2])),
+            new SwerveModulePosition(Math.abs(odomDeltas[3]), new Rotation2d(odomAngles[3]))
         });
+
 
         field.setRobotPose(m_sdkOdom.getPoseMeters());
 
@@ -198,16 +194,6 @@ public class DriveBase extends SubsystemBase {
         SmartDashboard.putNumber("Rotations", m_ahrs.getAngle());
 
 
-        // double voltage = m_pdp.getVoltage();
-        // SmartDashboard.putNumber("Voltage", voltage);
-
-        // X += globalPose.getX();
-        // Y += globalPose.getY();
-
-        // SmartDashboard.putNumber("Mod1_delta", Math.abs(odomDeltas[0]));
-        // SmartDashboard.putNumber("Mod2_delta", Math.abs(odomDeltas[1]));
-        // SmartDashboard.putNumber("Mod3_delta", Math.abs(odomDeltas[2]));
-        // SmartDashboard.putNumber("Mod4_delta", Math.abs(odomDeltas[3]));
 
         SmartDashboard.putNumber("Mod1_theta", -Math.abs(Math.toDegrees(odomAngles[0]))-90);
         SmartDashboard.putNumber("Mod2_theta", -Math.abs(Math.toDegrees(odomAngles[1]))-90);
@@ -217,7 +203,6 @@ public class DriveBase extends SubsystemBase {
         SmartDashboard.putNumber("GLOBAL POSE X: ", m_sdkOdom.getPoseMeters().getX());
         SmartDashboard.putNumber("GLOBAL POSE Y: ", m_sdkOdom.getPoseMeters().getY());
 
-        // SmartDashboard.putNumber("Distance Travelled", Math.sqrt((globalPose.getX()*globalPose.getX())+(globalPose.getY()*globalPose.getY())));
         SmartDashboard.updateValues();
         
     }
