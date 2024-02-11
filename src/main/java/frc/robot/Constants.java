@@ -29,7 +29,7 @@ public final class Constants {
     public static final Integer[] driveMotorIDS = {11, 21, 31, 41}; 
     public static final Integer[] angleMotorIDS = {12, 22, 32, 42};
     public static final Integer[] CANCoderID = {13, 23, 33, 43};
-    public static final Double[] motorDegrees = {166.32244, 316.19932, 32.74024, 115.37312};
+    public static final Double[] motorDegrees = {164.7072, 316.0548, 69.78528, 145.01952};
     public static final Double degTolerance = 0.75;
     public static final boolean[] invertedMotors = {true, true, true, true};
 
@@ -39,8 +39,8 @@ public final class Constants {
   
   public static class Swerve {
     public static final Double angularPercentage = -0.1;
-    public static final Double XPercentage = -0.3;
-    public static final Double YPercentage = -0.3;
+    public static final Double XPercentage = -0.1;
+    public static final Double YPercentage = -0.1;
 
     public static final IdleMode angleNeutralMode = IdleMode.kBrake;
     public static final IdleMode driveNeutralMode = IdleMode.kBrake;

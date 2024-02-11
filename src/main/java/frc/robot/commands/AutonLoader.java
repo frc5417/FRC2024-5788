@@ -18,7 +18,7 @@ import frc.robot.subsystems.DriveBase;
 public class AutonLoader {
     private final DriveBase m_driveBase;
     private static SendableChooser<Command> chooser;
-    private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(new PIDConstants(0.5, 0.0, 0.0), new PIDConstants(0.5, 0.0, 0.0), Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, new ReplanningConfig());
+    private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(new PIDConstants(0.1, 0.0, 0.0), new PIDConstants(0.1, 0.0, 0.0), Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, new ReplanningConfig());
 
     //PathPlanner auton groups
 
@@ -62,6 +62,7 @@ public class AutonLoader {
         // m_driveBase.resetOdometry(trajectory.getPathPoses().get(0));
         // return AutoBuilder.followPath(trajectory);
         // return autoChooser.getSelected();
+        m_driveBase.resetOdometry(new Pose2d(7.0, 4.0, new Rotation2d(0.0)));
         return new PathPlannerAuto("test");
     }    
 }

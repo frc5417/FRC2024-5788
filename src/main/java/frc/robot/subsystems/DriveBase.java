@@ -91,6 +91,7 @@ public class DriveBase extends SubsystemBase {
     // }
 
     public Pose2d getCurrentPose() {
+        Pose2d pose = m_sdkOdom.getPoseMeters().times(-1);
         return m_sdkOdom.getPoseMeters();
         // return new Pose2d(globalPose.getX(), globalPose.getY(), new Rotation2d(globalPose.getRotation().getRadians()+Math.PI/2));
     }
@@ -103,7 +104,7 @@ public class DriveBase extends SubsystemBase {
         states[2] = new SwerveModuleState(moduleGroup[2].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[2].getAngleInRadians()));//The velocity is RPM so convert to M/S
         states[3] = new SwerveModuleState(moduleGroup[3].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[3].getAngleInRadians()));//The velocity is RPM so convert to M/S
 
-        return m_skdKine.toChassisSpeeds(states);//new ChassisSpeeds(m_ahrs.getVelocityX() * -1, m_ahrs.getVelocityY() * -1, 0.0); //(m_ahrs.getVelocityY(), -1 * m_ahrs.getVelocityX(), m_ahrs.getRate() * (Math.PI/180.0), m_ahrs.getRotation2d());
+        return m_skdKine.toChassisSpeeds(states);
     }
 
     public boolean shouldFlipPath() {
@@ -148,6 +149,7 @@ public class DriveBase extends SubsystemBase {
 
     public void setAutoSpeed(ChassisSpeeds chassisSpeeds) {
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        // ChassisSpeeds targetSpeeds = new ChassisSpeeds();
         autoSetSpeed = targetSpeeds;
         // ChassisSpeeds computed = RobotContainer.getSaturatedSpeeds(MathUtil.clamp(autoSetSpeed.vxMetersPerSecond, -1, 1), MathUtil.clamp(autoSetSpeed.vyMetersPerSecond, -1, 1), MathUtil.clamp(autoSetSpeed.omegaRadiansPerSecond, -1, 1)); //
         targetModuleStates = m_kinematics.getComputedModuleStates(targetSpeeds);
@@ -183,9 +185,10 @@ public class DriveBase extends SubsystemBase {
             new SwerveModulePosition(Math.abs(odomDeltas[2]), new Rotation2d(odomAngles[2])),
             new SwerveModulePosition(Math.abs(odomDeltas[3]), new Rotation2d(odomAngles[3]))
         });
+        
 
 
-        field.setRobotPose(m_sdkOdom.getPoseMeters());
+        // field.setRobotPose(m_sdkOdom.getPoseMeters());
 
 
         SmartDashboard.putNumber("Yaw", m_ahrs.getYaw());
@@ -199,9 +202,11 @@ public class DriveBase extends SubsystemBase {
         SmartDashboard.putNumber("Mod2_theta", -Math.abs(Math.toDegrees(odomAngles[1]))-90);
         SmartDashboard.putNumber("Mod3_theta", -Math.abs(Math.toDegrees(odomAngles[2]))-90);
         SmartDashboard.putNumber("Mod4_theta", -Math.abs(Math.toDegrees(odomAngles[3]))-90);
+
+        Pose2d pose = m_sdkOdom.getPoseMeters().times(-1);
         
-        SmartDashboard.putNumber("GLOBAL POSE X: ", m_sdkOdom.getPoseMeters().getX());
-        SmartDashboard.putNumber("GLOBAL POSE Y: ", m_sdkOdom.getPoseMeters().getY());
+        SmartDashboard.putNumber("GLOBAL POSE X: ", pose.getX());
+        SmartDashboard.putNumber("GLOBAL POSE Y: ", pose.getY());
 
         SmartDashboard.updateValues();
         
