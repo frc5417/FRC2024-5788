@@ -193,7 +193,7 @@ public class RobotContainer {
 
   public static double getElevatorLeftTrigger() {
     if (Math.abs(m_driverController.getLeftTriggerAxis()) > Constants.OperatorConstants.joystickDeadband) {
-          return -(m_driverController.getLeftTriggerAxis());
+          return m_driverController.getLeftTriggerAxis();
         } else {
           return 0;
         }
