@@ -35,7 +35,10 @@ public final class Constants {
 
   }
 
-  public static class ManipulatorConstants {}
+  public static class ManipulatorConstants {
+    public static final int elevatorMaster = 51;
+    public static final int elevatorFollower = 52;
+  }
   
   public static class Swerve {
     public static final Double angularPercentage = -0.1;

@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -7,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,6 +23,7 @@ public class TeleopDrive extends Command {
   // Called when the command is initially scheduled.
 
   private final DriveBase m_driveBase;
+  private final Elevator m_elevator;
 
   double prev_omega = 0;
   double prev_xVel = 0;
@@ -32,8 +33,9 @@ public class TeleopDrive extends Command {
 
   double manipulatorPosition = 0;
 
-  public TeleopDrive(DriveBase driveBase) {
+  public TeleopDrive(DriveBase driveBase, Elevator elevator) {
     m_driveBase = driveBase;
+    m_elevator = elevator;
   }
 
   @Override
@@ -73,6 +75,7 @@ public class TeleopDrive extends Command {
     // m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(1, 1, 0));
     
     // m_manipulator.setWristSpeed(RobotContainer.getManipulatorRightJoyY());
+    m_elevator.setElevatorPower(RobotContainer.getElevatorRightTrigger()-RobotContainer.getElevatorLeftTrigger());
   }
 
   // Called once the command ends or is interrupted.
