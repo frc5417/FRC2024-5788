@@ -104,7 +104,7 @@ public class DriveBase extends SubsystemBase {
         states[2] = new SwerveModuleState(moduleGroup[2].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[2].getAngleInRadians()));//The velocity is RPM so convert to M/S
         states[3] = new SwerveModuleState(moduleGroup[3].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[3].getAngleInRadians()));//The velocity is RPM so convert to M/S
 
-        return m_skdKine.toChassisSpeeds(states);
+        return new ChassisSpeeds(); //m_skdKine.toChassisSpeeds(states);
     }
 
     public boolean shouldFlipPath() {
