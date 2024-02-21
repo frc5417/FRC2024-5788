@@ -36,8 +36,9 @@ public final class Constants {
   }
 
   public static class ManipulatorConstants {
-    public static final int elevatorMaster = 51;
-    public static final int elevatorFollower = 52;
+    public static final int elevatorMaster = 61;
+    public static final int elevatorFollower = 62;
+    public static final int intake= 52;
   }
   
   public static class Swerve {

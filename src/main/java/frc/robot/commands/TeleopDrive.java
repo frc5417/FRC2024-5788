@@ -4,11 +4,13 @@
 
 package frc.robot.commands;
 
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Intake;
 
 /** An example command that uses an example subsystem. */
 public class TeleopDrive extends Command {
@@ -24,6 +26,7 @@ public class TeleopDrive extends Command {
 
   private final DriveBase m_driveBase;
   private final Elevator m_elevator;
+  private final Intake m_intake;
 
   double prev_omega = 0;
   double prev_xVel = 0;
@@ -33,9 +36,10 @@ public class TeleopDrive extends Command {
 
   double manipulatorPosition = 0;
 
-  public TeleopDrive(DriveBase driveBase, Elevator elevator) {
+  public TeleopDrive(DriveBase driveBase, Elevator elevator, Intake intake) {
     m_driveBase = driveBase;
     m_elevator = elevator;
+    m_intake = intake;
   }
 
   @Override
@@ -60,9 +64,14 @@ public class TeleopDrive extends Command {
     double yVel = (RobotContainer.getDriverLeftJoyY() * 0.45) + (prev_yVel * 0.55); 
     double omega = (RobotContainer.getDriverRightJoyX() * 0.45) + (prev_omega * 0.55);
 
+    
+
     prev_xVel = xVel;
     prev_yVel = yVel;
     prev_omega = omega;
+
+    
+    
 
 
     SmartDashboard.putNumber("X-Vel Input", xVel);
@@ -75,7 +84,9 @@ public class TeleopDrive extends Command {
     // m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(1, 1, 0));
     
     // m_manipulator.setWristSpeed(RobotContainer.getManipulatorRightJoyY());
-    m_elevator.setElevatorPower(RobotContainer.getElevatorRightTrigger()-RobotContainer.getElevatorLeftTrigger());
+    m_elevator.setElevatorPower(RobotContainer.getElevatorRightTrigger()+RobotContainer.getElevatorLeftTrigger());
+
+    m_intake.setIntakePower(RobotContainer.getIntakeRightTrigger());
   }
 
   // Called once the command ends or is interrupted.

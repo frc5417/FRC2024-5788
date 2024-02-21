@@ -20,6 +20,7 @@ import frc.robot.commands.SetLightConfig;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kinematics;
 import frc.robot.subsystems.LightsControl;
 import edu.wpi.first.hal.HALUtil;
@@ -39,9 +40,10 @@ public class RobotContainer {
   public static Kinematics kinematics = new Kinematics(ahrs);
   public static DriveBase driveBase = new DriveBase(kinematics, ahrs);
   public static Elevator elevator = new Elevator();
+  public static Intake intake = new Intake();
 
   public static AutonLoader autonLoader = new AutonLoader(driveBase); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
-  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, elevator); //ALL SUBSYSTEMS
+  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, elevator, intake); //ALL SUBSYSTEMS
   private final static CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverPort);
   private final static CommandXboxController m_manipulatorController = new CommandXboxController(OperatorConstants.kManipulatorPort);
 
@@ -192,21 +194,28 @@ public class RobotContainer {
   // }
 
   public static double getElevatorLeftTrigger() {
-    if (Math.abs(m_driverController.getLeftTriggerAxis()) > Constants.OperatorConstants.joystickDeadband) {
-          return m_driverController.getLeftTriggerAxis();
+    if (Math.abs(m_manipulatorController.getLeftTriggerAxis()) > Constants.OperatorConstants.joystickDeadband) {
+          return m_manipulatorController.getLeftTriggerAxis();
         } else {
           return 0;
         }
   }
 
-  public static double getElevatorRightTrigger() {
+    public static double getElevatorRightTrigger() {
+    if (Math.abs(m_manipulatorController.getRightTriggerAxis()) > Constants.OperatorConstants.joystickDeadband) {
+          return m_manipulatorController.getRightTriggerAxis();
+        } else {
+          return 0;
+        }
+  }
+
+  public static double getIntakeRightTrigger() {
     if (Math.abs(m_driverController.getRightTriggerAxis()) > Constants.OperatorConstants.joystickDeadband) {
           return m_driverController.getRightTriggerAxis();
         } else {
           return 0;
         }
   }
-
   public static Boolean getManipulatorBBool() {
     return m_manipulatorController.b().getAsBoolean();
   }
