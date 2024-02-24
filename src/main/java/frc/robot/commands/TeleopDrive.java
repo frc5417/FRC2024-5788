@@ -11,6 +11,7 @@ import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 /** An example command that uses an example subsystem. */
 public class TeleopDrive extends Command {
@@ -27,6 +28,7 @@ public class TeleopDrive extends Command {
   private final DriveBase m_driveBase;
   private final Elevator m_elevator;
   private final Intake m_intake;
+  private final Shooter m_shooter;
 
   double prev_omega = 0;
   double prev_xVel = 0;
@@ -36,10 +38,11 @@ public class TeleopDrive extends Command {
 
   double manipulatorPosition = 0;
 
-  public TeleopDrive(DriveBase driveBase, Elevator elevator, Intake intake) {
+  public TeleopDrive(DriveBase driveBase, Elevator elevator, Intake intake, Shooter shooter) {
     m_driveBase = driveBase;
     m_elevator = elevator;
     m_intake = intake;
+    m_shooter = shooter;
   }
 
   @Override
@@ -64,15 +67,9 @@ public class TeleopDrive extends Command {
     double yVel = (RobotContainer.getDriverLeftJoyY() * 0.45) + (prev_yVel * 0.55); 
     double omega = (RobotContainer.getDriverRightJoyX() * 0.45) + (prev_omega * 0.55);
 
-    
-
     prev_xVel = xVel;
     prev_yVel = yVel;
     prev_omega = omega;
-
-    
-    
-
 
     SmartDashboard.putNumber("X-Vel Input", xVel);
     SmartDashboard.putNumber("Y-Vel Input", yVel);
@@ -84,9 +81,11 @@ public class TeleopDrive extends Command {
     // m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(1, 1, 0));
     
     // m_manipulator.setWristSpeed(RobotContainer.getManipulatorRightJoyY());
-    m_elevator.setElevatorPower(RobotContainer.getElevatorRightTrigger()+RobotContainer.getElevatorLeftTrigger());
+    m_elevator.setElevatorPower(RobotContainer.getElevatorRightJoystick());
 
     m_intake.setIntakePower(RobotContainer.getIntakeRightTrigger());
+    
+    m_shooter.setShooterPower(RobotContainer.getShooterLeftTrigger() - RobotContainer.getShooterRightTrigger());
   }
 
   // Called once the command ends or is interrupted.

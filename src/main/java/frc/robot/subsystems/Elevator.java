@@ -24,7 +24,7 @@ public class Elevator extends SubsystemBase {
 
   public Elevator() {
     elevatorMotor1 = new CANSparkMax(Constants.ManipulatorConstants.elevatorMaster, MotorType.kBrushless);
-    elevatorMotor2 = new CANSparkMax(Constants.ManipulatorConstants.elevatorFollower, MotorType.kBrushless);
+    elevatorMotor2 = new CANSparkMax(Constants.ManipulatorConstants.elevatorSlave, MotorType.kBrushless);
 
     elevatorMotor2.setInverted(false);
     elevatorMotor1.setInverted(true);
