@@ -29,7 +29,7 @@ public final class Constants {
     public static final Integer[] driveMotorIDS = {11, 21, 31, 41}; 
     public static final Integer[] angleMotorIDS = {12, 22, 32, 42};
     public static final Integer[] CANCoderID = {13, 23, 33, 43};
-    public static final Double[] motorDegrees = {164.35548, 214.10172, 227.0214, 55.81044};
+    public static final Double[] motorDegrees = {169.36524, 211.81644, 239.94144, 66.9726};
     public static final Double degTolerance = 0.75;
     public static final boolean[] invertedMotors = {true, true, false, false};
 
