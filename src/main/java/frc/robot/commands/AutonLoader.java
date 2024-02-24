@@ -6,6 +6,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,9 +15,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.Intake;
 
 public class AutonLoader {
     private final DriveBase m_driveBase;
+    private final Intake m_intake;
     private static SendableChooser<Command> chooser;
     private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(new PIDConstants(0.1, 0.0, 0.0), new PIDConstants(0.1, 0.0, 0.0), Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, new ReplanningConfig());
 
@@ -28,11 +31,15 @@ public class AutonLoader {
 
     private final SendableChooser<Command> autoChooser;
 
-    public AutonLoader(DriveBase driveBase) {
+    public AutonLoader(DriveBase driveBase, Intake intake) {
 
         m_driveBase = driveBase;
+        m_intake = intake;
 
         AutoBuilder.configureHolonomic(m_driveBase::getCurrentPose, m_driveBase::resetOdometry, m_driveBase::getRobotRelativeChassisSpeeds, m_driveBase::setAutoSpeed, holonomic_config, m_driveBase::shouldFlipPath, m_driveBase);
+
+
+        NamedCommands.registerCommand("TakeNoteIn", m_intake.setIntakeMotorCommand(1.0));
 
         autoChooser = AutoBuilder.buildAutoChooser();
         
