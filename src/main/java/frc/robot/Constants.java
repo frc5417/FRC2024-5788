@@ -41,6 +41,7 @@ public final class Constants {
     public static final int intake = 51;
     public static final int shooterMaster = 52;
     public static final int shooterSlave = 53;
+    public static final int wrist = 54;
   }
   
   public static class Swerve {

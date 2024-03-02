@@ -22,6 +22,8 @@ import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Wrist;
+
 import frc.robot.subsystems.Kinematics;
 import frc.robot.subsystems.LightsControl;
 import edu.wpi.first.hal.HALUtil;
@@ -43,9 +45,10 @@ public class RobotContainer {
   public static Elevator elevator = new Elevator();
   public static Intake intake = new Intake();
   public static Shooter shooter = new Shooter();
+  public static Wrist wrist = new Wrist();
 
   public static AutonLoader autonLoader = new AutonLoader(driveBase, intake); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
-  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, elevator, intake, shooter); //ALL SUBSYSTEMS
+  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, elevator, intake, shooter, wrist); //ALL SUBSYSTEMS
   private final static CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverPort);
   private final static CommandXboxController m_manipulatorController = new CommandXboxController(OperatorConstants.kManipulatorPort);
 
@@ -198,7 +201,15 @@ public class RobotContainer {
   //   }
   // }
 
-    public static double getElevatorRightJoystick() {
+    public static double getElevatorLeftJoystick() {
+    if (Math.abs(m_manipulatorController.getLeftY()) > Constants.OperatorConstants.joystickDeadband) {
+          return m_manipulatorController.getLeftY();
+        } else {
+          return 0;
+        }
+  }
+
+    public static double getWristRightJoystick() {
     if (Math.abs(m_manipulatorController.getRightY()) > Constants.OperatorConstants.joystickDeadband) {
           return m_manipulatorController.getRightY();
         } else {
