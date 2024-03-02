@@ -39,7 +39,7 @@ public class Wrist extends SubsystemBase {
     wristEncoder.setPosition(0);
     wristMotor.setIdleMode(IdleMode.kBrake);
 
-    wristPID.setTolerance(0.005);
+    // wristPID.setTolerance(0.005);
   }
 
   public void wristSpinny(double spinnyPower) {
