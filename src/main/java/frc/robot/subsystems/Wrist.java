@@ -23,15 +23,17 @@ public class Wrist extends SubsystemBase {
 
   public final RelativeEncoder wristEncoder;
 
-  // Prelim vars for PID
+  public double wristGoHere = 0;
 
-  // private double wristGoHere = 0;
+  double p = SmartDashboard.getNumber("P Gain", 0);
+  double i = SmartDashboard.getNumber("I Gain", 0);
+  double d = SmartDashboard.getNumber("D Gain", 0);
+  double iz = SmartDashboard.getNumber("I Zone", 0);
+  double ff = SmartDashboard.getNumber("Feed Forward", 0);
+  double max = SmartDashboard.getNumber("Max Output", 0);
+  double min = SmartDashboard.getNumber("Min Output", 0);
 
-  // private static final double kP = 0;
-  // private static final double kI = 0;
-  // private static final double kD = 0;
-
-  // public final PIDController wristPID = new PIDController(kP, kI, kD);
+  public final PIDController wristPID = new PIDController(p, i, d);
 
   public Wrist() {
     wristMotor = new CANSparkMax(Constants.ManipulatorConstants.wrist, MotorType.kBrushless);
@@ -39,7 +41,7 @@ public class Wrist extends SubsystemBase {
     wristEncoder.setPosition(0);
     wristMotor.setIdleMode(IdleMode.kBrake);
 
-    // wristPID.setTolerance(0.005);
+    wristPID.setTolerance(0.005);
   }
 
   public void wristSpinny(double spinnyPower) {

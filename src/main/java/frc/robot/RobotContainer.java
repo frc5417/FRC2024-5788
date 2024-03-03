@@ -23,6 +23,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.PhotonSubsystem;
 
 import frc.robot.subsystems.Kinematics;
 import frc.robot.subsystems.LightsControl;
@@ -46,6 +47,7 @@ public class RobotContainer {
   public static Intake intake = new Intake();
   public static Shooter shooter = new Shooter();
   public static Wrist wrist = new Wrist();
+  public static PhotonSubsystem photonSubsystem = new PhotonSubsystem();
 
   public static AutonLoader autonLoader = new AutonLoader(driveBase, intake); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
   public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, elevator, intake, shooter, wrist); //ALL SUBSYSTEMS
@@ -238,6 +240,14 @@ public class RobotContainer {
       return m_manipulatorController.getRightTriggerAxis();
     } else {
       return 0;
+    }
+  }
+
+  public static double getShooterIntakeSpeed() {
+    if(m_manipulatorController.a().getAsBoolean() == true){
+      return 1.0;
+    } else{
+      return 0.0;
     }
   }
 

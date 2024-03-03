@@ -46,7 +46,7 @@ public class TeleopDrive extends Command {
     m_intake = intake;
     m_shooter = shooter;
     m_wrist = wrist;
-  }
+    }
 
   @Override
   public void initialize() {
@@ -89,6 +89,8 @@ public class TeleopDrive extends Command {
     m_intake.setIntakePower(RobotContainer.getIntakeRightTrigger());
     
     m_shooter.setShooterPower(RobotContainer.getShooterLeftTrigger() - RobotContainer.getShooterRightTrigger());
+
+    m_shooter.setShooterIntake(RobotContainer.getShooterIntakeSpeed());
 
     m_wrist.wristSpinny(RobotContainer.getWristRightJoystick());
   }
