@@ -86,11 +86,11 @@ public class TeleopDrive extends Command {
     // m_manipulator.setWristSpeed(RobotContainer.getManipulatorRightJoyY());
     m_elevator.setElevatorPower(RobotContainer.getElevatorLeftJoystick());
 
-    m_intake.setIntakePower(RobotContainer.getIntakeRightTrigger());
+    m_intake.setIntakePower(RobotContainer.getIntakeSpeed());
     
     m_shooter.setShooterPower(RobotContainer.getShooterLeftTrigger() - RobotContainer.getShooterRightTrigger());
 
-    m_shooter.setShooterIntake(RobotContainer.getShooterIntakeSpeed());
+    m_shooter.setShooterIntake(RobotContainer.getIntakeSpeed());
 
     m_wrist.wristSpinny(RobotContainer.getWristRightJoystick());
   }

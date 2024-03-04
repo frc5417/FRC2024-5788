@@ -243,7 +243,7 @@ public class RobotContainer {
     }
   }
 
-  public static double getShooterIntakeSpeed() {
+  public static double getIntakeSpeed() {
     if(m_manipulatorController.a().getAsBoolean() == true){
       return 1.0;
     } else{
