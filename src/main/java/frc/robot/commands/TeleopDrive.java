@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Wrist;
 
 /** An example command that uses an example subsystem. */
 public class TeleopDrive extends Command {
@@ -29,6 +30,7 @@ public class TeleopDrive extends Command {
   private final Elevator m_elevator;
   private final Intake m_intake;
   private final Shooter m_shooter;
+  private final Wrist m_wrist;
 
   double prev_omega = 0;
   double prev_xVel = 0;
@@ -38,12 +40,13 @@ public class TeleopDrive extends Command {
 
   double manipulatorPosition = 0;
 
-  public TeleopDrive(DriveBase driveBase, Elevator elevator, Intake intake, Shooter shooter) {
+  public TeleopDrive(DriveBase driveBase, Elevator elevator, Intake intake, Shooter shooter, Wrist wrist) {
     m_driveBase = driveBase;
     m_elevator = elevator;
     m_intake = intake;
     m_shooter = shooter;
-  }
+    m_wrist = wrist;
+    }
 
   @Override
   public void initialize() {
@@ -81,11 +84,15 @@ public class TeleopDrive extends Command {
     // m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(1, 1, 0));
     
     // m_manipulator.setWristSpeed(RobotContainer.getManipulatorRightJoyY());
-    m_elevator.setElevatorPower(RobotContainer.getElevatorRightJoystick());
+    m_elevator.setElevatorPower(RobotContainer.getElevatorLeftJoystick());
 
-    m_intake.setIntakePower(RobotContainer.getIntakeRightTrigger());
+    m_intake.setIntakePower(RobotContainer.getIntakeSpeed());
     
     m_shooter.setShooterPower(RobotContainer.getShooterLeftTrigger() - RobotContainer.getShooterRightTrigger());
+
+    m_shooter.setShooterIntake(RobotContainer.getIntakeSpeed());
+
+    m_wrist.wristSpinny(RobotContainer.getWristRightJoystick());
   }
 
   // Called once the command ends or is interrupted.
