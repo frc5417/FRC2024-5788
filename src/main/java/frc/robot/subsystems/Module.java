@@ -5,6 +5,7 @@ import com.ctre.phoenix6.configs.CANcoderConfigurator;
 // import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 // Copyright (c) FIRST and other WPILib contributors.
@@ -29,9 +30,9 @@ public class Module {
 
   private final int moduleNum; // ZERO INDEXED
 
-  private static final double kP = 0.4;
+  private static final double kP = 0.4; //0.4
   private static final double kI = 0.0;
-  private static final double kD = 0.005;
+  private static final double kD = 0.006; //0.005
 
   public final PIDController pid = new PIDController(kP, kI, kD);
 
@@ -48,6 +49,7 @@ public class Module {
 
      /* Angle Motor Config */
      angleMotor = new CANSparkMax(Constants.ModuleConstants.angleMotorIDS[this.moduleNum], MotorType.kBrushless);
+    //  angleMotor.setIdleMode(IdleMode.kBrake);
      configAngleMotor();
 
      integratedAngleEncoder = angleMotor.getEncoder();

@@ -8,6 +8,10 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.util.Units;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -29,7 +33,7 @@ public final class Constants {
     public static final Integer[] driveMotorIDS = {11, 21, 31, 41}; 
     public static final Integer[] angleMotorIDS = {12, 22, 32, 42};
     public static final Integer[] CANCoderID = {13, 23, 33, 43};
-    public static final Double[] motorDegrees = {169.36524, 211.81644, 239.94144, 66.9726};
+    public static final Double[] motorDegrees = {166.46472, 124.36524, 42.09948, 313.06644};
     public static final Double degTolerance = 0.75;
     public static final boolean[] invertedMotors = {true, true, false, false};
 
@@ -41,12 +45,18 @@ public final class Constants {
     public static final int intake = 51;
     public static final int shooterMaster = 52;
     public static final int shooterSlave = 53;
+    public static final int shooterIntake = 54;
+    public static final int wrist = 55;
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double wristTolerance = 0.02;
   }
   
   public static class Swerve {
-    public static final Double angularPercentage = -1.0;
-    public static final Double XPercentage = -1.0;
-    public static final Double YPercentage = -0.8;
+    public static final Double angularPercentage = -0.5;
+    public static final Double XPercentage = -0.7;
+    public static final Double YPercentage = -0.7;
 
     public static final IdleMode angleNeutralMode = IdleMode.kBrake;
     public static final IdleMode driveNeutralMode = IdleMode.kBrake;
@@ -64,24 +74,24 @@ public final class Constants {
     public static final String[] paths = {"rotateInPlace, moveForward, PathPlannerTest"};
   }
 
-  // public static class VisionConstants {
-  //   public static final Transform3d robotToCam =
-  //           new Transform3d(
-  //                  new Translation3d(0.5, 0.0, 0.5),
-  //                   new Rotation3d(
-  //                           0, 0,
-  //                           0)); 
+  public static class VisionConstants {
+    public static final Transform3d robotToCam =
+            new Transform3d(
+                   new Translation3d(0.5, 0.0, 0.5),
+                    new Rotation3d(
+                            0, 0,
+                            0)); 
 
   //   // Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-  //   public static final String cameraName = "OV5647";
-  //   public static final double maxDistanceAway = 2.0;
-  //   public static final double forwardKP = 0.1;
-  //   public static final double forwardToAngleRatio = 0.5;
+    public static final String cameraName = "Camera_Module_v1";
+    public static final double maxDistanceAway = 2.0;
+    public static final double forwardKP = 0.1;
+    public static final double forwardToAngleRatio = 0.5;
     
-  //   public static final double CAMERA_HEIGHT_METERS = 0.72;
-  //   public static final double TARGET_HEIGHT_METERS = 0;
-  //   public static final double CAMERA_PITCH_RADIANS = 0;
-  // }
+    public static final double CAMERA_HEIGHT_METERS = 1;
+    public static final double TARGET_HEIGHT_METERS = 1.5;
+    public static final double CAMERA_PITCH_RADIANS = 0;
+  }
 
   public static class FieldConstants {
     public static final double length = Units.feetToMeters(54);

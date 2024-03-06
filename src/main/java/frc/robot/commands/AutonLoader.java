@@ -15,10 +15,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveBase;
 
+import com.pathplanner.lib.auto.NamedCommands;
+import frc.robot.subsystems.Intake;
+
 public class AutonLoader {
     private final DriveBase m_driveBase;
+    private final Intake m_intake;
     private static SendableChooser<Command> chooser;
-    private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(new PIDConstants(0.1, 0.0, 0.0), new PIDConstants(0.1, 0.0, 0.0), Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, new ReplanningConfig());
+    private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(new PIDConstants(0.5, 0.0, 0.0), new PIDConstants(0.5, 0.0, 0.0), Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, new ReplanningConfig());
 
     //PathPlanner auton groups
 
@@ -28,11 +32,14 @@ public class AutonLoader {
 
     private final SendableChooser<Command> autoChooser;
 
-    public AutonLoader(DriveBase driveBase) {
+    public AutonLoader(DriveBase driveBase, Intake intake) {
 
         m_driveBase = driveBase;
+        m_intake = intake;
+
 
         AutoBuilder.configureHolonomic(m_driveBase::getCurrentPose, m_driveBase::resetOdometry, m_driveBase::getRobotRelativeChassisSpeeds, m_driveBase::setAutoSpeed, holonomic_config, m_driveBase::shouldFlipPath, m_driveBase);
+
 
         autoChooser = AutoBuilder.buildAutoChooser();
         
@@ -62,7 +69,7 @@ public class AutonLoader {
         // m_driveBase.resetOdometry(trajectory.getPathPoses().get(0));
         // return AutoBuilder.followPath(trajectory);
         // return autoChooser.getSelected();
-        m_driveBase.resetOdometry(new Pose2d(7.0, 4.0, new Rotation2d(0.0)));
+        // m_driveBase.resetOdometry(new Pose2d(6.0, -5.0, new Rotation2d()));
         return new PathPlannerAuto("test");
     }    
 }

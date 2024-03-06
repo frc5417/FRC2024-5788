@@ -26,21 +26,22 @@ public class Elevator extends SubsystemBase {
     elevatorMotor1 = new CANSparkMax(Constants.ManipulatorConstants.elevatorMaster, MotorType.kBrushless);
     elevatorMotor2 = new CANSparkMax(Constants.ManipulatorConstants.elevatorSlave, MotorType.kBrushless);
 
-    elevatorMotor2.setInverted(false);
-    elevatorMotor1.setInverted(true);
+    // elevatorMotor2.setInverted(true);
+    // elevatorMotor1.setInverted(true);
     
     elevatorEncoder = elevatorMotor1.getEncoder();
 
     elevatorMotor1.setIdleMode(IdleMode.kBrake);
     elevatorMotor2.setIdleMode(IdleMode.kBrake);
 
-    elevatorMotor2.follow(elevatorMotor1);
+    // elevatorMotor2.follow(elevatorMotor1);
 
   }
 
   public void setElevatorPower(double power) {
-    elevatorMotor1.set(power);
-    SmartDashboard.putNumber("Elevator", elevatorEncoder.getPosition());
+    elevatorMotor1.set(-power);
+    elevatorMotor2.set(power);
+    // SmartDashboard.putNumber("Elevator", elevatorEncoder.getPosition());
   }
 
   @Override

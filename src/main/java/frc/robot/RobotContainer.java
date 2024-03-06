@@ -2,12 +2,17 @@ package frc.robot;
 
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.PhotonSubsystem;
+
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it u.nder the terms of
@@ -43,9 +48,11 @@ public class RobotContainer {
   public static Elevator elevator = new Elevator();
   public static Intake intake = new Intake();
   public static Shooter shooter = new Shooter();
+  public static Wrist wrist = new Wrist();
+  public static PhotonSubsystem photonSubsystem = new PhotonSubsystem();
 
-  public static AutonLoader autonLoader = new AutonLoader(driveBase); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
-  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, elevator, intake, shooter); //ALL SUBSYSTEMS
+  public static AutonLoader autonLoader = new AutonLoader(driveBase, intake); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
+  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, elevator, intake, shooter, wrist); //ALL SUBSYSTEMS
   private final static CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverPort);
   private final static CommandXboxController m_manipulatorController = new CommandXboxController(OperatorConstants.kManipulatorPort);
 
@@ -62,6 +69,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    NamedCommands.registerCommand("TakeNoteIn", intake.setIntakeMotorCommand(1.0)); 
     configureBindings();
   }
 
@@ -195,13 +203,21 @@ public class RobotContainer {
   //   }
   // }
 
-    public static double getElevatorRightJoystick() {
-    if (Math.abs(m_manipulatorController.getRightY()) > Constants.OperatorConstants.joystickDeadband) {
+    public static double getElevatorLeftJoystick() {
+      if (Math.abs(m_manipulatorController.getLeftY()) > Constants.OperatorConstants.joystickDeadband) {
+        return m_manipulatorController.getLeftY();
+      } else {
+        return 0;
+      }
+    }
+
+    public static double getWristRightJoystick() {
+      if (Math.abs(m_manipulatorController.getRightY()) > Constants.OperatorConstants.joystickDeadband) {
           return m_manipulatorController.getRightY();
         } else {
           return 0;
         }
-  }
+    }
 
   public static double getIntakeRightTrigger() {
     if (Math.abs(m_driverController.getRightTriggerAxis()) > Constants.OperatorConstants.joystickDeadband) {
@@ -224,6 +240,14 @@ public class RobotContainer {
       return m_manipulatorController.getRightTriggerAxis();
     } else {
       return 0;
+    }
+  }
+
+  public static double getShooterIntakeSpeed() {
+    if(m_manipulatorController.a().getAsBoolean() == true){
+      return -0.3;
+    } else{
+      return 0.0;
     }
   }
 

@@ -91,9 +91,12 @@ public class DriveBase extends SubsystemBase {
     // }
 
     public Pose2d getCurrentPose() {
-        Pose2d pose = m_sdkOdom.getPoseMeters().times(-1);
-        return m_sdkOdom.getPoseMeters();
-        // return new Pose2d(globalPose.getX(), globalPose.getY(), new Rotation2d(globalPose.getRotation().getRadians()+Math.PI/2));
+        Pose2d pose = m_sdkOdom.getPoseMeters().times(-1.0);
+        double x = pose.getX();
+        double y = pose.getY();
+        
+        return new Pose2d(y, -x, pose.getRotation());
+        // return m_sdkOdom.getPoseMeters();
     }
 
     public ChassisSpeeds getRobotRelativeChassisSpeeds() {
@@ -151,6 +154,11 @@ public class DriveBase extends SubsystemBase {
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
         // ChassisSpeeds targetSpeeds = new ChassisSpeeds();
         autoSetSpeed = targetSpeeds;
+        double x = autoSetSpeed.vxMetersPerSecond;
+        double y = autoSetSpeed.vyMetersPerSecond;
+        autoSetSpeed.vxMetersPerSecond *= 1.0 * y;
+        autoSetSpeed.vyMetersPerSecond *= -1.0 * x;
+        autoSetSpeed.omegaRadiansPerSecond *= -1.0;
         // ChassisSpeeds computed = RobotContainer.getSaturatedSpeeds(MathUtil.clamp(autoSetSpeed.vxMetersPerSecond, -1, 1), MathUtil.clamp(autoSetSpeed.vyMetersPerSecond, -1, 1), MathUtil.clamp(autoSetSpeed.omegaRadiansPerSecond, -1, 1)); //
         targetModuleStates = m_kinematics.getComputedModuleStates(targetSpeeds);
     }
