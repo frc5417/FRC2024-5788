@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
@@ -32,7 +34,8 @@ public class Intake extends SubsystemBase {
   }
 
   public Command setIntakeMotorCommand(double speed) {
-    return run(() -> intakeMotor1.set(speed));
+    // return run(() -> intakeMotor1.set(speed));
+    return Commands.startEnd(() -> intakeMotor1.set(speed), () -> intakeMotor1.set(0), null);
   }
 
   @Override

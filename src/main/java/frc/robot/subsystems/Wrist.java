@@ -24,7 +24,7 @@ public class Wrist extends SubsystemBase {
   public final RelativeEncoder wristEncoder;
  
 
-  public final PIDController wristPID = new PIDController(6.75, 0.0, 1.0);
+  public final PIDController wristPID = new PIDController(1.0, 0.0, 0.5);
 
   private double wristPos = 0.0;
 
