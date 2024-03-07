@@ -33,10 +33,10 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("Intake", intakeEncoder.getPosition());
   }
 
-  public Command setIntakeMotorCommand(double speed) {
-    // return run(() -> intakeMotor1.set(speed));
-    return Commands.startEnd(() -> intakeMotor1.set(speed), () -> intakeMotor1.set(0), null);
-  }
+  // public Command setIntakeMotorCommand(double speed) {
+  //   // return run(() -> intakeMotor1.set(speed));
+  //   return Commands.startEnd(() -> intakeMotor1.set(speed), () -> intakeMotor1.set(0), null);
+  // }
 
   @Override
   public void periodic() {

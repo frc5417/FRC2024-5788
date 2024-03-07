@@ -97,10 +97,11 @@ public class TeleopDrive extends Command {
     m_shooter.setShooterIntake(RobotContainer.getShooterIntakeSpeed());
 
     
-    wristPos += -RobotContainer.getWristRightJoystick() * 0.005;
+    wristPos += -RobotContainer.getWristRightJoystick() * 0.001;
     wristPos =MathUtil.clamp(wristPos, 0, 0.7);
 
-    m_wrist.setWristPos(wristPos);
+    m_wrist.wristSpinny(-RobotContainer.getWristRightJoystick());
+    // m_wrist.setWristPos(0.15);
   }
 
   // Called once the command ends or is interrupted.

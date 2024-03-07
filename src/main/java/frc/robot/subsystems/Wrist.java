@@ -4,17 +4,16 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
-import frc.robot.Constants;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Wrist extends SubsystemBase {
   /** Creates a new Wrist. */
@@ -24,7 +23,7 @@ public class Wrist extends SubsystemBase {
   public final RelativeEncoder wristEncoder;
  
 
-  public final PIDController wristPID = new PIDController(1.0, 0.0, 0.5);
+  public final PIDController wristPID = new PIDController(1, 0.0, 0.5);
 
   private double wristPos = 0.0;
 
@@ -38,28 +37,32 @@ public class Wrist extends SubsystemBase {
     // wristPID.setTolerance(0.0);
   }
 
-  // public void wristSpinny(double spinnyPower) {
-  //   wristMotor.set(spinnyPower * 0.75);
-  // }
+  public void wristSpinny(double spinnyPower) {
+    wristMotor.set(spinnyPower * 0.75);
+  }
 
   public void setWristPos(double rot) {
     wristPos = rot;
+    wristPID.setSetpoint(wristPos);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     
-    wristPID.setSetpoint(wristPos);
+    
     // wristMotor.set(MathUtil.clamp(wristPID.calculate(wristEncoder.getPosition()), -1, 1));
-    if (Math.abs(wristPID.getSetpoint() - wristEncoder.getPosition()) > Constants.ManipulatorConstants.wristTolerance) {
-      wristMotor.set(wristPID.calculate(wristEncoder.getPosition()));
-      SmartDashboard.putNumber("PID", 1);
-    } else {
-      wristMotor.set(0.0);
-    }
+    // if (Math.abs(wristPID.getSetpoint() - wristEncoder.getPosition()) > Constants.ManipulatorConstants.wristTolerance) {
+    //   wristMotor.set(wristPID.calculate(wristEncoder.getPosition()));
+    //   SmartDashboard.putNumber("PID", 1);
+    // } else {
+    //   wristMotor.set(0.0);
+    // }
+        
+    wristMotor.set(MathUtil.clamp(wristPID.calculate(wristEncoder.getPosition()), -1.0, 1.0));
     SmartDashboard.putNumber("WristPosition", wristEncoder.getPosition());    
     SmartDashboard.putNumber("Wrist Power", wristMotor.get());
+    SmartDashboard.putNumber("SetpointWrist", wristPID.getSetpoint());
     SmartDashboard.putNumber("PID", 0);
 
     SmartDashboard.updateValues();
