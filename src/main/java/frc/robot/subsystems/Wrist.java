@@ -12,6 +12,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -44,6 +45,12 @@ public class Wrist extends SubsystemBase {
   public void setWristPos(double rot) {
     wristPos = rot;
     wristPID.setSetpoint(wristPos);
+  }
+
+  public Command AngleDaWrist(double angle) {
+    double rotation = angle/360;
+    return run(() ->  wristPID.setSetpoint(rotation));
+    // return Commands.startEnd(() -> intakeMotor1.set(speed), () -> intakeMotor1.set(0), null);
   }
 
   @Override

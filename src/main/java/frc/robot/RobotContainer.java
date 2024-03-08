@@ -69,7 +69,10 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    NamedCommands.registerCommand("TakeNoteIn", intake.setIntakeMotorCommand(0.75)); 
+    NamedCommands.registerCommand("IntakeDaNote", intake.IntakeDaNote(0.75).withTimeout(2)); 
+    NamedCommands.registerCommand("AngleDaWrist", wrist.AngleDaWrist(70));
+    NamedCommands.registerCommand("ShootDaNote", shooter.ShootDaNote(1.0).withTimeout(2));
+    NamedCommands.registerCommand("IndexDaNote", shooter.IndexDaNote(1.0).withTimeout(2));
     configureBindings();
   }
 

@@ -12,28 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Example Path"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "TakeNoteIn"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "New Path"
-                }
-              }
-            ]
+            "pathName": "Example Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootDaNote"
           }
         }
       ]
