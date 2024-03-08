@@ -23,7 +23,7 @@ public class Wrist extends SubsystemBase {
   public final RelativeEncoder wristEncoder;
  
 
-  public final PIDController wristPID = new PIDController(1, 0.0, 0.5);
+  public final PIDController wristPID = new PIDController(2.0, 0.0, 0.0);
 
   private double wristPos = 0.0;
 
@@ -31,7 +31,7 @@ public class Wrist extends SubsystemBase {
     wristMotor = new CANSparkMax(Constants.ManipulatorConstants.wrist, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
     wristEncoder.setPosition(0);
-    wristEncoder.setPositionConversionFactor(1/20.0);
+    wristEncoder.setPositionConversionFactor(1/80.0);
     wristMotor.setIdleMode(IdleMode.kBrake);
 
     // wristPID.setTolerance(0.0);

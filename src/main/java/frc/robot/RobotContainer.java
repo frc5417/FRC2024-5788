@@ -69,7 +69,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    // NamedCommands.registerCommand("TakeNoteIn", intake.setIntakeMotorCommand(1.0).withTimeout(1.5)); 
+    NamedCommands.registerCommand("TakeNoteIn", intake.setIntakeMotorCommand(0.75)); 
     configureBindings();
   }
 
@@ -227,25 +227,33 @@ public class RobotContainer {
         }
   }
 
-  public static double getShooterLeftTrigger() {
-    if (Math.abs(m_manipulatorController.getLeftTriggerAxis()) > Constants.OperatorConstants.joystickDeadband) {
-        return m_manipulatorController.getLeftTriggerAxis();
-      } else {
-        return 0;
-      }
+  public static double getIntakeLeftTrigger() {
+    if (Math.abs(m_driverController.getLeftTriggerAxis()) > Constants.OperatorConstants.joystickDeadband) {
+          return m_driverController.getLeftTriggerAxis();
+        } else {
+          return 0;
+        }
   }
 
   public static double getShooterRightTrigger() {
     if (Math.abs(m_manipulatorController.getRightTriggerAxis()) > Constants.OperatorConstants.joystickDeadband) {
-      return m_manipulatorController.getRightTriggerAxis();
+      return -m_manipulatorController.getRightTriggerAxis();
     } else {
       return 0;
     }
   }
 
   public static double getShooterIntakeSpeed() {
-    if(m_manipulatorController.a().getAsBoolean() == true){
-      return -0.3;
+    if(Math.abs(m_manipulatorController.getLeftTriggerAxis()) > Constants.OperatorConstants.joystickDeadband){
+      return -0.35;
+    } else{
+      return 0.0;
+    }
+  }
+
+  public static double getShooterIntakeReverseSpeed() {
+    if(m_manipulatorController.leftBumper().getAsBoolean()){
+      return 0.25;
     } else{
       return 0.0;
     }

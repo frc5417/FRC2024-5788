@@ -90,18 +90,23 @@ public class TeleopDrive extends Command {
     // m_manipulator.setWristSpeed(RobotContainer.getManipulatorRightJoyY());
     m_elevator.setElevatorPower(RobotContainer.getElevatorLeftJoystick());
 
-    m_intake.setIntakePower(RobotContainer.getIntakeRightTrigger());
+    m_intake.setIntakePower(RobotContainer.getIntakeRightTrigger() - RobotContainer.getIntakeLeftTrigger());
     
-    m_shooter.setShooterPower(RobotContainer.getShooterLeftTrigger() - RobotContainer.getShooterRightTrigger());
+    m_shooter.setShooterPower(RobotContainer.getShooterRightTrigger());
 
-    m_shooter.setShooterIntake(RobotContainer.getShooterIntakeSpeed());
+    m_shooter.setShooterIntake(RobotContainer.getShooterIntakeSpeed() + RobotContainer.getShooterIntakeReverseSpeed());
 
     
-    wristPos += -RobotContainer.getWristRightJoystick() * 0.001;
+    wristPos += -RobotContainer.getWristRightJoystick() * 0.01;
     wristPos =MathUtil.clamp(wristPos, 0, 0.7);
 
-    m_wrist.wristSpinny(-RobotContainer.getWristRightJoystick());
-    // m_wrist.setWristPos(0.15);
+    // m_wrist.wristSpinny(-RobotContainer.getWristRightJoystick());
+    m_wrist.setWristPos(wristPos);
+
+    if (RobotContainer.getManipulatorBBool()) {
+      wristPos = 0.04383328;
+    }
+    // m_wrist.setWristPos(0.1);
   }
 
   // Called once the command ends or is interrupted.

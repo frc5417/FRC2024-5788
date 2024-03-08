@@ -95,8 +95,8 @@ public class DriveBase extends SubsystemBase {
         double x = pose.getX();
         double y = pose.getY();
         
-        return new Pose2d(y, -x, pose.getRotation());
-        // return m_sdkOdom.getPoseMeters();
+        // return new Pose2d(y, -x, pose.getRotation());
+        return m_sdkOdom.getPoseMeters();
     }
 
     public ChassisSpeeds getRobotRelativeChassisSpeeds() {
@@ -139,6 +139,7 @@ public class DriveBase extends SubsystemBase {
                 new SwerveModulePosition(odomDeltas[2], new Rotation2d(odomAngles[2])),
                 new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3]))
         };
+        Pose2d hehePose = new Pose2d(pose.getY(), -pose.getX(), pose.getRotation());
         m_sdkOdom.resetPosition(m_ahrs.getRotation2d(), modulePositions, pose);
     }
 
@@ -156,11 +157,11 @@ public class DriveBase extends SubsystemBase {
         autoSetSpeed = targetSpeeds;
         double x = autoSetSpeed.vxMetersPerSecond;
         double y = autoSetSpeed.vyMetersPerSecond;
-        autoSetSpeed.vxMetersPerSecond *= 1.0 * y;
-        autoSetSpeed.vyMetersPerSecond *= -1.0 * x;
+        autoSetSpeed.vxMetersPerSecond *= -1.0 * y;
+        autoSetSpeed.vyMetersPerSecond *= 1.0 * x;
         autoSetSpeed.omegaRadiansPerSecond *= -1.0;
         // ChassisSpeeds computed = RobotContainer.getSaturatedSpeeds(MathUtil.clamp(autoSetSpeed.vxMetersPerSecond, -1, 1), MathUtil.clamp(autoSetSpeed.vyMetersPerSecond, -1, 1), MathUtil.clamp(autoSetSpeed.omegaRadiansPerSecond, -1, 1)); //
-        targetModuleStates = m_kinematics.getComputedModuleStates(targetSpeeds);
+        targetModuleStates = m_kinematics.getComputedModuleStates(chassisSpeeds);
     }
 
     public void resetDrive() {
@@ -211,7 +212,7 @@ public class DriveBase extends SubsystemBase {
         SmartDashboard.putNumber("Mod3_theta", -Math.abs(Math.toDegrees(odomAngles[2]))-90);
         SmartDashboard.putNumber("Mod4_theta", -Math.abs(Math.toDegrees(odomAngles[3]))-90);
 
-        Pose2d pose = m_sdkOdom.getPoseMeters().times(-1);
+        Pose2d pose = m_sdkOdom.getPoseMeters();
         
         SmartDashboard.putNumber("GLOBAL POSE X: ", pose.getX());
         SmartDashboard.putNumber("GLOBAL POSE Y: ", pose.getY());
