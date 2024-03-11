@@ -104,8 +104,23 @@ public class TeleopDrive extends Command {
     m_wrist.setWristPos(wristPos);
 
     if (RobotContainer.getManipulatorBBool()) {
-      wristPos = 0.04383328;
+      wristPos = 0.0238;
     }
+
+    if (RobotContainer.getManipulatorABool()) {
+      wristPos = 0.0523;
+    }
+
+    if (RobotContainer.getManipulatorYBool()) {
+      wristPos = 0.0015;
+    }
+
+    // if (RobotContainer.getDriveBBool()) {
+    //   m_driveBase.setSnapping(true);
+    // } else {
+    //   m_driveBase.setSnapping(false);
+    //   m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(xVel, yVel, omega));
+    // }
     // m_wrist.setWristPos(0.1);
   }
 

@@ -21,8 +21,7 @@ import frc.robot.subsystems.Intake;
 public class AutonLoader {
     private final DriveBase m_driveBase;
     private final Intake m_intake;
-    private static SendableChooser<Command> chooser;
-    private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(new PIDConstants(2.0, 0.5, 0.0), new PIDConstants(0.1, 0.0, 0.0), Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, new ReplanningConfig());
+    private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(new PIDConstants(2.0, 0.5, 0.0), new PIDConstants(0.05, 0.0, 0.0), Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, new ReplanningConfig());
 
     //PathPlanner auton groups
 
@@ -30,7 +29,7 @@ public class AutonLoader {
     // private static List<PathPlannerPath> bozo = PathPlannerAuto.getPathGroupFromAutoFile("newsf");
     // private static List<PathPlannerPath> straightline = PathPlannerAuto.getPathGroupFromAutoFile("straightline");
 
-    private final SendableChooser<Command> autoChooser;
+    // private final SendableChooser<Command> autoChooser;
 
     public AutonLoader(DriveBase driveBase, Intake intake) {
 
@@ -41,7 +40,7 @@ public class AutonLoader {
         AutoBuilder.configureHolonomic(m_driveBase::getCurrentPose, m_driveBase::resetOdometry, m_driveBase::getRobotRelativeChassisSpeeds, m_driveBase::setAutoSpeed, holonomic_config, m_driveBase::shouldFlipPath, m_driveBase);
 
 
-        autoChooser = AutoBuilder.buildAutoChooser();
+        // autoChooser = AutoBuilder.buildAutoChooser();
         
         // for (String path : Constants.Auton.paths) {
             // chooser.addOption(path, getAutonFromPath(path));
@@ -54,8 +53,9 @@ public class AutonLoader {
         // chooser.addOption("sf8", AutoBuilder.followPath((PathPlannerPath) sf8));
         // chooser.addOption("straightline", AutoBuilder.followPath((PathPlannerPath) straightline));
         // chooser.addOption("newsf", AutoBuilder.followPathWithEvents((PathPlannerPath) newsf));
-
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        
+        // autoChooser.addOption("TEST", new PathPlannerAuto("test"));
+        // SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
     // private Command getAutonFromPath(String path) {
@@ -63,13 +63,13 @@ public class AutonLoader {
     // }
 
     public Command getAuton() {
-        // return chooser.getSelected();
-        // return autoBuilder.fullAuto(pathGroup);
+        // return autoChooser.getSelected();
+        // return autoBuiPlder.fullAuto(pathGroup);
         // return AutoBuilder.buildAuto("test");
         // m_driveBase.resetOdometry(trajectory.getPathPoses().get(0));
         // return AutoBuilder.followPath(trajectory);
         // return autoChooser.getSelected();
         // m_driveBase.resetOdometry(new Pose2d(5.0, 5.0, new Rotation2d()));
-        return new PathPlannerAuto("test");
+        return new PathPlannerAuto("2Note_He");
     }    
 }

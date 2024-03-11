@@ -47,8 +47,7 @@ public class Wrist extends SubsystemBase {
     wristPID.setSetpoint(wristPos);
   }
 
-  public Command AngleDaWrist(double angle) {
-    double rotation = angle/360;
+  public Command AngleDaWrist(double rotation) {
     return run(() ->  wristPID.setSetpoint(rotation));
     // return Commands.startEnd(() -> intakeMotor1.set(speed), () -> intakeMotor1.set(0), null);
   }

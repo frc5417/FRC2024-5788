@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -7,11 +8,19 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -54,9 +63,8 @@ public class DriveBase extends SubsystemBase {
 
     private Field2d field = new Field2d();
 
-
-
-
+    private PIDController snapToNearestTheta = new PIDController(1, 0, 0);
+    private boolean snappingOn = false;
 
     public DriveBase(Kinematics kinematics, AHRS ahrs) {
         m_kinematics = kinematics;
@@ -111,19 +119,11 @@ public class DriveBase extends SubsystemBase {
     }
 
     public boolean shouldFlipPath() {
-        // Optional<Alliance> ally = DriverStation.getAlliance();
-        // if (ally.isPresent()) {
-        //     if (ally.get() == Alliance.Red) {
-        //         return Constants.Swerve.shouldFlipAuto;
-        //     }
-        //     if (ally.get() == Alliance.Blue) {
-        //         return !Constants.Swerve.shouldFlipAuto;
-        //     }
-        // } else {
-        //     System.out.println("ERROR: You are a bozo");
-        //     return false;
+        // var alliance = DriverStation.getAlliance();
+        // if (alliance.isPresent()) {
+        //     return alliance.get() == DriverStation.Alliance.Red;
         // }
-        // System.out.println("ERROR: You are a bozo");
+        // return false;
         return false;
     }
 
@@ -178,6 +178,10 @@ public class DriveBase extends SubsystemBase {
         }
     }
 
+    public void setSnapping(boolean on_or_off) {
+        snappingOn = on_or_off;
+    }
+
     @Override
     public void periodic() {
         // RobotContainer.m_photonsubsystem.updatePose();
@@ -186,7 +190,6 @@ public class DriveBase extends SubsystemBase {
             odomDeltas[i] = (((moduleGroup[i].integratedDriveEncoder.getPosition() - encoderDriveOffset[i])/6.12) * (0.102*Math.PI));// - odomPrevDeltas[i];
             odomAngles[i] = smallestAngle(moduleGroup[i].getAngleInRadians());//smallestAngle(moduleGroup[i].getAngleInRadians()*(180.0/Math.PI)) * (Math.PI/180.0);
         }
-        
 
         m_sdkOdom.update(m_ahrs.getRotation2d(), new SwerveModulePosition[] {
             new SwerveModulePosition(Math.abs(odomDeltas[0]), new Rotation2d(odomAngles[0])),
@@ -194,6 +197,11 @@ public class DriveBase extends SubsystemBase {
             new SwerveModulePosition(Math.abs(odomDeltas[2]), new Rotation2d(odomAngles[2])),
             new SwerveModulePosition(Math.abs(odomDeltas[3]), new Rotation2d(odomAngles[3]))
         });
+
+        if (snappingOn) {
+            snapToNearestTheta.setSetpoint(m_ahrs.getYaw()-(m_ahrs.getYaw()%90.0));
+            setDriveSpeed(RobotContainer.getSaturatedSpeeds(0, 0, snapToNearestTheta.calculate(m_ahrs.getYaw())));
+        }
         
 
 

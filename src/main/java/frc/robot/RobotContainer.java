@@ -4,15 +4,15 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.hal.HALUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import frc.robot.subsystems.Wrist;
-import frc.robot.subsystems.PhotonSubsystem;
-
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it u.nder the terms of
@@ -23,14 +23,15 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutonLoader;
 import frc.robot.commands.SetLightConfig;
 import frc.robot.commands.TeleopDrive;
+import frc.robot.commands.Autos.MoveToPos;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Kinematics;
 import frc.robot.subsystems.LightsControl;
-import edu.wpi.first.hal.HALUtil;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import frc.robot.subsystems.PhotonSubsystem;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Wrist;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -62,6 +63,10 @@ public class RobotContainer {
   private static final SetLightConfig lightConfigColor1 = new SetLightConfig(m_lightsControl, 1);
   private static final SetLightConfig lightConfigColor2 = new SetLightConfig(m_lightsControl, 2);
 
+
+  public static MoveToPos auto_MoveToPosFWD = new MoveToPos(driveBase);
+  public static MoveToPos auto_MoveToPosBWD = new MoveToPos(driveBase);
+
   // public static final PhotonSubsystem m_photonsubsystem = new PhotonSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -69,10 +74,19 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    NamedCommands.registerCommand("IntakeDaNote", intake.IntakeDaNote(0.75).withTimeout(2)); 
-    NamedCommands.registerCommand("AngleDaWrist", wrist.AngleDaWrist(70));
-    NamedCommands.registerCommand("ShootDaNote", shooter.ShootDaNote(1.0).withTimeout(2));
-    NamedCommands.registerCommand("IndexDaNote", shooter.IndexDaNote(1.0).withTimeout(2));
+    auto_MoveToPosFWD.setTarget(new Pose2d(0, -2, new Rotation2d()));
+    auto_MoveToPosBWD.setTarget(new Pose2d(0, 2, new Rotation2d()));
+    NamedCommands.registerCommand("3MFWD", auto_MoveToPosFWD.withTimeout(3.0));
+    NamedCommands.registerCommand("3MBWD", auto_MoveToPosBWD.withTimeout(3.0));
+    NamedCommands.registerCommand("IntakeOn", intake.IntakeDaNote(0.75).withTimeout(0.1)); 
+    NamedCommands.registerCommand("IntakeOff", intake.IntakeDaNote(0.0).withTimeout(0.1)); 
+    NamedCommands.registerCommand("HandoffWrist", wrist.AngleDaWrist(0.0523).withTimeout(0.1));
+    NamedCommands.registerCommand("ShootWrist", wrist.AngleDaWrist(0.0238).withTimeout(0.1));
+    NamedCommands.registerCommand("ShooterOn", shooter.ShootDaNote(-0.75).withTimeout(0.1));
+    NamedCommands.registerCommand("ShooterOff", shooter.ShootDaNote(0.0).withTimeout(0.1));
+    NamedCommands.registerCommand("IndexOn", shooter.IndexDaNote(-0.2).withTimeout(0.1));
+    NamedCommands.registerCommand("IndexReverse", shooter.IndexDaNote(0.1).withTimeout(0.1));
+    NamedCommands.registerCommand("IndexOff", shooter.IndexDaNote(0.0).withTimeout(0.1));
     configureBindings();
   }
 
@@ -157,6 +171,11 @@ public class RobotContainer {
       return 0;
     }
   }
+
+  public static Boolean getDriveBBool() {
+    return m_driverController.b().getAsBoolean();
+  }
+
   // =========================================================
   public static double getManipulatorLeftJoyY() {
     if (Math.abs(m_manipulatorController.getLeftY()) > Constants.OperatorConstants.joystickDeadband) {

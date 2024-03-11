@@ -55,15 +55,15 @@ public final class Constants {
   
   public static class Swerve {
     public static final Double angularPercentage = -0.5;
-    public static final Double XPercentage = -0.7;
-    public static final Double YPercentage = -0.7;
+    public static final Double XPercentage = -0.75;
+    public static final Double YPercentage = -0.75;
 
     public static final IdleMode angleNeutralMode = IdleMode.kBrake;
     public static final IdleMode driveNeutralMode = IdleMode.kBrake;
     public static final double maxVelocity = 3.8; // m/s
     public static final double maxAngularVelocity = 10; //rad/sec
     public static final double maxModuleSpeed = 0.3;
-    public static final boolean shouldFlipAuto = true;
+    public static final boolean blueFlipState = false;
   }
 
   public static class DriveBaseConstants {
