@@ -9,7 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveBase;
 
@@ -17,9 +17,9 @@ public class SimpleLinear extends Command {
   /** Creates a new MoveToPos. */
   DriveBase m_drivebase;
 
-  PIDController x_pid = new PIDController(1, 0, 0);
-  PIDController y_pid = new PIDController(1, 0, 0);
-  PIDController omega_pid = new PIDController(0, 0, 0);
+  PIDController x_pid = Constants.Auton.X_Pos;
+  PIDController y_pid = Constants.Auton.Y_Pos;
+  PIDController omega_pid = Constants.Auton.Theta_Pos;
 
   Pose2d targetPoseDelta;
 
@@ -54,8 +54,8 @@ public class SimpleLinear extends Command {
     double currentX = m_drivebase.getCurrentPose().getX();
     double currentY = m_drivebase.getCurrentPose().getY();
     
-    if (Math.abs(currentX-targetX)>0.1 || Math.abs(currentY-targetY)>0.1) {
-      m_drivebase.setDriveSpeed(new ChassisSpeeds(MathUtil.clamp(x_pid.calculate(currentX, targetX), -0.4, 0.4), MathUtil.clamp(y_pid.calculate(currentY, targetY), -0.4, 0.4), 0.0));
+    if (Math.abs(currentX-targetX)>Constants.Auton.poseTolerance || Math.abs(currentY-targetY)>Constants.Auton.poseTolerance) {
+      m_drivebase.setDriveSpeed(new ChassisSpeeds(MathUtil.clamp(x_pid.calculate(currentX, targetX), -Constants.Auton.speedClamp, Constants.Auton.speedClamp), MathUtil.clamp(y_pid.calculate(currentY, targetY), -Constants.Auton.speedClamp, Constants.Auton.speedClamp), 0.0));
     } else {
       m_drivebase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(0, 0, 0));
       terminate = true;

@@ -37,7 +37,8 @@ public class Bezier extends SubsystemBase {
               for (int i=0; i<points.length; i++) {
                   double X = nCr(n, i) * Math.pow(1-t, n-i) * Math.pow(t, i) * points[i].getX();
                   double Y = nCr(n, i) * Math.pow(1-t, n-i) * Math.pow(t, i) * points[i].getY();
-                  pose = new Pose2d(pose.getX()+X, pose.getY()+Y, new Rotation2d());
+                  double theta = nCr(n, i) * Math.pow(1-t, n-i) * Math.pow(t, i) * points[i].getRotation().getDegrees();
+                  pose = new Pose2d(pose.getX()+X, pose.getY()+Y, Rotation2d.fromDegrees(pose.getRotation().getDegrees()+theta));
               }
               return pose;
           }

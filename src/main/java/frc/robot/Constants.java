@@ -7,7 +7,7 @@ package frc.robot;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.util.Units;
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -71,7 +71,12 @@ public final class Constants {
   }
 
   public static class Auton {
-    public static final String[] paths = {"rotateInPlace, moveForward, PathPlannerTest"};
+    public static final PIDController X_Pos = new PIDController(1, 0, 0);
+    public static final PIDController Y_Pos = new PIDController(1, 0, 0);
+    public static final PIDController Theta_Pos = new PIDController(1, 0, 0);
+    public static final double speedClamp = 0.4;
+    public static final double poseTolerance = 0.1;
+    public static final double thetaTolerance = 5; //degrees
   }
 
   public static class VisionConstants {

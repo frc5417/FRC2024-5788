@@ -15,7 +15,6 @@ import frc.robot.RobotContainer;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBase extends SubsystemBase {
