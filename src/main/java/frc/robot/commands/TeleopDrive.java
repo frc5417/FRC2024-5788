@@ -4,12 +4,10 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.math.MathUsageId;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Intake;
@@ -54,21 +52,12 @@ public class TeleopDrive extends Command {
 
   @Override
   public void initialize() {
-    // m_driveBase.resetDrive();
-    // Module.ModuleState[] temp = new Module.ModuleState[4];
-
-    // for (int i = 0; i < 4; i++)
-    //   temp[i] = new Module.ModuleState(0, Constants.MotorConstants.motorDegrees[i] * (Math.PI/180));
-
-    // m_driveBase.setHardStates(temp);
     RobotContainer.setLEDsOn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (counter++ <= 60)
-    //   return;
     
     double xVel = (RobotContainer.getDriverLeftJoyX() * 0.45) + (prev_xVel * 0.55); 
     double yVel = (RobotContainer.getDriverLeftJoyY() * 0.45) + (prev_yVel * 0.55); 
@@ -82,12 +71,8 @@ public class TeleopDrive extends Command {
     SmartDashboard.putNumber("Y-Vel Input", yVel);
     SmartDashboard.putNumber("Omega Vel Input", omega);
     
-    // m_driveBase.setDriveSpeed(new ChassisSpeeds(xVel * Constants.Swerve.XPercentage, yVel * Constants.Swerve.YPercentage, omega * Constants.Swerve.angularPercentage));
     m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(xVel, yVel, omega));
-    // m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(0.5, yVel, omega));
-    // m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(1, 1, 0));
-    
-    // m_manipulator.setWristSpeed(RobotContainer.getManipulatorRightJoyY());
+
     m_elevator.setElevatorPower(RobotContainer.getElevatorLeftJoystick());
 
     m_intake.setIntakePower(RobotContainer.getIntakeRightTrigger() - RobotContainer.getIntakeLeftTrigger());
@@ -100,7 +85,6 @@ public class TeleopDrive extends Command {
     wristPos += -RobotContainer.getWristRightJoystick() * 0.01;
     wristPos =MathUtil.clamp(wristPos, 0, 0.7);
 
-    // m_wrist.wristSpinny(-RobotContainer.getWristRightJoystick());
     m_wrist.setWristPos(wristPos);
 
     if (RobotContainer.getManipulatorBBool()) {

@@ -8,19 +8,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -61,8 +55,6 @@ public class DriveBase extends SubsystemBase {
 
     ChassisSpeeds autoSetSpeed = new ChassisSpeeds();
 
-    private Field2d field = new Field2d();
-
     private PIDController snapToNearestTheta = new PIDController(1, 0, 0);
     private boolean snappingOn = false;
 
@@ -94,21 +86,11 @@ public class DriveBase extends SubsystemBase {
     
     } 
 
-    // public Pose2d getCurrentPose() {
-    //     return globalPose;
-    // }
-
     public Pose2d getCurrentPose() {
-        Pose2d pose = m_sdkOdom.getPoseMeters().times(-1.0);
-        double x = pose.getX();
-        double y = pose.getY();
-        
-        // return new Pose2d(y, -x, pose.getRotation());
         return m_sdkOdom.getPoseMeters();
     }
 
     public ChassisSpeeds getRobotRelativeChassisSpeeds() {
-        // return new ChassisSpeeds(m_ahrs.getVelocityY(), -1 * m_ahrs.getVelocityX(), m_ahrs.getRate() * (Math.PI/180.0));
         SwerveModuleState[] states = new SwerveModuleState[moduleGroup.length];
         states[0] = new SwerveModuleState(moduleGroup[0].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[0].getAngleInRadians())); //The velocity is RPM so convert to M/S
         states[1] = new SwerveModuleState(moduleGroup[1].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[1].getAngleInRadians()));//The velocity is RPM so convert to M/S
@@ -139,7 +121,6 @@ public class DriveBase extends SubsystemBase {
                 new SwerveModulePosition(odomDeltas[2], new Rotation2d(odomAngles[2])),
                 new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3]))
         };
-        Pose2d hehePose = new Pose2d(pose.getY(), -pose.getX(), pose.getRotation());
         m_sdkOdom.resetPosition(m_ahrs.getRotation2d(), modulePositions, pose);
     }
 
@@ -152,15 +133,6 @@ public class DriveBase extends SubsystemBase {
     }
 
     public void setAutoSpeed(ChassisSpeeds chassisSpeeds) {
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
-        // ChassisSpeeds targetSpeeds = new ChassisSpeeds();
-        autoSetSpeed = targetSpeeds;
-        double x = autoSetSpeed.vxMetersPerSecond;
-        double y = autoSetSpeed.vyMetersPerSecond;
-        autoSetSpeed.vxMetersPerSecond *= -1.0 * y;
-        autoSetSpeed.vyMetersPerSecond *= 1.0 * x;
-        autoSetSpeed.omegaRadiansPerSecond *= -1.0;
-        // ChassisSpeeds computed = RobotContainer.getSaturatedSpeeds(MathUtil.clamp(autoSetSpeed.vxMetersPerSecond, -1, 1), MathUtil.clamp(autoSetSpeed.vyMetersPerSecond, -1, 1), MathUtil.clamp(autoSetSpeed.omegaRadiansPerSecond, -1, 1)); //
         targetModuleStates = m_kinematics.getComputedModuleStates(chassisSpeeds);
     }
 
@@ -209,16 +181,12 @@ public class DriveBase extends SubsystemBase {
 
 
         SmartDashboard.putNumber("Yaw", m_ahrs.getYaw());
-        SmartDashboard.putNumber("Pitch", m_ahrs.getPitch());
-        SmartDashboard.putNumber("Roll", m_ahrs.getRoll());
-        SmartDashboard.putNumber("Rotations", m_ahrs.getAngle());
 
 
-
-        SmartDashboard.putNumber("Mod1_theta", -Math.abs(Math.toDegrees(odomAngles[0]))-90);
-        SmartDashboard.putNumber("Mod2_theta", -Math.abs(Math.toDegrees(odomAngles[1]))-90);
-        SmartDashboard.putNumber("Mod3_theta", -Math.abs(Math.toDegrees(odomAngles[2]))-90);
-        SmartDashboard.putNumber("Mod4_theta", -Math.abs(Math.toDegrees(odomAngles[3]))-90);
+        // SmartDashboard.putNumber("Mod1_theta", -Math.abs(Math.toDegrees(odomAngles[0]))-90);
+        // SmartDashboard.putNumber("Mod2_theta", -Math.abs(Math.toDegrees(odomAngles[1]))-90);
+        // SmartDashboard.putNumber("Mod3_theta", -Math.abs(Math.toDegrees(odomAngles[2]))-90);
+        // SmartDashboard.putNumber("Mod4_theta", -Math.abs(Math.toDegrees(odomAngles[3]))-90);
 
         Pose2d pose = m_sdkOdom.getPoseMeters();
         

@@ -5,7 +5,6 @@ import com.ctre.phoenix6.configs.CANcoderConfigurator;
 // import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 // Copyright (c) FIRST and other WPILib contributors.
@@ -177,6 +176,7 @@ public class Module {
     // angleMotor.setSmartCurrentLimit(Constants.Swerve.angleContinuousCurrentLimit);
     // angleMotor.setInverted(Constants.Swerve.angleInvert);
     angleMotor.setIdleMode(Constants.Swerve.angleNeutralMode);
+    angleMotor.setSmartCurrentLimit(25);
     // integratedAngleEncoder.setPositionConversionFactor(Constants.Swerve.angleConversionFactor);
     // angleController.setP(Constants.Swerve.angleKP);
     // angleController.setI(Constants.Swerve.angleKI);
@@ -188,6 +188,7 @@ public class Module {
 
   private void configDriveMotor() {
     driveMotor.restoreFactoryDefaults();
+    driveMotor.setSmartCurrentLimit(40);
     // CANSparkMaxUtil.setCANSparkMaxBusUsage(driveMotor, Usage.kVelocityOnly);
     // driveMotor.setSmartCurrentLimit(Constants.Swerve.driveContinuousCurrentLimit);
     // driveMotor.setInverted(Constants.Swerve.driveInvert);

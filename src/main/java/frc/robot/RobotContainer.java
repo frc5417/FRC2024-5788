@@ -23,7 +23,8 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutonLoader;
 import frc.robot.commands.SetLightConfig;
 import frc.robot.commands.TeleopDrive;
-import frc.robot.commands.Autos.MoveToPos;
+import frc.robot.commands.Autos.SimpleLinear;
+import frc.robot.subsystems.Bezier;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -51,6 +52,7 @@ public class RobotContainer {
   public static Shooter shooter = new Shooter();
   public static Wrist wrist = new Wrist();
   public static PhotonSubsystem photonSubsystem = new PhotonSubsystem();
+  public static Bezier bezier = new Bezier();
 
   public static AutonLoader autonLoader = new AutonLoader(driveBase, intake); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
   public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, elevator, intake, shooter, wrist); //ALL SUBSYSTEMS
@@ -64,8 +66,9 @@ public class RobotContainer {
   private static final SetLightConfig lightConfigColor2 = new SetLightConfig(m_lightsControl, 2);
 
 
-  public static MoveToPos auto_MoveToPosFWD = new MoveToPos(driveBase);
-  public static MoveToPos auto_MoveToPosBWD = new MoveToPos(driveBase);
+  public static SimpleLinear auto_MoveToPosFWD = new SimpleLinear(driveBase);
+  public static SimpleLinear auto_MoveToPosBWD = new SimpleLinear(driveBase);
+
 
   // public static final PhotonSubsystem m_photonsubsystem = new PhotonSubsystem();
 

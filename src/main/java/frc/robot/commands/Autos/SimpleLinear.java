@@ -9,11 +9,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveBase;
 
-public class MoveToPos extends Command {
+public class SimpleLinear extends Command {
   /** Creates a new MoveToPos. */
   DriveBase m_drivebase;
 
@@ -25,14 +25,12 @@ public class MoveToPos extends Command {
 
   double targetX, targetY;
 
-  public MoveToPos(DriveBase driveBase) {
+  private boolean terminate = false; 
+
+  public SimpleLinear(DriveBase driveBase) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivebase = driveBase;
     targetPoseDelta = m_drivebase.getCurrentPose();
-    double currentX = m_drivebase.getCurrentPose().getX();
-    double currentY = m_drivebase.getCurrentPose().getY();
-    targetX = currentX + targetPoseDelta.getX();
-    targetY = currentY + targetPoseDelta.getY();
   }
 
   // Called when the command is initially scheduled.
@@ -56,11 +54,11 @@ public class MoveToPos extends Command {
     double currentX = m_drivebase.getCurrentPose().getX();
     double currentY = m_drivebase.getCurrentPose().getY();
     
-    if (Math.abs(currentY-targetY)>0.1) {
-      m_drivebase.setDriveSpeed(new ChassisSpeeds(0.0, MathUtil.clamp(y_pid.calculate(currentY, targetY), -0.4, 0.4), 0.0));
+    if (Math.abs(currentX-targetX)>0.1 || Math.abs(currentY-targetY)>0.1) {
+      m_drivebase.setDriveSpeed(new ChassisSpeeds(MathUtil.clamp(x_pid.calculate(currentX, targetX), -0.4, 0.4), MathUtil.clamp(y_pid.calculate(currentY, targetY), -0.4, 0.4), 0.0));
     } else {
       m_drivebase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(0, 0, 0));
-      this.cancel();
+      terminate = true;
     }
   }
 
@@ -73,6 +71,6 @@ public class MoveToPos extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return terminate;
   }
 }
