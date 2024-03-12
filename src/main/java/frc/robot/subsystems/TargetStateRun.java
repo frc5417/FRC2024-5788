@@ -16,7 +16,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class TargetStateRun extends SubsystemBase {
-  DriveBase m_drivebase;
+  public DriveBase m_drivebase;
 
   PIDController x_pid = Constants.Auton.X_Pos;
   PIDController y_pid = Constants.Auton.Y_Pos;
@@ -48,15 +48,15 @@ public class TargetStateRun extends SubsystemBase {
       
       if (Math.abs(currentX-targetPose.getX())>Constants.Auton.poseTolerance || Math.abs(currentY-targetPose.getY())>Constants.Auton.poseTolerance || Math.abs(currentTheta-targetPose.getRotation().getDegrees())>Constants.Auton.thetaTolerance) {
         m_drivebase.setDriveSpeed(new ChassisSpeeds(MathUtil.clamp(x_pid.calculate(currentX), -Constants.Auton.speedClamp, Constants.Auton.speedClamp), MathUtil.clamp(y_pid.calculate(currentY), -Constants.Auton.speedClamp, Constants.Auton.speedClamp), MathUtil.clamp(omega_pid.calculate(currentTheta), -Constants.Auton.speedClamp, Constants.Auton.speedClamp)));
-        SmartDashboard.putNumber("X_SPEED", MathUtil.clamp(x_pid.calculate(currentX, targetPose.getX()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
-        SmartDashboard.putNumber("Y_SPEED", MathUtil.clamp(y_pid.calculate(currentY, targetPose.getY()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
-        SmartDashboard.putNumber("Omega_SPEED", MathUtil.clamp(omega_pid.calculate(currentTheta, targetPose.getRotation().getDegrees()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
-        double[] hehe = {x_pid.getPositionError(), y_pid.getPositionError(), omega_pid.getPositionError()};
-        SmartDashboard.putNumberArray("Error", hehe);
+        // SmartDashboard.putNumber("X_SPEED", MathUtil.clamp(x_pid.calculate(currentX, targetPose.getX()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
+        // SmartDashboard.putNumber("Y_SPEED", MathUtil.clamp(y_pid.calculate(currentY, targetPose.getY()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
+        // SmartDashboard.putNumber("Omega_SPEED", MathUtil.clamp(omega_pid.calculate(currentTheta, targetPose.getRotation().getDegrees()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
+        // double[] hehe = {x_pid.getPositionError(), y_pid.getPositionError(), omega_pid.getPositionError()};
+        // SmartDashboard.putNumberArray("Error", hehe);
       } else {
         m_drivebase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(0, 0, 0));
       }
-      SmartDashboard.updateValues();
+      // SmartDashboard.updateValues();
     }
   }
 }

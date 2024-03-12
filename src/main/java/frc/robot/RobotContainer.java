@@ -23,7 +23,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutonLoader;
 import frc.robot.commands.SetLightConfig;
 import frc.robot.commands.TeleopDrive;
-import frc.robot.commands.Autos.SimpleLinear;
+import frc.robot.commands.AutoControllers.SimpleLinear;
 import frc.robot.subsystems.Bezier;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
