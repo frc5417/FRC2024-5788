@@ -55,6 +55,8 @@ public class A_Star
         neighbors.add(new Double[] {round(location[0]), round(location[1]-object_size[1])});
         neighbors.add(new Double[] {round(location[0]-object_size[0]), round(location[1]-object_size[1])});
         neighbors.add(new Double[] {round(location[0]+object_size[0]), round(location[1]+object_size[1])});
+        neighbors.add(new Double[] {round(location[0]+object_size[0]), round(location[1]-object_size[1])}); // EXPERIMENTAL
+        neighbors.add(new Double[] {round(location[0]-object_size[0]), round(location[1]+object_size[1])}); // EXPERIMENTAL
         for (Double[] n : neighbors) {
             Node g = findPointOnGrid(new Node(n[0], n[1], false));
             if (g != null && g.obstacle == false) {
@@ -151,6 +153,20 @@ public class A_Star
                     System.out.printf("Obstacle at (%s, %s)\n", g.getLocation()[0], g.getLocation()[1]);
                 }
             }
+        }
+    }
+
+    public void setRotation(Pose2d[] path, int nodeOnPath, Rotation2d rotation) {
+        if (nodeOnPath < 0) {
+            path[path.length-1] = new Pose2d(path[path.length-1].getX(), path[path.length-1].getY(), Rotation2d.fromDegrees(90));
+        } else {
+            path[nodeOnPath] = new Pose2d(path[nodeOnPath].getX(), path[nodeOnPath].getY(), Rotation2d.fromDegrees(90));
+        }
+    }
+
+    public void setEndRotation(Pose2d[] path, Rotation2d rotation) {
+        for (int i=1; i<path.length; i++) {
+            path[i] = new Pose2d(path[i].getX(), path[i].getY(), rotation);
         }
     }
 }
