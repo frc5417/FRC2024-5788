@@ -6,6 +6,7 @@ package frc.robot.commands.AutoControllers;
 
 import java.lang.reflect.Field;
 
+import com.fasterxml.jackson.databind.node.POJONode;
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.EnumKeySerializer;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -44,6 +45,9 @@ public class FollowBezier extends Command {
   public void setPath(Pose2d[] points, double stepsToComplete) {
     steps = stepsToComplete;
     bezierFunction = Bezier.computeBezier(points);
+    for (int i=0; i < 10; i++) {
+      System.out.printf("%s, %s\n", i/10.0, bezierFunction.apply(i/10.0));
+    }
     time = 0.0;
     finalPose = points[points.length-1];
   }
@@ -59,7 +63,8 @@ public class FollowBezier extends Command {
       Pose2d computedPose = bezierFunction.apply(time);
       m_targetstaterun.setTarget(computedPose);
       time += 1/steps;
-      field.setRobotPose(computedPose);
+      Pose2d invertedPose = new Pose2d(computedPose.getY(), computedPose.getX(), computedPose.getRotation());
+      field.setRobotPose(invertedPose);
     } else {
       terminate = true;
     }

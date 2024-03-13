@@ -77,6 +77,8 @@ public final class Constants {
     public static final double speedClamp = 0.4;
     public static final double poseTolerance = 0.1;
     public static final double thetaTolerance = 5; //degrees
+    public static final Double[] robot_size = {0.66, 0.66};
+    public static final Double[] field_size = {8.2, 16.0};
   }
 
   public static class VisionConstants {

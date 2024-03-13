@@ -14,7 +14,10 @@ public class Bezier extends SubsystemBase {
   /** Creates a new Bezier. */
   public Bezier() {}
 
-  private static int factorial(int n){
+  private static long factorial(long n) throws RuntimeException {
+    if (n > 20) {
+      throw new RuntimeException("Factorial too large for long...");
+    }
     if (n<=1) {
       return 1;
     } else {
@@ -22,7 +25,7 @@ public class Bezier extends SubsystemBase {
     }
   }
 
-  private static int nCr(int n, int k) {
+  private static long nCr(long n, long k) {
       return factorial(n)/(factorial(k)*factorial(n-k));
   }
   public static BezierFunction computeBezier(Pose2d[] points) {
