@@ -34,6 +34,7 @@ import frc.robot.subsystems.PhotonSubsystem;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.TargetStateRun;
 import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.A_Star.A_Star;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

@@ -79,6 +79,11 @@ public final class Constants {
     public static final double thetaTolerance = 5; //degrees
     public static final Double[] robot_size = {0.66, 0.66};
     public static final Double[] field_size = {8.2, 16.0};
+    public static final Double[] BlueObstacle_TopLeft = {2.5, 6.0};
+    public static final Double[] BlueObstacle_BottomRight = {6.0,2.5};
+    public static final Double[] RedObstacle_TopLeft = {2.5, 13.5};
+    public static final Double[] RedObstacle_BottomRight = {6.0, 10.0};
+    
   }
 
   public static class VisionConstants {

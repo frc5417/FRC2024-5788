@@ -9,29 +9,18 @@ import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.Constants;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 public class A_Star 
 {
-    private List<Node> grid = new ArrayList<Node>();
-    private Double[] object_size;
-    private Double[] grid_size;
+    private static List<Node> grid;
+    private static final Double[] object_size = Constants.Auton.robot_size;
+    private static final Double[] grid_size = Constants.Auton.field_size;
 
-    public A_Star(Double[] _object_size, Double[] _grid_size) {
-        object_size = _object_size;
-        grid_size = _grid_size;
-
-        for (double i=object_size[0]; i<grid_size[0]; i+=object_size[0]) {
-            for (double j=object_size[1]; j<grid_size[1]; j+=object_size[1]) {
-                // System.out.printf("%s, %s\n", Math.round(1000.0*i)/1000.0, Math.round(1000.0*j)/1000.0);
-                grid.add(new Node(round(i), round(j), false));
-            }
-        }
-    }
-
-    private Node findPointOnGrid(Node node) {
+    private static Node findPointOnGrid(Node node) {
         for (Node g : grid) {
             if (Arrays.equals(g.getLocation(), node.getLocation())) {
                 return g;
@@ -40,11 +29,11 @@ public class A_Star
         return null;
     }
 
-    private double round(double x) {
+    private static double round(double x) {
         return Math.round(1000.0*x)/1000.0;
     }
 
-    private List<Node> getNeighbors(Node point) {
+    private static List<Node> getNeighbors(Node point) {
         List<Double[]> neighbors = new ArrayList<Double[]>();
         List<Node> final_neighbors = new ArrayList<Node>();
         Double[] location = point.getLocation();
@@ -67,7 +56,7 @@ public class A_Star
         return final_neighbors;
     }
 
-    private double getDistance(Node pointA, Node pointB) {
+    private static double getDistance(Node pointA, Node pointB) {
         Double[] coordA = pointA.getLocation();
         Double[] coordB = pointB.getLocation();
         double xDist = Math.abs(coordA[0] - coordB[0]);
@@ -75,7 +64,21 @@ public class A_Star
         return 14 * Math.min(xDist, yDist) + 10 * Math.abs(xDist - yDist);
     }
 
-    public List<Node> compute(Node startNode, Node endNode) throws RuntimeException {
+    public static List<Node> compute(Node startNode, Node endNode) throws RuntimeException {
+        if (grid == null) {
+            grid = new ArrayList<Node>();
+            for (double i=object_size[0]; i<grid_size[0]; i+=object_size[0]) {
+                for (double j=object_size[1]; j<grid_size[1]; j+=object_size[1]) {
+                    // System.out.printf("%s, %s\n", Math.round(1000.0*i)/1000.0, Math.round(1000.0*j)/1000.0);
+                    grid.add(new Node(round(i), round(j), false));
+                }
+            }
+        }
+        for (Node g : grid) {
+            g.set_g_cost(0);
+            g.set_h_cost(0);
+            g.parent = null;
+        }
         startNode = findPointOnGrid(startNode.toNearestGrid(object_size));
         endNode = findPointOnGrid(endNode.toNearestGrid(object_size));
         System.out.println(Arrays.deepToString(startNode.getLocation()));
@@ -135,7 +138,7 @@ public class A_Star
         throw new RuntimeException("No path found");
     }
 
-    public Pose2d[] nodeListToPoses(List<Node> path) {
+    public static Pose2d[] nodeListToPoses(List<Node> path) {
         Pose2d[] finalList = new Pose2d[path.size()];
         for (int i=0; i<path.size(); i++) {
             finalList[i] = new Pose2d(path.get(i).getLocation()[0], path.get(i).getLocation()[1], new Rotation2d());
@@ -143,10 +146,19 @@ public class A_Star
         return finalList;
     }
 
-    public void rectangularObstacle(Double[] topLeft, Double[] bottomRight) {
+    public static void rectangularObstacle(Double[] topLeft, Double[] bottomRight) {
+        if (grid == null) {
+            grid = new ArrayList<Node>();
+            for (double i=object_size[0]; i<grid_size[0]; i+=object_size[0]) {
+                for (double j=object_size[1]; j<grid_size[1]; j+=object_size[1]) {
+                    // System.out.printf("%s, %s\n", Math.round(1000.0*i)/1000.0, Math.round(1000.0*j)/1000.0);
+                    grid.add(new Node(round(i), round(j), false));
+                }
+            }
+        }
         for (Node g : grid) {
             Double[] gCoord = g.getLocation();
-            System.out.printf("%s %s\n", gCoord[0], gCoord[1]);
+            // System.out.printf("%s %s\n", gCoord[0], gCoord[1]);
             if (gCoord[0] >= topLeft[0] && gCoord[0] <= bottomRight[0]) {
                 if (gCoord[1] >= bottomRight[1] && gCoord[1] <= topLeft[1]) {
                     g.obstacle = true;
@@ -156,7 +168,7 @@ public class A_Star
         }
     }
 
-    public void setRotation(Pose2d[] path, int nodeOnPath, Rotation2d rotation) {
+    public static void setRotation(Pose2d[] path, int nodeOnPath, Rotation2d rotation) {
         if (nodeOnPath < 0) {
             path[path.length-1] = new Pose2d(path[path.length-1].getX(), path[path.length-1].getY(), Rotation2d.fromDegrees(90));
         } else {
@@ -164,7 +176,7 @@ public class A_Star
         }
     }
 
-    public void setEndRotation(Pose2d[] path, Rotation2d rotation) {
+    public static void setEndRotation(Pose2d[] path, Rotation2d rotation) {
         for (int i=1; i<path.length; i++) {
             path[i] = new Pose2d(path[i].getX(), path[i].getY(), rotation);
         }

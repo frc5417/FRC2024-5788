@@ -5,6 +5,8 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.commands.Autos.TwoNoteCenter;
@@ -12,6 +14,7 @@ import frc.robot.subsystems.DriveBase;
 
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.TargetStateRun;
+import frc.robot.subsystems.A_Star.A_Star;
 
 public class AutonLoader {
     private final DriveBase m_driveBase;
@@ -26,8 +29,13 @@ public class AutonLoader {
         m_targetStateRun = targetStateRun;
         m_driveBase = driveBase;
         m_intake = intake;
-        follower = new TwoNoteCenter(targetStateRun);
 
+        A_Star.rectangularObstacle(Constants.Auton.BlueObstacle_TopLeft, Constants.Auton.BlueObstacle_BottomRight);
+        A_Star.rectangularObstacle(Constants.Auton.RedObstacle_TopLeft, Constants.Auton.RedObstacle_BottomRight);
+        follower = new TwoNoteCenter(targetStateRun, new Pose2d(2, 2, new Rotation2d()));
+
+        
+        
 
         AutoBuilder.configureHolonomic(m_driveBase::getCurrentPose, m_driveBase::resetOdometry, m_driveBase::getRobotRelativeChassisSpeeds, m_driveBase::setAutoSpeed, holonomic_config, m_driveBase::shouldFlipPath, m_driveBase);
 

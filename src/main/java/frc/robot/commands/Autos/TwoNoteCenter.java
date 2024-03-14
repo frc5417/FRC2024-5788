@@ -18,17 +18,22 @@ import frc.robot.subsystems.A_Star.Node;
 
 public class TwoNoteCenter extends SequentialCommandGroup {
   /** Creates a new TwoNoteCenter. */
-  public TwoNoteCenter(TargetStateRun targetStateRun) {
-    A_Star pathSolver = new A_Star(Constants.Auton.robot_size, Constants.Auton.field_size);
-    pathSolver.rectangularObstacle(new Double[] {2.5, 6.0}, new Double[] {6.0,2.5});
-    Pose2d[] hehehehe = pathSolver.nodeListToPoses(pathSolver.compute(new Node(2, 2, false), new Node(7, 7, false)));
-    pathSolver.setEndRotation(hehehehe, Rotation2d.fromDegrees(90));
-    FollowBezier temp = new FollowBezier(targetStateRun);
-    System.out.println(hehehehe);
-    temp.setPath(hehehehe, 100);
-    for (Pose2d p : hehehehe) {
-      System.out.printf("[%s, %s], ", p.getX(), p.getY());
-    }
-    addCommands(temp);
+  public TwoNoteCenter(TargetStateRun targetStateRun, Pose2d startingPose) {
+    // A_Star pathSolver = new A_Star(Constants.Auton.robot_size, Constants.Auton.field_size);
+    
+    Pose2d[] path1 = A_Star.nodeListToPoses(A_Star.compute(new Node(0.66, 0.66, false), new Node(4, 9, false)));
+    Pose2d[] path2 = A_Star.nodeListToPoses(A_Star.compute(new Node(4, 9, false), new Node(7, 14, false)));
+    A_Star.setEndRotation(path1, Rotation2d.fromDegrees(90));
+    path2[0] = new Pose2d(path2[0].getX(), path2[0].getY(), Rotation2d.fromDegrees(90));
+
+    FollowBezier temp1 = new FollowBezier(targetStateRun);
+    FollowBezier temp2 = new FollowBezier(targetStateRun);
+    // System.out.println(hehehehe);
+    temp1.setPath(path1, 100);
+    temp2.setPath(path2, 100);
+    // for (Pose2d p : hehehehe) {
+    //   System.out.printf("[%s, %s], ", p.getX(), p.getY());
+    // }
+    addCommands(temp1, temp2);
   }
 }

@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Bezier;
 import frc.robot.subsystems.TargetStateRun;
@@ -57,7 +58,7 @@ public class FollowBezier extends Command {
       Pose2d computedPose = bezierFunction.apply(time);
       m_targetstaterun.setTarget(computedPose);
       time += 1/steps;
-      Pose2d invertedPose = new Pose2d(computedPose.getY(), computedPose.getX(), computedPose.getRotation());
+      Pose2d invertedPose = new Pose2d(computedPose.getY(), Constants.Auton.field_size[0]-computedPose.getX(), computedPose.getRotation());
       field.setRobotPose(invertedPose);
     } else {
       terminate = true;
