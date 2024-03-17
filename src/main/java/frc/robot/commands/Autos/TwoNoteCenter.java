@@ -29,11 +29,13 @@ public class TwoNoteCenter extends SequentialCommandGroup {
     FollowBezier temp1 = new FollowBezier(targetStateRun);
     FollowBezier temp2 = new FollowBezier(targetStateRun);
     // System.out.println(hehehehe);
-    temp1.setPath(path1, 100);
-    temp2.setPath(path2, 100);
+    temp1.setPath(new Pose2d[] {new Pose2d(0, 0, new Rotation2d(0.0)), new Pose2d(2.0, 2.0, Rotation2d.fromDegrees(90)), new Pose2d(0.0, 4.0, new Rotation2d())}, 100);
+    targetStateRun.m_drivebase.resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
+    // temp2.setPath(path2, 100);
+
     // for (Pose2d p : hehehehe) {
     //   System.out.printf("[%s, %s], ", p.getX(), p.getY());
     // }
-    addCommands(temp1, temp2);
+    addCommands(temp1);
   }
 }

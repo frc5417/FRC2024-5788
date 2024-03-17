@@ -86,7 +86,7 @@ public class DriveBase extends SubsystemBase {
     } 
 
     public Pose2d getCurrentPose() {
-        return m_sdkOdom.getPoseMeters();
+        return m_sdkOdom.getPoseMeters().times(-1.0);
     }
 
     public ChassisSpeeds getRobotRelativeChassisSpeeds() {
@@ -132,7 +132,8 @@ public class DriveBase extends SubsystemBase {
     }
 
     public void setAutoSpeed(ChassisSpeeds chassisSpeeds) {
-        targetModuleStates = m_kinematics.getComputedModuleStates(chassisSpeeds);
+        ChassisSpeeds inverted = new ChassisSpeeds(chassisSpeeds.vxMetersPerSecond * -1.0, chassisSpeeds.vyMetersPerSecond * -1.0, chassisSpeeds.omegaRadiansPerSecond * -1.0);
+        targetModuleStates = m_kinematics.getComputedModuleStates(inverted);
     }
 
     public void resetDrive() {
@@ -187,10 +188,11 @@ public class DriveBase extends SubsystemBase {
         // SmartDashboard.putNumber("Mod3_theta", -Math.abs(Math.toDegrees(odomAngles[2]))-90);
         // SmartDashboard.putNumber("Mod4_theta", -Math.abs(Math.toDegrees(odomAngles[3]))-90);
 
-        Pose2d pose = m_sdkOdom.getPoseMeters();
+        Pose2d pose = getCurrentPose();
         
         SmartDashboard.putNumber("GLOBAL POSE X: ", pose.getX());
         SmartDashboard.putNumber("GLOBAL POSE Y: ", pose.getY());
+        SmartDashboard.putNumber("GLOBAL ROT", pose.getRotation().getDegrees());
 
         SmartDashboard.updateValues();
         

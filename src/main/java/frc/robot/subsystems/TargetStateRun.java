@@ -38,21 +38,21 @@ public class TargetStateRun extends SubsystemBase {
     if (DriverStation.isAutonomousEnabled()) {
       double currentX = m_drivebase.getCurrentPose().getX();
       double currentY = m_drivebase.getCurrentPose().getY();
-      double currentTheta = m_drivebase.getCurrentPose().getRotation().getDegrees();
+      double currentTheta = m_drivebase.getCurrentPose().getRotation().getRotations() * 360.0;
 
       x_pid.setSetpoint(targetPose.getX());
       y_pid.setSetpoint(targetPose.getY());
-      omega_pid.setSetpoint(targetPose.getRotation().getDegrees());
+      omega_pid.setSetpoint(targetPose.getRotation().getRotations()*360.0);
       
       if (Math.abs(currentX-targetPose.getX())>Constants.Auton.poseTolerance || Math.abs(currentY-targetPose.getY())>Constants.Auton.poseTolerance || Math.abs(currentTheta-targetPose.getRotation().getDegrees())>Constants.Auton.thetaTolerance) {
-        m_drivebase.setDriveSpeed(new ChassisSpeeds(MathUtil.clamp(x_pid.calculate(currentX), -Constants.Auton.speedClamp, Constants.Auton.speedClamp), MathUtil.clamp(y_pid.calculate(currentY), -Constants.Auton.speedClamp, Constants.Auton.speedClamp), MathUtil.clamp(omega_pid.calculate(currentTheta), -Constants.Auton.speedClamp, Constants.Auton.speedClamp)));
+        m_drivebase.setAutoSpeed(new ChassisSpeeds(MathUtil.clamp(x_pid.calculate(currentX), -Constants.Auton.speedClamp, Constants.Auton.speedClamp), MathUtil.clamp(y_pid.calculate(currentY), -Constants.Auton.speedClamp, Constants.Auton.speedClamp), MathUtil.clamp(omega_pid.calculate(currentTheta), -Constants.Auton.speedRotClamp, Constants.Auton.speedRotClamp)));
         // SmartDashboard.putNumber("X_SPEED", MathUtil.clamp(x_pid.calculate(currentX, targetPose.getX()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
         // SmartDashboard.putNumber("Y_SPEED", MathUtil.clamp(y_pid.calculate(currentY, targetPose.getY()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
         // SmartDashboard.putNumber("Omega_SPEED", MathUtil.clamp(omega_pid.calculate(currentTheta, targetPose.getRotation().getDegrees()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
         // double[] hehe = {x_pid.getPositionError(), y_pid.getPositionError(), omega_pid.getPositionError()};
         // SmartDashboard.putNumberArray("Error", hehe);
       } else {
-        m_drivebase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(0, 0, 0));
+        m_drivebase.setAutoSpeed(RobotContainer.getSaturatedSpeeds(0, 0, 0));
       }
       // SmartDashboard.updateValues();
     }

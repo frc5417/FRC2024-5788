@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 import java.lang.Math;
@@ -20,7 +21,7 @@ import frc.robot.Constants;
 
 public class PhotonSubsystem extends SubsystemBase {
     /** Creates a new PhotonSubsystem. */
-    public static PhotonCamera photonCamera;
+    PhotonCamera photonCamera = new PhotonCamera(Constants.VisionConstants.cameraName);
     public static PhotonPoseEstimator photonPoseEstimator;
     private int cnt = 0;
     private double[][] cameraInfo = new double[9][4]; // 1 indexed
@@ -32,12 +33,12 @@ public class PhotonSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        // updatePose();
+        updatePose();
     }
 
-    public PhotonCamera getCamera() {
-        return photonCamera;
-    }
+    // public PhotonCamera getCamera() {
+    //     return photonCamera;
+    // }
 
     public double getYaw() {
         var result = photonCamera.getLatestResult();
@@ -70,25 +71,33 @@ public class PhotonSubsystem extends SubsystemBase {
                 cameraInfo[target.getFiducialId()][0] = target.getBestCameraToTarget().getX();
                 cameraInfo[target.getFiducialId()][1] = target.getBestCameraToTarget().getY();
                 cameraInfo[target.getFiducialId()][2] = target.getBestCameraToTarget().getZ();
-                cameraInfo[target.getFiducialId()][3] = target.getYaw();
+                // cameraInfo[target.getFiducialId()][3] = target.getPitch();
                 
-                if((cnt++%10) == 0) {
-                    System.out.print("FID: ");
-                    System.out.print(target.getFiducialId());
-                    System.out.print(", ");
-                    System.out.print("X: ");
-                    System.out.print(cameraInfo[target.getFiducialId()][0]);
-                    System.out.print(", ");
-                    System.out.print("Y: ");
-                    System.out.print(cameraInfo[target.getFiducialId()][1]);
-                    System.out.print(", ");
-                    System.out.print("Z: ");
-                    System.out.print(cameraInfo[target.getFiducialId()][2]);
-                    System.out.print(", ");
-                    System.out.print("Yaw: ");
-                    System.out.print(cameraInfo[target.getFiducialId()][3]);
-                    System.out.println("");
-                }
+                // if((cnt++%10) == 0) {
+                // System.out.print("FID: ");
+                // System.out.print(target.getFiducialId());
+                // System.out.print(", ");
+                // System.out.print("X: ");
+                // System.out.print(cameraInfo[target.getFiducialId()][0]);
+                // System.out.print(", ");
+                // System.out.print("Y: ");
+                // System.out.print(cameraInfo[target.getFiducialId()][1]);
+                // System.out.print(", ");
+                // System.out.print("Z: ");
+                // System.out.print(cameraInfo[target.getFiducialId()][2]);
+                // System.out.print(", ");
+                // System.out.print("Yaw: ");
+                // System.out.print(cameraInfo[target.getFiducialId()][3]);
+                // System.out.println("");
+                SmartDashboard.putNumber("FID", target.getFiducialId());
+                SmartDashboard.putNumber("X", target.getBestCameraToTarget().getX());
+                SmartDashboard.putNumber("Y", target.getBestCameraToTarget().getY());
+                SmartDashboard.putNumber("Z", target.getBestCameraToTarget().getZ());
+                // SmartDashboard.putNumber("Pitch", target.getPitch());
+
+                SmartDashboard.updateValues();
+
+                // }
             }
             
             // System.out.println(result.getTargets().get(0).getrFiducialId());

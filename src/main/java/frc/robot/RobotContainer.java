@@ -53,12 +53,12 @@ public class RobotContainer {
   public static Intake intake = new Intake();
   public static Shooter shooter = new Shooter();
   public static Wrist wrist = new Wrist();
-  public static PhotonSubsystem photonSubsystem = new PhotonSubsystem();
+  public static PhotonSubsystem photonsubsystem = new PhotonSubsystem();
   public static Bezier bezier = new Bezier();
   public static TargetStateRun targetStateRun = new TargetStateRun(driveBase);
 
   public static AutonLoader autonLoader = new AutonLoader(driveBase, intake, targetStateRun); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
-  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, elevator, intake, shooter, wrist); //ALL SUBSYSTEMS
+  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, elevator, intake, shooter, wrist, photonsubsystem); //ALL SUBSYSTEMS
   private final static CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverPort);
   private final static CommandXboxController m_manipulatorController = new CommandXboxController(OperatorConstants.kManipulatorPort);
 
