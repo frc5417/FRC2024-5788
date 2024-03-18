@@ -29,6 +29,7 @@ import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kinematics;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.LightsControl;
 import frc.robot.subsystems.PhotonSubsystem;
 import frc.robot.subsystems.Shooter;
@@ -63,11 +64,14 @@ public class RobotContainer {
   private final static CommandXboxController m_manipulatorController = new CommandXboxController(OperatorConstants.kManipulatorPort);
 
   private static final LightsControl m_lightsControl = new LightsControl();
-  private static final SetLightConfig lightConfigRed = new SetLightConfig(m_lightsControl, 0);
-  private static final SetLightConfig lightConfigBlue = new SetLightConfig(m_lightsControl, 4);
-  private static final SetLightConfig lightConfigColor1 = new SetLightConfig(m_lightsControl, 1);
-  private static final SetLightConfig lightConfigColor2 = new SetLightConfig(m_lightsControl, 2);
 
+  // private static final SetLightConfig lightConfigRed = new SetLightConfig(m_lightsControl, 0);
+  // private static final SetLightConfig lightConfigBlue = new SetLightConfig(m_lightsControl, 4);
+  // private static final SetLightConfig lightConfigColor1 = new SetLightConfig(m_lightsControl, 1);
+  // private static final SetLightConfig lightConfigColor2 = new SetLightConfig(m_lightsControl, 2);
+  
+  private static final Lights m_lights = new Lights();
+  private static final SetLightConfig configLights = new SetLightConfig(m_lights, false);
 
   public static SimpleLinear auto_MoveToPosFWD = new SimpleLinear(driveBase);
   public static SimpleLinear auto_MoveToPosBWD = new SimpleLinear(driveBase);
@@ -111,10 +115,10 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.povUp().onTrue(lightConfigRed);
-    m_driverController.povDown().onTrue(lightConfigBlue);
-    m_driverController.povLeft().onTrue(lightConfigColor1);
-    m_driverController.povRight().onTrue(lightConfigColor2);
+    // m_driverController.povUp().onTrue(lightConfigRed);
+    // m_driverController.povDown().onTrue(lightConfigBlue);
+    // m_driverController.povLeft().onTrue(lightConfigColor1);
+    // m_driverController.povRight().onTrue(lightConfigColor2);
   }
 
   public static void setDriverRumble(double rumbleVal) {
@@ -334,6 +338,14 @@ public class RobotContainer {
 
   public static void setLEDsOn() {
     m_lightsControl.setLightConfig(0);
+  }
+
+  public static void LEDStatus() {
+    if (intake.intakeMotor1.getOutputCurrent() >= 20.00) {
+      Lights.configLights(true);
+    } else {
+      Lights.configLights(false);
+    }
   }
 
   public static double findClockTime(double seconds) {

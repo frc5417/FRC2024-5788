@@ -5,25 +5,35 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.LightsControl;
+// import frc.robot.subsystems.LightsControl;
+import frc.robot.subsystems.Lights;
 
 public class SetLightConfig extends Command {
-  private final LightsControl lightsControl;
-  private int configNum;
+  // private final LightsControl lightsControl;
+  // private int configNum;
+
+  private final Lights newLightsControl;
+  private boolean configStatus;
 
   /** Creates a new SetLightConfig. */
-  public SetLightConfig(LightsControl subsystem, int configNum) {
-    this.lightsControl = subsystem;
-    this.configNum = configNum;
+  public SetLightConfig(Lights subsystem, boolean configureStatus) {
+    this.newLightsControl = subsystem;
+    this.configStatus = configureStatus;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(lightsControl);
+    addRequirements(newLightsControl);
   }
 
-  // Called when the command is initially scheduled.
+//   public SetLightConfig(LightsControl mLightscontrol, int i) {
+//     this.lightsControl = new LightsControl();
+//     //TODO Auto-generated constructor stub
+// }
+
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    lightsControl.setLightConfig(configNum);
+    // lightsControl.setLightConfig(configNum);
+    Lights.configLights(configStatus);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
