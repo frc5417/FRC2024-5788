@@ -53,12 +53,12 @@ public class FollowBezier extends Command {
     double currentX = m_targetstaterun.m_drivebase.getCurrentPose().getX();
     double currentY = m_targetstaterun.m_drivebase.getCurrentPose().getY();
     double currentTheta = m_targetstaterun.m_drivebase.getCurrentPose().getRotation().getDegrees();
-    // if (Math.abs(currentX-finalPose.getX())>Constants.Auton.poseTolerance || Math.abs(currentY-finalPose.getY())>Constants.Auton.poseTolerance || Math.abs(currentTheta-finalPose.getRotation().getDegrees())>Constants.Auton.thetaTolerance) {
-    if (finalPose != bezierFunction.apply(time)) {
+    if (Math.abs(currentX-finalPose.getX())>Constants.Auton.poseTolerance || Math.abs(currentY-finalPose.getY())>Constants.Auton.poseTolerance || Math.abs(currentTheta-finalPose.getRotation().getDegrees())>Constants.Auton.thetaTolerance) {
+    // if (finalPose != bezierFunction.apply(time)) {
       Pose2d computedPose = bezierFunction.apply(time);
       m_targetstaterun.setTarget(computedPose);
       time += 1/steps;
-      Pose2d invertedPose = new Pose2d(computedPose.getY(), Constants.Auton.field_size[0]-computedPose.getX(), computedPose.getRotation());
+      Pose2d invertedPose = new Pose2d(computedPose.getY(), Constants.Auton.field_size[0]-computedPose.getX(), computedPose.getRotation().times(-1));
       field.setRobotPose(invertedPose);
     } else {
       terminate = true;

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.PhotonSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class TeleopDrive extends Command {
@@ -31,6 +32,7 @@ public class TeleopDrive extends Command {
   private final Intake m_intake;
   private final Shooter m_shooter;
   private final Wrist m_wrist;
+  private final PhotonSubsystem m_photonsubsystem;
 
   double prev_omega = 0;
   double prev_xVel = 0;
@@ -42,12 +44,13 @@ public class TeleopDrive extends Command {
 
   double manipulatorPosition = 0;
 
-  public TeleopDrive(DriveBase driveBase, Elevator elevator, Intake intake, Shooter shooter, Wrist wrist) {
+  public TeleopDrive(DriveBase driveBase, Elevator elevator, Intake intake, Shooter shooter, Wrist wrist, PhotonSubsystem photonsubsystem) {
     m_driveBase = driveBase;
     m_elevator = elevator;
     m_intake = intake;
     m_shooter = shooter;
     m_wrist = wrist;
+    m_photonsubsystem = photonsubsystem;
   }
 
   @Override
@@ -98,6 +101,8 @@ public class TeleopDrive extends Command {
     if (RobotContainer.getManipulatorYBool()) {
       wristPos = 0.0015;
     }
+
+    m_photonsubsystem.updatePose();
 
     // if (RobotContainer.getDriveBBool()) {
     //   m_driveBase.setSnapping(true);
