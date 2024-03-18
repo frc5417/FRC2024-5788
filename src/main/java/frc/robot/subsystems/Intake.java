@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-  private final CANSparkMax intakeMotor1;
+  public final CANSparkMax intakeMotor1;
 
   public final RelativeEncoder intakeEncoder;
   

@@ -106,6 +106,8 @@ public class TeleopDrive extends Command {
     //   m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(xVel, yVel, omega));
     // }
     // m_wrist.setWristPos(0.1);
+    
+    RobotContainer.LEDStatus();
   }
 
   // Called once the command ends or is interrupted.
