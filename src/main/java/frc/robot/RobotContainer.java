@@ -21,12 +21,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutonLoader;
-import frc.robot.commands.SetLightConfig;
+// import frc.robot.commands.SetLightConfig;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.commands.AutoControllers.SimpleLinear;
 import frc.robot.subsystems.Bezier;
 import frc.robot.subsystems.DriveBase;
-import frc.robot.subsystems.Elevator;
+// import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kinematics;
 import frc.robot.subsystems.LightsControl;
@@ -49,25 +49,19 @@ public class RobotContainer {
   public static AHRS ahrs = new AHRS(SerialPort.Port.kMXP);
   public static Kinematics kinematics = new Kinematics(ahrs);
   public static DriveBase driveBase = new DriveBase(kinematics, ahrs);
-  public static Elevator elevator = new Elevator();
+  // public static Elevator elevator = new Elevator();
   public static Intake intake = new Intake();
   public static Shooter shooter = new Shooter();
   public static Wrist wrist = new Wrist();
   public static PhotonSubsystem photonsubsystem = new PhotonSubsystem();
   public static Bezier bezier = new Bezier();
   public static TargetStateRun targetStateRun = new TargetStateRun(driveBase);
+  private static final LightsControl lightscontrol = new LightsControl();
 
   public static AutonLoader autonLoader = new AutonLoader(driveBase, intake, targetStateRun); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
-  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, elevator, intake, shooter, wrist, photonsubsystem); //ALL SUBSYSTEMS
+  public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, intake, shooter, wrist, photonsubsystem, lightscontrol); //ALL SUBSYSTEMS
   private final static CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverPort);
   private final static CommandXboxController m_manipulatorController = new CommandXboxController(OperatorConstants.kManipulatorPort);
-
-  private static final LightsControl m_lightsControl = new LightsControl();
-  private static final SetLightConfig lightConfigRed = new SetLightConfig(m_lightsControl, 0);
-  private static final SetLightConfig lightConfigBlue = new SetLightConfig(m_lightsControl, 4);
-  private static final SetLightConfig lightConfigColor1 = new SetLightConfig(m_lightsControl, 1);
-  private static final SetLightConfig lightConfigColor2 = new SetLightConfig(m_lightsControl, 2);
-
 
   public static SimpleLinear auto_MoveToPosFWD = new SimpleLinear(driveBase);
   public static SimpleLinear auto_MoveToPosBWD = new SimpleLinear(driveBase);
@@ -111,10 +105,6 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.povUp().onTrue(lightConfigRed);
-    m_driverController.povDown().onTrue(lightConfigBlue);
-    m_driverController.povLeft().onTrue(lightConfigColor1);
-    m_driverController.povRight().onTrue(lightConfigColor2);
   }
 
   public static void setDriverRumble(double rumbleVal) {
@@ -326,14 +316,6 @@ public class RobotContainer {
 
   public void runTeleopCommand() {
     teleopDrive.schedule();
-  }
-
-  public static void setLEDsOff() {
-    m_lightsControl.setLightConfig(3);
-  }
-
-  public static void setLEDsOn() {
-    m_lightsControl.setLightConfig(0);
   }
 
   public static double findClockTime(double seconds) {

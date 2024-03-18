@@ -88,13 +88,17 @@ public final class Constants {
   }
 
   public static class VisionConstants {
-    public static final Transform3d robotToCam =
-            new Transform3d(
-                   new Translation3d(0.2794, 0.1524, 0.254),
-                    new Rotation3d(
-                            0, 
-                            (66*(Math.PI/180)),
-                            0)); 
+    // public static final Transform3d robotToCam =
+    //         new Transform3d(
+    //                new Translation3d(0.2794, 0.1524, 0.254),
+    //                 new Rotation3d(
+    //                         0, 
+    //                         (66*(Math.PI/180)),
+    //                         0)); 
+
+    // camera is mounted facing backward, x is how far backward, y is how far left or right, z is how far high
+    // CENTER AT THE CENTER OF THE DRIVETRAIN
+    public static final Transform3d robotToCam = new Transform3d(new Translation3d(-0.229, 0.254, 0.514), new Rotation3d(0,(75*(Math.PI/180)),0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
 
   //   // Cam mounted facing forward, half a meter forward of center, half a meter up from center.
     public static final String cameraName = "limelight";

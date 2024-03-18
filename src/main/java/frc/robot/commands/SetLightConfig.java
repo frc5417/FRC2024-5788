@@ -1,42 +1,52 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// // Copyright (c) FIRST and other WPILib contributors.
+// // Open Source Software; you can modify and/or share it under the terms of
+// // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+// package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.LightsControl;
+// import edu.wpi.first.wpilibj2.command.Command;
+// // import frc.robot.subsystems.LightsControl;
+// import frc.robot.subsystems.LightsControl;
 
-public class SetLightConfig extends Command {
-  private final LightsControl lightsControl;
-  private int configNum;
+// public class SetLightConfig extends Command {
+//   // private final LightsControl lightsControl;
+//   // private int configNum;
 
-  /** Creates a new SetLightConfig. */
-  public SetLightConfig(LightsControl subsystem, int configNum) {
-    this.lightsControl = subsystem;
-    this.configNum = configNum;
+//   private final LightsControl newLightsControl;
+//   private boolean configStatus;
 
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(lightsControl);
-  }
+//   /** Creates a new SetLightConfig. */
+//   public SetLightConfig(LightsControl subsystem, boolean configureStatus) {
+//     this.newLightsControl = subsystem;
+//     this.configStatus = configureStatus;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    lightsControl.setLightConfig(configNum);
-  }
+//     // Use addRequirements() here to declare subsystem dependencies.
+//     addRequirements(newLightsControl);
+//   }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+// //   public SetLightConfig(LightsControl mLightscontrol, int i) {
+// //     this.lightsControl = new LightsControl();
+// //     //TODO Auto-generated constructor stub
+// // }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+// // Called when the command is initially scheduled.
+//   @Override
+//   public void initialize() {
+//     // lightsControl.setLightConfig(configNum);
+//     LightsControl.configLights(configStatus);
+//   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-}
+//   // Called every time the scheduler runs while the command is scheduled.
+//   @Override
+//   public void execute() {}
+
+//   // Called once the command ends or is interrupted.
+//   @Override
+//   public void end(boolean interrupted) {}
+
+//   // Returns true when the command should end.
+//   @Override
+//   public boolean isFinished() {
+//     return false;
+//   }
+// }

@@ -6,14 +6,16 @@ package frc.robot.commands;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveBase;
-import frc.robot.subsystems.Elevator;
+// import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.PhotonSubsystem;
+import frc.robot.subsystems.LightsControl;
 
 /** An example command that uses an example subsystem. */
 public class TeleopDrive extends Command {
@@ -28,11 +30,12 @@ public class TeleopDrive extends Command {
   // Called when the command is initially scheduled.
 
   private final DriveBase m_driveBase;
-  private final Elevator m_elevator;
+  // private final Elevator m_elevator;
   private final Intake m_intake;
   private final Shooter m_shooter;
   private final Wrist m_wrist;
   private final PhotonSubsystem m_photonsubsystem;
+  private final LightsControl m_lightscontrol;
 
   double prev_omega = 0;
   double prev_xVel = 0;
@@ -44,18 +47,19 @@ public class TeleopDrive extends Command {
 
   double manipulatorPosition = 0;
 
-  public TeleopDrive(DriveBase driveBase, Elevator elevator, Intake intake, Shooter shooter, Wrist wrist, PhotonSubsystem photonsubsystem) {
+  public TeleopDrive(DriveBase driveBase, Intake intake, Shooter shooter, Wrist wrist, PhotonSubsystem photonsubsystem, LightsControl lightscontrol) {
     m_driveBase = driveBase;
-    m_elevator = elevator;
+    // m_elevator = elevator;
     m_intake = intake;
     m_shooter = shooter;
     m_wrist = wrist;
     m_photonsubsystem = photonsubsystem;
+    m_lightscontrol = lightscontrol;
   }
 
   @Override
   public void initialize() {
-    RobotContainer.setLEDsOn();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -76,7 +80,7 @@ public class TeleopDrive extends Command {
     
     m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(xVel, yVel, omega));
 
-    m_elevator.setElevatorPower(RobotContainer.getElevatorLeftJoystick());
+    // m_elevator.setElevatorPower(RobotContainer.getElevatorLeftJoystick());
 
     m_intake.setIntakePower(RobotContainer.getIntakeRightTrigger() - RobotContainer.getIntakeLeftTrigger());
     
@@ -103,6 +107,14 @@ public class TeleopDrive extends Command {
     }
 
     m_photonsubsystem.updatePose();
+
+    Pose3d test =  m_photonsubsystem.getEstimatedGlobalPose();
+
+    SmartDashboard.putNumber("Pose Test", test.getX());
+    SmartDashboard.updateValues();
+
+    m_lightscontrol.setLed(3);
+
 
     // if (RobotContainer.getDriveBBool()) {
     //   m_driveBase.setSnapping(true);

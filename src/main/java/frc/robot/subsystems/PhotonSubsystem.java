@@ -6,6 +6,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
@@ -16,15 +20,18 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 
 import frc.robot.Constants;
 
 public class PhotonSubsystem extends SubsystemBase {
     /** Creates a new PhotonSubsystem. */
-    PhotonCamera photonCamera = new PhotonCamera(Constants.VisionConstants.cameraName);
+    public static PhotonCamera photonCamera = new PhotonCamera(Constants.VisionConstants.cameraName);
     public static PhotonPoseEstimator photonPoseEstimator;
     private int cnt = 0;
     private double[][] cameraInfo = new double[9][4]; // 1 indexed
+    AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
     public PhotonSubsystem() {
         // photonCameraWrapper();
@@ -93,6 +100,7 @@ public class PhotonSubsystem extends SubsystemBase {
                 SmartDashboard.putNumber("X", target.getBestCameraToTarget().getX());
                 SmartDashboard.putNumber("Y", target.getBestCameraToTarget().getY());
                 SmartDashboard.putNumber("Z", target.getBestCameraToTarget().getZ());
+                SmartDashboard.putNumber("Pitch", target.getPitch());
                 // SmartDashboard.putNumber("Pitch", target.getPitch());
 
                 SmartDashboard.updateValues();
@@ -104,13 +112,29 @@ public class PhotonSubsystem extends SubsystemBase {
         }
     }
 
+    public Pose3d getEstimatedGlobalPose() {
+        Pose3d robotPose = new Pose3d();
+        var result = photonCamera.getLatestResult();
+        
+        if(result.hasTargets()) {
+            var target = result.getBestTarget();
+            Optional<Pose3d> optionalTagPose = aprilTagFieldLayout.getTagPose(target.getFiducialId());
+            // if (optionalTagPose.isPresent()) {}
+            Pose3d tagPose = optionalTagPose.get();
+            Pose3d estimatedPose = PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), tagPose, Constants.VisionConstants.robotToCam);
+            robotPose = estimatedPose;
+        }
+        return robotPose;
+    }
+
   /**
    * @param estimatedRobotPose The current best guess at robot pose
    * @return A pair of the fused camera observations to a single Pose2d on the field, and the time
    *     of the observation. Assumes a planar field and the robot is always firmly on the ground
    */
-  public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
-      photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
-      return photonPoseEstimator.update();
-  }
+//   public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
+//       photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
+//       return photonPoseEstimator.update();
+//   }
+
 }
