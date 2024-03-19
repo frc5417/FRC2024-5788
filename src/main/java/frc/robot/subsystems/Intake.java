@@ -31,6 +31,15 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("Intake", intakeEncoder.getPosition());
   }
 
+  public Boolean noteInIntake() {
+    double intakeThreshold = 20.0;
+    if (intakeMotor1.getOutputCurrent() >= intakeThreshold) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public Command IntakeDaNote(double speed) {
     return run(() -> intakeMotor1.set(speed));
     // return Commands.startEnd(() -> intakeMotor1.set(speed), () -> intakeMotor1.set(0), null);

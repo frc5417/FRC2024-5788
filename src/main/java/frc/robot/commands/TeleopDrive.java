@@ -16,6 +16,8 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.PhotonSubsystem;
 import frc.robot.subsystems.LightsControl;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+
 
 /** An example command that uses an example subsystem. */
 public class TeleopDrive extends Command {
@@ -36,6 +38,7 @@ public class TeleopDrive extends Command {
   private final Wrist m_wrist;
   private final PhotonSubsystem m_photonsubsystem;
   private final LightsControl m_lightscontrol;
+  Field2d field = new Field2d();
 
   double prev_omega = 0;
   double prev_xVel = 0;
@@ -108,12 +111,17 @@ public class TeleopDrive extends Command {
 
     m_photonsubsystem.updatePose();
 
-    Pose3d test =  m_photonsubsystem.getEstimatedGlobalPose();
-
-    SmartDashboard.putNumber("Pose Test", test.getX());
-    SmartDashboard.updateValues();
-
     m_lightscontrol.setLed(3);
+
+    if (m_intake.noteInIntake()){
+      m_lightscontrol.setLed(3);
+    } else if (m_intake.noteInIntake()) {
+      m_lightscontrol.setLed(0);
+    }
+    
+
+    field.setRobotPose(m_photonsubsystem.getEstimatedFieldPose());
+    SmartDashboard.updateValues();
 
 
     // if (RobotContainer.getDriveBBool()) {

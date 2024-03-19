@@ -21,7 +21,7 @@ public class FollowBezier extends Command {
   BezierFunction bezierFunction;
   double time = 0.0;
   double steps;
-  Field2d field = new Field2d();
+  // Field2d field = new Field2d();
   Pose2d finalPose;
   boolean terminate = false;
   /** Creates a new FollowBezier. */
@@ -59,11 +59,11 @@ public class FollowBezier extends Command {
       m_targetstaterun.setTarget(computedPose);
       time += 1/steps;
       Pose2d invertedPose = new Pose2d(computedPose.getY(), Constants.Auton.field_size[0]-computedPose.getX(), computedPose.getRotation().times(-1));
-      field.setRobotPose(invertedPose);
+      // field.setRobotPose(invertedPose);
     } else {
       terminate = true;
     }
-    SmartDashboard.putData(field);
+    // SmartDashboard.putData(field);
     SmartDashboard.putString(getSubsystem(), "Running Bezier");
     SmartDashboard.updateValues();
   }

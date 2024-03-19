@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -124,6 +125,14 @@ public class PhotonSubsystem extends SubsystemBase {
             Pose3d estimatedPose = PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), tagPose, Constants.VisionConstants.robotToCam);
             robotPose = estimatedPose;
         }
+        return robotPose;
+    }
+
+    public Pose2d getEstimatedFieldPose() {
+        Pose2d robotPose = new Pose2d();
+
+        Pose3d estimatedPose = getEstimatedGlobalPose();
+        robotPose = new Pose2d(estimatedPose.getX(), estimatedPose.getY(), new Rotation2d(estimatedPose.getRotation().getAngle()));
         return robotPose;
     }
 
