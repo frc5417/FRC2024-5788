@@ -132,8 +132,17 @@ public class PhotonSubsystem extends SubsystemBase {
         Pose2d robotPose = new Pose2d();
 
         Pose3d estimatedPose = getEstimatedGlobalPose();
-        robotPose = new Pose2d(estimatedPose.getX(), estimatedPose.getY(), new Rotation2d(estimatedPose.getRotation().getAngle()));
+        robotPose = new Pose2d(Constants.Auton.field_size[0] - estimatedPose.getY(), estimatedPose.getX(), new Rotation2d(estimatedPose.getRotation().getAngle()));
         return robotPose;
+    }
+
+    public double getOptimalAngle(double lateralDist, double longitunidalDist) {
+        double trajectoryDist = Math.sqrt((lateralDist*lateralDist) + (longitunidalDist*longitunidalDist));
+        double verticalTrajectory = Constants.FieldConstants.speakerHeightOptimal - Constants.FieldConstants.pivotHeight;
+        double horizontalTrajectory = trajectoryDist - Constants.FieldConstants.speakerExtensionOptimal;
+        
+        double optimalAngle = Math.atan(verticalTrajectory/horizontalTrajectory);
+        return optimalAngle;
     }
 
   /**

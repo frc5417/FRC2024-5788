@@ -114,5 +114,8 @@ public final class Constants {
   public static class FieldConstants {
     public static final double length = Units.feetToMeters(54);
     public static final double width = Units.feetToMeters(27);
+    public static final double speakerHeightOptimal = 2.03;
+    public static final double speakerExtensionOptimal = 0.15;
+    public static final double pivotHeight = 0.0; //FIX THIS BUFFOON
   } 
 }

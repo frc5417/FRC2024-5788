@@ -4,11 +4,13 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveBase;
 // import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Intake;
@@ -111,7 +113,7 @@ public class TeleopDrive extends Command {
 
     m_photonsubsystem.updatePose();
 
-    m_lightscontrol.setLed(3);
+    m_lightscontrol.setLed(4);
 
     if (m_intake.noteInIntake()){
       m_lightscontrol.setLed(3);
@@ -120,8 +122,17 @@ public class TeleopDrive extends Command {
     }
     
 
-    field.setRobotPose(m_photonsubsystem.getEstimatedFieldPose());
+    m_driveBase.resetOdometry(m_photonsubsystem.getEstimatedFieldPose());
+    Pose2d computedPose = m_driveBase.getCurrentPose();
+    
+    Pose2d invertedPose = new Pose2d(computedPose.getY(), Constants.Auton.field_size[0]-computedPose.getX(), computedPose.getRotation().times(-1));
+    field.setRobotPose(invertedPose);
+
+    SmartDashboard.putNumber("X_Field", invertedPose.getX());
+    SmartDashboard.putNumber("Y_Field",invertedPose.getY());
+    SmartDashboard.putNumber("Omega_Fielf", m_photonsubsystem.getEstimatedFieldPose().getRotation().getDegrees());
     SmartDashboard.updateValues();
+
 
 
     // if (RobotContainer.getDriveBBool()) {
