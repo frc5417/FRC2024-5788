@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.CustomNamedCommands;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AutoControllers.FollowBezier;
 import frc.robot.subsystems.PhotonSubsystem;
@@ -40,32 +41,34 @@ public class TwoNoteCenter extends SequentialCommandGroup {
     back.setPath(path_back, 100);
     forw.setPath(path_for, 100);
 
+    RobotContainer.defineNamedCommands();
+
     addCommands(
-      NamedCommands.getCommand("ShootWrist"),
-      NamedCommands.getCommand("ShooterOn"),
+      CustomNamedCommands.getCommand("ShootWrist"),
+      CustomNamedCommands.getCommand("ShooterOn"),
       new WaitCommand(1),
-      NamedCommands.getCommand("IndexOn"),
+      CustomNamedCommands.getCommand("IndexOn"),
       new WaitCommand(1.5),
-      NamedCommands.getCommand("IndexOff"),
-      NamedCommands.getCommand("ShooterOff"),
-      NamedCommands.getCommand("HandoffWrist"),
+      CustomNamedCommands.getCommand("IndexOff"),
+      CustomNamedCommands.getCommand("ShooterOff"),
+      CustomNamedCommands.getCommand("HandoffWrist"),
       deadlineWith(
         back,
-        NamedCommands.getCommand("IntakeOn"),
-        NamedCommands.getCommand("IndexOn")
+        CustomNamedCommands.getCommand("IntakeOn"),
+        CustomNamedCommands.getCommand("IndexOn")
       ),
-      NamedCommands.getCommand("IndexReverse"),
+      CustomNamedCommands.getCommand("IndexReverse"),
       new WaitCommand(0.3),
-      NamedCommands.getCommand("IndexOff"),
+      CustomNamedCommands.getCommand("IndexOff"),
       forw,
-      NamedCommands.getCommand("ShootWrist"),
-      NamedCommands.getCommand("ShooterOn"),
+      CustomNamedCommands.getCommand("ShootWrist"),
+      CustomNamedCommands.getCommand("ShooterOn"),
       new WaitCommand(1.5),
-      NamedCommands.getCommand("IndexOn"),
+      CustomNamedCommands.getCommand("IndexOn"),
       new WaitCommand(5),
-      NamedCommands.getCommand("ShooterOff"),
-      NamedCommands.getCommand("IndexOff"),
-      NamedCommands.getCommand("IntakeOff")
+      CustomNamedCommands.getCommand("ShooterOff"),
+      CustomNamedCommands.getCommand("IndexOff"),
+      CustomNamedCommands.getCommand("IntakeOff")
     );
   }
 }

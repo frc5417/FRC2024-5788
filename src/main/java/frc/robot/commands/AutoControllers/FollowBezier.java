@@ -58,7 +58,7 @@ public class FollowBezier extends Command {
       m_targetstaterun.setTarget(computedPose);
       time += 1/steps;
       Pose2d invertedPose = RobotContainer.Custom_to_WPI(computedPose);
-      System.out.println(invertedPose);
+      System.out.println(computedPose);
     } else {
       terminate = true;
     }

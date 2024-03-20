@@ -76,18 +76,32 @@ public class RobotContainer {
     // Configure the trigger bindings
     auto_MoveToPosFWD.setTarget(new Pose2d(0, -2, new Rotation2d()));
     auto_MoveToPosBWD.setTarget(new Pose2d(0, 2, new Rotation2d()));
-    NamedCommands.registerCommand("3MFWD", auto_MoveToPosFWD.withTimeout(3.0));
-    NamedCommands.registerCommand("3MBWD", auto_MoveToPosBWD.withTimeout(3.0));
-    NamedCommands.registerCommand("IntakeOn", intake.IntakeDaNote(0.75).withTimeout(0.1)); 
-    NamedCommands.registerCommand("IntakeOff", intake.IntakeDaNote(0.0).withTimeout(0.1)); 
-    NamedCommands.registerCommand("HandoffWrist", wrist.AngleDaWrist(0.0523).withTimeout(0.1));
-    NamedCommands.registerCommand("ShootWrist", wrist.AngleDaWrist(0.0238).withTimeout(0.1));
-    NamedCommands.registerCommand("ShooterOn", shooter.ShootDaNote(-0.75).withTimeout(0.1));
-    NamedCommands.registerCommand("ShooterOff", shooter.ShootDaNote(0.0).withTimeout(0.1));
-    NamedCommands.registerCommand("IndexOn", shooter.IndexDaNote(-0.2).withTimeout(0.1));
-    NamedCommands.registerCommand("IndexReverse", shooter.IndexDaNote(0.1).withTimeout(0.1));
-    NamedCommands.registerCommand("IndexOff", shooter.IndexDaNote(0.0).withTimeout(0.1));
+    // CustomNamedCommands.registerCommand("3MFWD", auto_MoveToPosFWD.withTimeout(3.0));
+    // CustomNamedCommands.registerCommand("3MBWD", auto_MoveToPosBWD.withTimeout(3.0));
+    CustomNamedCommands.registerCommand("IntakeOn", intake.IntakeDaNote(0.75).withTimeout(0.1)); 
+    CustomNamedCommands.registerCommand("IntakeOff", intake.IntakeDaNote(0.0).withTimeout(0.1)); 
+    CustomNamedCommands.registerCommand("HandoffWrist", wrist.AngleDaWrist(0.0523).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("ShootWrist", wrist.AngleDaWrist(0.0238).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("ShooterOn", shooter.ShootDaNote(-0.75).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("ShooterOff", shooter.ShootDaNote(0.0).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("IndexOn", shooter.IndexDaNote(-0.2).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("IndexReverse", shooter.IndexDaNote(0.1).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("IndexOff", shooter.IndexDaNote(0.0).withTimeout(0.1));
     configureBindings();
+  }
+
+  public static void defineNamedCommands() {
+    // CustomNamedCommands.registerCommand("3MFWD", auto_MoveToPosFWD.withTimeout(3.0));
+    // CustomNamedCommands.registerCommand("3MBWD", auto_MoveToPosBWD.withTimeout(3.0));
+    CustomNamedCommands.registerCommand("IntakeOn", intake.IntakeDaNote(0.75).withTimeout(0.1)); 
+    CustomNamedCommands.registerCommand("IntakeOff", intake.IntakeDaNote(0.0).withTimeout(0.1)); 
+    CustomNamedCommands.registerCommand("HandoffWrist", wrist.AngleDaWrist(0.0523).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("ShootWrist", wrist.AngleDaWrist(0.0238).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("ShooterOn", shooter.ShootDaNote(-0.75).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("ShooterOff", shooter.ShootDaNote(0.0).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("IndexOn", shooter.IndexDaNote(-0.2).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("IndexReverse", shooter.IndexDaNote(0.1).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("IndexOff", shooter.IndexDaNote(0.0).withTimeout(0.1));
   }
 
   /**
