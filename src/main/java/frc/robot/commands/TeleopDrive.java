@@ -123,7 +123,7 @@ public class TeleopDrive extends Command {
     }
 
     if(RobotContainer.getManipulatorXBool()) { //photon shoot
-      wristPos = m_wrist.getWristDeg(m_photonsubsystem.getOptimalAngle());
+      wristPos = m_wrist.setWristDeg(m_photonsubsystem.getOptimalAngle());
       SmartDashboard.putNumber("Ideal Deg Wrist", m_photonsubsystem.getOptimalAngle());
     }
     // m_lightscontrol.setLed(4);

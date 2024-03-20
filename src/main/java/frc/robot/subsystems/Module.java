@@ -176,7 +176,7 @@ public class Module {
     // angleMotor.setSmartCurrentLimit(Constants.Swerve.angleContinuousCurrentLimit);
     // angleMotor.setInverted(Constants.Swerve.angleInvert);
     angleMotor.setIdleMode(Constants.Swerve.angleNeutralMode);
-    angleMotor.setSmartCurrentLimit(20);
+    angleMotor.setSmartCurrentLimit(25);
     // integratedAngleEncoder.setPositionConversionFactor(Constants.Swerve.angleConversionFactor);
     // angleController.setP(Constants.Swerve.angleKP);
     // angleController.setI(Constants.Swerve.angleKI);

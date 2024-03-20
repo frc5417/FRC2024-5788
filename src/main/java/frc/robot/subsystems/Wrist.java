@@ -52,9 +52,15 @@ public class Wrist extends SubsystemBase {
     // return Commands.startEnd(() -> intakeMotor1.set(speed), () -> intakeMotor1.set(0), null);
   }
 
-  public double getWristDeg(double degrees) {
-    double rotToMove = (Constants.ManipulatorConstants.shooterNominalAngle - degrees) / 360.0;
-    return rotToMove;
+  // public double getWristDeg(double degrees) {
+  //   double rotToMove = (Constants.ManipulatorConstants.shooterNominalAngle - degrees) / 360.0;
+  //   return rotToMove;
+  // }
+
+  public double setWristDeg(double degrees) {
+    double flatRot = 0.16484375;
+    double inputRot = (degrees/360.0);
+    return flatRot - inputRot;
   }
 
   @Override

@@ -140,8 +140,9 @@ public class PhotonSubsystem extends SubsystemBase {
         var result = photonCamera.getLatestResult();
         if(result.hasTargets()) {
             for (PhotonTrackedTarget target : result.getTargets()) {
-                if (target.getFiducialId() == 8) {
-                    return (180.0/Math.PI)*Math.atan(Constants.FieldConstants.speakerHeightOptimal/target.getBestCameraToTarget().getX());
+                if ((target.getFiducialId() == 8) || (target.getFiducialId() == 4)) { //FIX THE 8 APRILTAG TO 7 IN ACTUAL FIELD
+                    double distance = Math.sqrt((target.getBestCameraToTarget().getX()*target.getBestCameraToTarget().getX())+(target.getBestCameraToTarget().getY()*target.getBestCameraToTarget().getY()));
+                    return (180.0/Math.PI)*Math.atan((Constants.FieldConstants.speakerHeightOptimal - Constants.FieldConstants.pivotHeight)/(distance - Constants.FieldConstants.speakerExtensionOptimal));
                 }
             }
         }
