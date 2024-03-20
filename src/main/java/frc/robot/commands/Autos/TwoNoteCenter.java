@@ -4,31 +4,16 @@
 
 package frc.robot.commands.Autos;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.print.attribute.standard.MediaSize.NA;
-import javax.swing.GroupLayout.ParallelGroup;
-
-import com.fasterxml.jackson.core.sym.Name;
-import com.pathplanner.lib.auto.CommandUtil;
-import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Constants;
 import frc.robot.CustomNamedCommands;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AutoControllers.FollowBezier;
 import frc.robot.subsystems.PhotonSubsystem;
 import frc.robot.subsystems.TargetStateRun;
-import frc.robot.subsystems.A_Star.A_Star;
-import frc.robot.subsystems.A_Star.Node;
 
 public class TwoNoteCenter extends SequentialCommandGroup {
   /** Creates a new TwoNoteCenter. */
@@ -49,13 +34,14 @@ public class TwoNoteCenter extends SequentialCommandGroup {
     RobotContainer.defineNamedCommands();
 
     addCommands(
-      CustomNamedCommands.getCommand("ShootWrist"),
-      CustomNamedCommands.getCommand("ShooterOn"),
-      new WaitCommand(1),
-      CustomNamedCommands.getCommand("IndexOn"),
-      new WaitCommand(1.5),
-      CustomNamedCommands.getCommand("IndexOff"),
-      CustomNamedCommands.getCommand("ShooterOff"),
+      // CustomNamedCommands.getCommand("ShootWrist"),
+      // CustomNamedCommands.getCommand("ShooterOn"),
+      // new WaitCommand(1),
+      // CustomNamedCommands.getCommand("IndexOn"),
+      // new WaitCommand(1.5),
+      // CustomNamedCommands.getCommand("IndexOff"),
+      // CustomNamedCommands.getCommand("ShooterOff"),
+      new Fire(1.5),
       CustomNamedCommands.getCommand("HandoffWrist"),
       new ParallelCommandGroup(
         back,
@@ -66,14 +52,15 @@ public class TwoNoteCenter extends SequentialCommandGroup {
       new WaitCommand(0.3),
       CustomNamedCommands.getCommand("IndexOff"),
       forw,
-      CustomNamedCommands.getCommand("ShootWrist"),
-      CustomNamedCommands.getCommand("ShooterOn"),
-      new WaitCommand(1.5),
-      CustomNamedCommands.getCommand("IndexOn"),
-      new WaitCommand(5),
-      CustomNamedCommands.getCommand("ShooterOff"),
-      CustomNamedCommands.getCommand("IndexOff"),
-      CustomNamedCommands.getCommand("IntakeOff"),
+      // CustomNamedCommands.getCommand("ShootWrist"),
+      // CustomNamedCommands.getCommand("ShooterOn"),
+      // new WaitCommand(1.5),
+      // CustomNamedCommands.getCommand("IndexOn"),
+      // new WaitCommand(5),
+      // CustomNamedCommands.getCommand("ShooterOff"),
+      // CustomNamedCommands.getCommand("IndexOff"),
+      new Fire(5),
+      CustomNamedCommands.getCommand("IntakeOff")
     );
   }
 }
