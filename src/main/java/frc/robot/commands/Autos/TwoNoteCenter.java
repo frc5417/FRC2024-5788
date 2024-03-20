@@ -8,12 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.print.attribute.standard.MediaSize.NA;
+import javax.swing.GroupLayout.ParallelGroup;
 
 import com.fasterxml.jackson.core.sym.Name;
+import com.pathplanner.lib.auto.CommandUtil;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -34,7 +39,7 @@ public class TwoNoteCenter extends SequentialCommandGroup {
     targetStateRun.m_drivebase.resetOdometry(startPose);
 
     Pose2d[] path_back = new Pose2d[] {startPose, new Pose2d(startPose.getX(), startPose.getY()+2.0, new Rotation2d())};
-    Pose2d[] path_for = new Pose2d[] {path_back[1], startPose};
+    Pose2d[] path_for = new Pose2d[] {new Pose2d(0, 2, new Rotation2d()), new Pose2d(0, 0, new Rotation2d())};
 
     FollowBezier back = new FollowBezier(targetStateRun);
     FollowBezier forw = new FollowBezier(targetStateRun);
@@ -52,7 +57,7 @@ public class TwoNoteCenter extends SequentialCommandGroup {
       CustomNamedCommands.getCommand("IndexOff"),
       CustomNamedCommands.getCommand("ShooterOff"),
       CustomNamedCommands.getCommand("HandoffWrist"),
-      deadlineWith(
+      new ParallelCommandGroup(
         back,
         CustomNamedCommands.getCommand("IntakeOn"),
         CustomNamedCommands.getCommand("IndexOn")
@@ -68,7 +73,7 @@ public class TwoNoteCenter extends SequentialCommandGroup {
       new WaitCommand(5),
       CustomNamedCommands.getCommand("ShooterOff"),
       CustomNamedCommands.getCommand("IndexOff"),
-      CustomNamedCommands.getCommand("IntakeOff")
+      CustomNamedCommands.getCommand("IntakeOff"),
     );
   }
 }
