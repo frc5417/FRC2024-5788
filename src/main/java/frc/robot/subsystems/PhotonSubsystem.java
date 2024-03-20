@@ -33,8 +33,12 @@ public class PhotonSubsystem extends SubsystemBase {
     private int cnt = 0;
     private double[][] cameraInfo = new double[9][4]; // 1 indexed
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+    
 
     public PhotonSubsystem() {
+        System.out.println(aprilTagFieldLayout.getTagPose(4));
+        System.out.println(aprilTagFieldLayout.getTagPose(4).get().getRotation().toRotation2d());
+        System.exit(0);
         // photonCameraWrapper();
     }
 

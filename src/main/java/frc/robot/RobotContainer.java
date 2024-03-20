@@ -126,11 +126,11 @@ public class RobotContainer {
   }
 
   public static Pose2d WPI_to_Custom(Pose2d pose) {
-    return new Pose2d(Constants.Auton.field_size[0]-pose.getY(), pose.getX(), pose.getRotation().times(-1.0)).times(-1.0);
+    return new Pose2d(Constants.Auton.field_size[0]-pose.getY(), pose.getX(), pose.getRotation()).times(-1.0);
   }
 
   public static Pose2d Custom_to_WPI(Pose2d pose) {
-    return new Pose2d(pose.getY(), Constants.Auton.field_size[0]-pose.getX(), pose.getRotation().times(-1.0));
+    return new Pose2d(pose.getY(), Constants.Auton.field_size[0]-pose.getX(), pose.getRotation());
   }
 
     public static double getLeftJoyX() {

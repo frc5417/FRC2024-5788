@@ -20,11 +20,13 @@ public class TwoNoteCenter extends SequentialCommandGroup {
   public TwoNoteCenter(TargetStateRun targetStateRun, PhotonSubsystem photon, Pose2d startingPose) {
     // A_Star pathSolver = new A_Star(Constants.Auton.robot_size, Constants.Auton.field_size);
     // Pose2d startPose = RobotContainer.WPI_to_Custom(photon.getEstimatedFieldPose());
-    Pose2d startPose = new Pose2d(0, 0, new Rotation2d());
-    targetStateRun.m_drivebase.resetOdometry(startPose);
+    Pose2d startPose = new Pose2d(15.0, 4.5, Rotation2d.fromDegrees(-90));
+    targetStateRun.m_drivebase.resetOdometry(RobotContainer.WPI_to_Custom(startPose));
 
-    Pose2d[] path_back = new Pose2d[] {startPose, new Pose2d(startPose.getX(), startPose.getY()+2.0, new Rotation2d())};
-    Pose2d[] path_for = new Pose2d[] {new Pose2d(0, 2, new Rotation2d()), new Pose2d(0, 0, new Rotation2d())};
+    
+
+    Pose2d[] path_back = new Pose2d[] {startPose, new Pose2d(3.5, 5.5, new Rotation2d())};
+    Pose2d[] path_for = new Pose2d[] {path_back[1], startPose};
 
     FollowBezier back = new FollowBezier(targetStateRun);
     FollowBezier forw = new FollowBezier(targetStateRun);

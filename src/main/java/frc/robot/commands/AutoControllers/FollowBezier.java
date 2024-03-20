@@ -52,12 +52,13 @@ public class FollowBezier extends Command {
     double currentX = m_targetstaterun.m_drivebase.getCurrentPose().getX();
     double currentY = m_targetstaterun.m_drivebase.getCurrentPose().getY();
     double currentTheta = m_targetstaterun.m_drivebase.getCurrentPose().getRotation().getDegrees();
-    if (Math.abs(currentX-finalPose.getX())>Constants.Auton.poseTolerance || Math.abs(currentY-finalPose.getY())>Constants.Auton.poseTolerance || Math.abs(currentTheta-finalPose.getRotation().getDegrees())>Constants.Auton.thetaTolerance) {
-    // if (finalPose != bezierFunction.apply(time)) {
-      Pose2d computedPose = bezierFunction.apply(time);
+    // if (Math.abs(currentX-finalPose.getX())>Constants.Auton.poseTolerance || Math.abs(currentY-finalPose.getY())>Constants.Auton.poseTolerance || Math.abs(currentTheta-finalPose.getRotation().getDegrees())>Constants.Auton.thetaTolerance) {
+    if (finalPose != bezierFunction.apply(time)) {
+      Pose2d computedPose = RobotContainer.WPI_to_Custom(bezierFunction.apply(time));
       m_targetstaterun.setTarget(computedPose);
       time += 1/steps;
       Pose2d invertedPose = RobotContainer.Custom_to_WPI(computedPose);
+      m_targetstaterun.m_drivebase.resetOdometry(computedPose);
       System.out.println(computedPose);
     } else {
       terminate = true;
