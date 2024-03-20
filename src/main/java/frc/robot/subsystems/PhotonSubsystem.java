@@ -36,9 +36,6 @@ public class PhotonSubsystem extends SubsystemBase {
     
 
     public PhotonSubsystem() {
-        System.out.println(aprilTagFieldLayout.getTagPose(4));
-        System.out.println(aprilTagFieldLayout.getTagPose(4).get().getRotation().toRotation2d());
-        System.exit(0);
         // photonCameraWrapper();
     }
 

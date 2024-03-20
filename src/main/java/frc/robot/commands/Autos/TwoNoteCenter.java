@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.CustomNamedCommands;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AutoControllers.FollowBezier;
@@ -17,15 +18,18 @@ import frc.robot.subsystems.TargetStateRun;
 
 public class TwoNoteCenter extends SequentialCommandGroup {
   /** Creates a new TwoNoteCenter. */
-  public TwoNoteCenter(TargetStateRun targetStateRun, PhotonSubsystem photon, Pose2d startingPose) {
+  public TwoNoteCenter(TargetStateRun targetStateRun, PhotonSubsystem photon, Pose2d startingPose, boolean isBlue) {
     // A_Star pathSolver = new A_Star(Constants.Auton.robot_size, Constants.Auton.field_size);
-    // Pose2d startPose = RobotContainer.WPI_to_Custom(photon.getEstimatedFieldPose());
-    Pose2d startPose = new Pose2d(15.0, 4.5, Rotation2d.fromDegrees(-90));
+    // Pose2d startPose = photon.getEstimatedFieldPose();
+    Pose2d startPose = new Pose2d(16.0, 6.5, Rotation2d.fromDegrees(180-45));
     targetStateRun.m_drivebase.resetOdometry(RobotContainer.WPI_to_Custom(startPose));
-
+    Pose2d[] path_back = new Pose2d[]{};
     
-
-    Pose2d[] path_back = new Pose2d[] {startPose, new Pose2d(3.5, 5.5, new Rotation2d())};
+    if (isBlue){
+      path_back = new Pose2d[] {startPose, Constants.FieldConstants.blueCenterNotePose};
+    } else  {
+      path_back = new Pose2d[] {startPose, Constants.FieldConstants.redCenterNotePose};
+    }
     Pose2d[] path_for = new Pose2d[] {path_back[1], startPose};
 
     FollowBezier back = new FollowBezier(targetStateRun);

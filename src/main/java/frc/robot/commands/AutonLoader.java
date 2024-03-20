@@ -7,6 +7,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.commands.Autos.TwoNoteCenter;
@@ -35,7 +36,18 @@ public class AutonLoader {
 
         A_Star.rectangularObstacle(Constants.Auton.BlueObstacle_TopLeft, Constants.Auton.BlueObstacle_BottomRight);
         A_Star.rectangularObstacle(Constants.Auton.RedObstacle_TopLeft, Constants.Auton.RedObstacle_BottomRight);
-        follower = new TwoNoteCenter(targetStateRun, m_photonsubsystem, new Pose2d(2, 2, new Rotation2d()));
+
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            if (alliance.get() == DriverStation.Alliance.Red) {
+                follower = new TwoNoteCenter(targetStateRun, m_photonsubsystem, new Pose2d(2, 2, new Rotation2d()), false);
+            } else {
+                follower = new TwoNoteCenter(targetStateRun, m_photonsubsystem, new Pose2d(2, 2, new Rotation2d()), true);
+            }
+        } else {
+            follower = new TwoNoteCenter(targetStateRun, m_photonsubsystem, new Pose2d(2, 2, new Rotation2d()), false);
+        }
+        
 
         
         

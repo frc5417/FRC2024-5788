@@ -8,8 +8,11 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 /**
@@ -120,5 +123,8 @@ public final class Constants {
     
     public static final double speakerExtensionOptimal = 0.15;
     public static final double pivotHeight = 0.381; //FIX THIS BUFFOON
+
+    public static final Pose2d blueCenterNotePose = new Pose2d(3.5, 5.5, new Rotation2d());
+    public static final Pose2d redCenterNotePose = new Pose2d(14.5, 5.5, Rotation2d.fromDegrees(-180));
   } 
 }
