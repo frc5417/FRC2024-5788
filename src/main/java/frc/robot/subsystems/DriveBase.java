@@ -15,6 +15,7 @@ import frc.robot.RobotContainer;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBase extends SubsystemBase {
@@ -30,6 +31,9 @@ public class DriveBase extends SubsystemBase {
     public static double[] odomAngles = {0, 0, 0, 0};
     public static double[] encoderOffset = {0, 0, 0, 0};
     public static double[] encoderDriveOffset = {0, 0, 0, 0};
+
+    Field2d field = new Field2d();
+
 
     double mod1Prev = 0;
     double mod1Curr = 0;
@@ -175,7 +179,8 @@ public class DriveBase extends SubsystemBase {
             setDriveSpeed(RobotContainer.getSaturatedSpeeds(0, 0, snapToNearestTheta.calculate(m_ahrs.getYaw())));
         }
         
-
+        field.setRobotPose(RobotContainer.Custom_to_WPI(getCurrentPose()));
+        SmartDashboard.putData(field);
 
         // field.setRobotPose(m_sdkOdom.getPoseMeters());
 

@@ -41,7 +41,7 @@ public class PhotonSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        updatePose();
+        // updatePose();
     }
 
     // public PhotonCamera getCamera() {
@@ -72,46 +72,46 @@ public class PhotonSubsystem extends SubsystemBase {
         }
     }
 
-    public void updatePose() {
-        var result = photonCamera.getLatestResult();
-        if(result.hasTargets()) {
-            for (PhotonTrackedTarget target : result.getTargets()) {
-                cameraInfo[target.getFiducialId()][0] = target.getBestCameraToTarget().getX();
-                cameraInfo[target.getFiducialId()][1] = target.getBestCameraToTarget().getY();
-                cameraInfo[target.getFiducialId()][2] = target.getBestCameraToTarget().getZ();
-                // cameraInfo[target.getFiducialId()][3] = target.getPitch();
+    // public void updatePose() {
+    //     var result = photonCamera.getLatestResult();
+    //     if(result.hasTargets()) {
+    //         for (PhotonTrackedTarget target : result.getTargets()) {
+    //             cameraInfo[target.getFiducialId()][0] = target.getBestCameraToTarget().getX();
+    //             cameraInfo[target.getFiducialId()][1] = target.getBestCameraToTarget().getY();
+    //             cameraInfo[target.getFiducialId()][2] = target.getBestCameraToTarget().getZ();
+    //             // cameraInfo[target.getFiducialId()][3] = target.getPitch();
                 
-                // if((cnt++%10) == 0) {
-                // System.out.print("FID: ");
-                // System.out.print(target.getFiducialId());
-                // System.out.print(", ");
-                // System.out.print("X: ");
-                // System.out.print(cameraInfo[target.getFiducialId()][0]);
-                // System.out.print(", ");
-                // System.out.print("Y: ");
-                // System.out.print(cameraInfo[target.getFiducialId()][1]);
-                // System.out.print(", ");
-                // System.out.print("Z: ");
-                // System.out.print(cameraInfo[target.getFiducialId()][2]);
-                // System.out.print(", ");
-                // System.out.print("Yaw: ");
-                // System.out.print(cameraInfo[target.getFiducialId()][3]);
-                // System.out.println("");
-                SmartDashboard.putNumber("FID", target.getFiducialId());
-                SmartDashboard.putNumber("X", target.getBestCameraToTarget().getX());
-                SmartDashboard.putNumber("Y", target.getBestCameraToTarget().getY());
-                SmartDashboard.putNumber("Z", target.getBestCameraToTarget().getZ());
-                SmartDashboard.putNumber("Pitch", target.getPitch());
-                // SmartDashboard.putNumber("Pitch", target.getPitch());
+    //             // if((cnt++%10) == 0) {
+    //             // System.out.print("FID: ");
+    //             // System.out.print(target.getFiducialId());
+    //             // System.out.print(", ");
+    //             // System.out.print("X: ");
+    //             // System.out.print(cameraInfo[target.getFiducialId()][0]);
+    //             // System.out.print(", ");
+    //             // System.out.print("Y: ");
+    //             // System.out.print(cameraInfo[target.getFiducialId()][1]);
+    //             // System.out.print(", ");
+    //             // System.out.print("Z: ");
+    //             // System.out.print(cameraInfo[target.getFiducialId()][2]);
+    //             // System.out.print(", ");
+    //             // System.out.print("Yaw: ");
+    //             // System.out.print(cameraInfo[target.getFiducialId()][3]);
+    //             // System.out.println("");
+    //             SmartDashboard.putNumber("FID", target.getFiducialId());
+    //             SmartDashboard.putNumber("X", target.getBestCameraToTarget().getX());
+    //             SmartDashboard.putNumber("Y", target.getBestCameraToTarget().getY());
+    //             SmartDashboard.putNumber("Z", target.getBestCameraToTarget().getZ());
+    //             SmartDashboard.putNumber("Pitch", target.getPitch());
+    //             // SmartDashboard.putNumber("Pitch", target.getPitch());
 
-                SmartDashboard.updateValues();
+    //             SmartDashboard.updateValues();
 
-                // }
-            }
+    //             // }
+    //         }
             
-            // System.out.println(result.getTargets().get(0).getrFiducialId());
-        }
-    }
+    //         // System.out.println(result.getTargets().get(0).getrFiducialId());
+    //     }
+    // }
 
     public Pose3d getEstimatedGlobalPose() {
         Pose3d robotPose = new Pose3d();
@@ -132,17 +132,20 @@ public class PhotonSubsystem extends SubsystemBase {
         Pose2d robotPose = new Pose2d();
 
         Pose3d estimatedPose = getEstimatedGlobalPose();
-        robotPose = new Pose2d(Constants.Auton.field_size[0] - estimatedPose.getY(), estimatedPose.getX(), new Rotation2d(estimatedPose.getRotation().getAngle()));
+        robotPose = new Pose2d(estimatedPose.getX(), estimatedPose.getY(), new Rotation2d(estimatedPose.getRotation().getAngle()));
         return robotPose;
     }
 
-    public double getOptimalAngle(double lateralDist, double longitunidalDist) {
-        double trajectoryDist = Math.sqrt((lateralDist*lateralDist) + (longitunidalDist*longitunidalDist));
-        double verticalTrajectory = Constants.FieldConstants.speakerHeightOptimal - Constants.FieldConstants.pivotHeight;
-        double horizontalTrajectory = trajectoryDist - Constants.FieldConstants.speakerExtensionOptimal;
-        
-        double optimalAngle = Math.atan(verticalTrajectory/horizontalTrajectory);
-        return optimalAngle;
+    public double getOptimalAngle() {
+        var result = photonCamera.getLatestResult();
+        if(result.hasTargets()) {
+            for (PhotonTrackedTarget target : result.getTargets()) {
+                if (target.getFiducialId() == 8) {
+                    return (180.0/Math.PI)*Math.atan(Constants.FieldConstants.speakerHeightOptimal/target.getBestCameraToTarget().getX());
+                }
+            }
+        }
+        return Constants.ManipulatorConstants.shooterNominalAngle;
     }
 
   /**

@@ -51,6 +51,8 @@ public final class Constants {
     public static final double kI = 0;
     public static final double kD = 0;
     public static final double wristTolerance = 0.02;
+    public static final double shooterNominalAngle = 67;
+    public static final int intakeCurrentLimit = 50;
   }
   
   public static class Swerve {
@@ -114,7 +116,7 @@ public final class Constants {
   public static class FieldConstants {
     public static final double length = Units.feetToMeters(54);
     public static final double width = Units.feetToMeters(27);
-    public static final double speakerHeightOptimal = 2.03;
+    public static final double speakerHeightOptimal = 2.03 + 0.63;
     public static final double speakerExtensionOptimal = 0.15;
     public static final double pivotHeight = 0.0; //FIX THIS BUFFOON
   } 

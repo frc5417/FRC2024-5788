@@ -32,8 +32,7 @@ public class Intake extends SubsystemBase {
   }
 
   public Boolean noteInIntake() {
-    double intakeThreshold = 20.0;
-    if (intakeMotor1.getOutputCurrent() >= intakeThreshold) {
+    if (intakeMotor1.getOutputCurrent() >= Constants.ManipulatorConstants.intakeCurrentLimit) {
       return true;
     } else {
       return false;

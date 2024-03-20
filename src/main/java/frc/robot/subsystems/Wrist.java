@@ -52,6 +52,11 @@ public class Wrist extends SubsystemBase {
     // return Commands.startEnd(() -> intakeMotor1.set(speed), () -> intakeMotor1.set(0), null);
   }
 
+  public double getWristDeg(double degrees) {
+    double rotToMove = (Constants.ManipulatorConstants.shooterNominalAngle - degrees) / 360.0;
+    return rotToMove;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

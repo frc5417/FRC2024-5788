@@ -7,35 +7,65 @@ package frc.robot.commands.Autos;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.attribute.standard.MediaSize.NA;
+
+import com.fasterxml.jackson.core.sym.Name;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.commands.AutoControllers.FollowBezier;
+import frc.robot.subsystems.PhotonSubsystem;
 import frc.robot.subsystems.TargetStateRun;
 import frc.robot.subsystems.A_Star.A_Star;
 import frc.robot.subsystems.A_Star.Node;
 
 public class TwoNoteCenter extends SequentialCommandGroup {
   /** Creates a new TwoNoteCenter. */
-  public TwoNoteCenter(TargetStateRun targetStateRun, Pose2d startingPose) {
+  public TwoNoteCenter(TargetStateRun targetStateRun, PhotonSubsystem photon, Pose2d startingPose) {
     // A_Star pathSolver = new A_Star(Constants.Auton.robot_size, Constants.Auton.field_size);
-    
-    Pose2d[] path1 = A_Star.nodeListToPoses(A_Star.compute(new Node(0.66, 0.66, false), new Node(4, 9, false)));
-    Pose2d[] path2 = A_Star.nodeListToPoses(A_Star.compute(new Node(4, 9, false), new Node(7, 14, false)));
-    A_Star.setEndRotation(path1, Rotation2d.fromDegrees(90));
-    path2[0] = new Pose2d(path2[0].getX(), path2[0].getY(), Rotation2d.fromDegrees(90));
+    // Pose2d startPose = RobotContainer.WPI_to_Custom(photon.getEstimatedFieldPose());
+    Pose2d startPose = new Pose2d(0, 0, new Rotation2d());
+    targetStateRun.m_drivebase.resetOdometry(startPose);
 
-    FollowBezier temp1 = new FollowBezier(targetStateRun);
-    FollowBezier temp2 = new FollowBezier(targetStateRun);
-    // System.out.println(hehehehe);
-    temp1.setPath(new Pose2d[] {new Pose2d(0, 0, new Rotation2d(0.0)), new Pose2d(2.0, 2.0, Rotation2d.fromDegrees(90)), new Pose2d(0.0, 4.0, new Rotation2d())}, 100);
-    targetStateRun.m_drivebase.resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
-    // temp2.setPath(path2, 100);
+    Pose2d[] path_back = new Pose2d[] {startPose, new Pose2d(startPose.getX(), startPose.getY()+2.0, new Rotation2d())};
+    Pose2d[] path_for = new Pose2d[] {path_back[1], startPose};
 
-    // for (Pose2d p : hehehehe) {
-    //   System.out.printf("[%s, %s], ", p.getX(), p.getY());
-    // }
-    addCommands(temp1);
+    FollowBezier back = new FollowBezier(targetStateRun);
+    FollowBezier forw = new FollowBezier(targetStateRun);
+    back.setPath(path_back, 100);
+    forw.setPath(path_for, 100);
+
+    addCommands(
+      NamedCommands.getCommand("ShootWrist"),
+      NamedCommands.getCommand("ShooterOn"),
+      new WaitCommand(1),
+      NamedCommands.getCommand("IndexOn"),
+      new WaitCommand(1.5),
+      NamedCommands.getCommand("IndexOff"),
+      NamedCommands.getCommand("ShooterOff"),
+      NamedCommands.getCommand("HandoffWrist"),
+      deadlineWith(
+        back,
+        NamedCommands.getCommand("IntakeOn"),
+        NamedCommands.getCommand("IndexOn")
+      ),
+      NamedCommands.getCommand("IndexReverse"),
+      new WaitCommand(0.3),
+      NamedCommands.getCommand("IndexOff"),
+      forw,
+      NamedCommands.getCommand("ShootWrist"),
+      NamedCommands.getCommand("ShooterOn"),
+      new WaitCommand(1.5),
+      NamedCommands.getCommand("IndexOn"),
+      new WaitCommand(5),
+      NamedCommands.getCommand("ShooterOff"),
+      NamedCommands.getCommand("IndexOff"),
+      NamedCommands.getCommand("IntakeOff")
+    );
   }
 }

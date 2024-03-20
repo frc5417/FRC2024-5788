@@ -9,16 +9,23 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveBase;
 // import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import java.util.Timer;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.units.Time;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.PhotonSubsystem;
 import frc.robot.subsystems.LightsControl;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 
 
 /** An example command that uses an example subsystem. */
@@ -40,13 +47,17 @@ public class TeleopDrive extends Command {
   private final Wrist m_wrist;
   private final PhotonSubsystem m_photonsubsystem;
   private final LightsControl m_lightscontrol;
-  Field2d field = new Field2d();
+  AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+
+  
 
   double prev_omega = 0;
   double prev_xVel = 0;
   double prev_yVel = 0;
  
   int counter = 0;
+  int timer = 0;
+  int lastTime = 0;
 
   double wristPos = 0.0;
 
@@ -99,37 +110,46 @@ public class TeleopDrive extends Command {
 
     m_wrist.setWristPos(wristPos);
 
-    if (RobotContainer.getManipulatorBBool()) {
+    if (RobotContainer.getManipulatorBBool()) { //shoot from subwoofer
       wristPos = 0.0238;
     }
 
-    if (RobotContainer.getManipulatorABool()) {
+    if (RobotContainer.getManipulatorABool()) { //handoff
       wristPos = 0.0523;
     }
 
-    if (RobotContainer.getManipulatorYBool()) {
+    if (RobotContainer.getManipulatorYBool()) { //experimental amp
       wristPos = 0.0015;
     }
 
-    m_photonsubsystem.updatePose();
+    if(RobotContainer.getManipulatorXBool()) { //photon shoot
+      wristPos = m_wrist.getWristDeg(m_photonsubsystem.getOptimalAngle());
+      SmartDashboard.putNumber("Ideal Deg Wrist", m_photonsubsystem.getOptimalAngle());
+    }
+    // m_lightscontrol.setLed(4);
 
-    m_lightscontrol.setLed(4);
+    timer += 1;
 
-    if (m_intake.noteInIntake()){
+    if (m_intake.noteInIntake() == true){
+      lastTime = timer;
+
       m_lightscontrol.setLed(3);
-    } else if (m_intake.noteInIntake()) {
+    }
+
+    if (timer == (lastTime+(3/0.02))) {
       m_lightscontrol.setLed(0);
     }
     
 
-    m_driveBase.resetOdometry(m_photonsubsystem.getEstimatedFieldPose());
+    m_driveBase.resetOdometry(RobotContainer.WPI_to_Custom(m_photonsubsystem.getEstimatedFieldPose()));
     Pose2d computedPose = m_driveBase.getCurrentPose();
     
-    Pose2d invertedPose = new Pose2d(computedPose.getY(), Constants.Auton.field_size[0]-computedPose.getX(), computedPose.getRotation().times(-1));
-    field.setRobotPose(invertedPose);
+    Pose2d invertedPose = RobotContainer.Custom_to_WPI(computedPose);
 
-    SmartDashboard.putNumber("X_Field", invertedPose.getX());
-    SmartDashboard.putNumber("Y_Field",invertedPose.getY());
+    SmartDashboard.putNumber("X_Field", computedPose.getX());
+    SmartDashboard.putNumber("Y_Field",computedPose.getY());
+    SmartDashboard.putNumber("X_Field2", m_photonsubsystem.getEstimatedFieldPose().getX());
+    SmartDashboard.putNumber("Y_Field2",m_photonsubsystem.getEstimatedFieldPose().getY());
     SmartDashboard.putNumber("Omega_Fielf", m_photonsubsystem.getEstimatedFieldPose().getRotation().getDegrees());
     SmartDashboard.updateValues();
 
