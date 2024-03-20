@@ -73,7 +73,7 @@ public class TwoNoteCenter extends SequentialCommandGroup {
       new WaitCommand(5),
       CustomNamedCommands.getCommand("ShooterOff"),
       CustomNamedCommands.getCommand("IndexOff"),
-      CustomNamedCommands.getCommand("IntakeOff"),
+      CustomNamedCommands.getCommand("IntakeOff")
     );
   }
 }
