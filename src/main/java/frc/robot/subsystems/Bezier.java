@@ -4,6 +4,7 @@
 // Bindings of the PathFlow Project by Krishna Shah (@DragonflyRobotics) https://github.com/DragonflyRobotics/PathFlow
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -43,6 +44,7 @@ public class Bezier extends SubsystemBase {
                   double theta = nCr(n, i) * Math.pow(1-t, n-i) * Math.pow(t, i) * points[i].getRotation().getDegrees();
                   pose = new Pose2d(pose.getX()+X, pose.getY()+Y, Rotation2d.fromDegrees(pose.getRotation().getDegrees()+theta));
               }
+              pose = new Pose2d(pose.getTranslation(), Rotation2d.fromRadians(MathUtil.angleModulus(pose.getRotation().getRadians())));
               return pose;
           }
       };

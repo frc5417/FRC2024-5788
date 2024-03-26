@@ -90,7 +90,8 @@ public class DriveBase extends SubsystemBase {
     } 
 
     public Pose2d getCurrentPose() {
-        return m_sdkOdom.getPoseMeters().times(-1.0);
+        Pose2d pose = new Pose2d(-m_sdkOdom.getPoseMeters().getX(), -m_sdkOdom.getPoseMeters().getY(), m_sdkOdom.getPoseMeters().getRotation());
+        return pose;
     }
 
     public ChassisSpeeds getRobotRelativeChassisSpeeds() {

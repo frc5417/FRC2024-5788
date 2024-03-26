@@ -188,7 +188,7 @@ public class Module {
 
   private void configDriveMotor() {
     driveMotor.restoreFactoryDefaults();
-    driveMotor.setSmartCurrentLimit(40);
+    driveMotor.setSmartCurrentLimit(45);
     // CANSparkMaxUtil.setCANSparkMaxBusUsage(driveMotor, Usage.kVelocityOnly);
     // driveMotor.setSmartCurrentLimit(Constants.Swerve.driveContinuousCurrentLimit);
     // driveMotor.setInverted(Constants.Swerve.driveInvert);

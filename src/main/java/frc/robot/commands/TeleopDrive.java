@@ -82,9 +82,9 @@ public class TeleopDrive extends Command {
   @Override
   public void execute() {
     
-    double xVel = (RobotContainer.getDriverLeftJoyX() * 0.45) + (prev_xVel * 0.55); 
-    double yVel = (RobotContainer.getDriverLeftJoyY() * 0.45) + (prev_yVel * 0.55); 
-    double omega = (RobotContainer.getDriverRightJoyX() * 0.45) + (prev_omega * 0.55);
+    double xVel = (RobotContainer.getDriverLeftJoyX() * 0.90) + (prev_xVel * 0.10); 
+    double yVel = (RobotContainer.getDriverLeftJoyY() * 0.90) + (prev_yVel * 0.10); 
+    double omega = (RobotContainer.getDriverRightJoyX() * 0.90) + (prev_omega * 0.10);
 
     prev_xVel = xVel;
     prev_yVel = yVel;
@@ -133,24 +133,24 @@ public class TeleopDrive extends Command {
     if (m_intake.noteInIntake() == true){
       lastTime = timer;
 
-      m_lightscontrol.setLed(3);
+      // m_lightscontrol.setLed(2);
     }
 
     if (timer == (lastTime+(3/0.02))) {
-      m_lightscontrol.setLed(0);
+      // m_lightscontrol.setLed(0);
     }
     
 
-    m_driveBase.resetOdometry(RobotContainer.WPI_to_Custom(m_photonsubsystem.getEstimatedFieldPose()));
-    Pose2d computedPose = m_driveBase.getCurrentPose();
+    // m_driveBase.resetOdometry(RobotContainer.WPI_to_Custom(m_photonsubsystem.getEstimatedFieldPose()));
+    // Pose2d computedPose = m_driveBase.getCurrentPose();
     
-    Pose2d invertedPose = RobotContainer.Custom_to_WPI(computedPose);
+    // Pose2d invertedPose = RobotContainer.Custom_to_WPI(computedPose);
 
-    SmartDashboard.putNumber("X_Field", computedPose.getX());
-    SmartDashboard.putNumber("Y_Field",computedPose.getY());
-    SmartDashboard.putNumber("X_Field2", m_photonsubsystem.getEstimatedFieldPose().getX());
-    SmartDashboard.putNumber("Y_Field2",m_photonsubsystem.getEstimatedFieldPose().getY());
-    SmartDashboard.putNumber("Omega_Fielf", m_photonsubsystem.getEstimatedFieldPose().getRotation().getDegrees());
+    // SmartDashboard.putNumber("X_Field", computedPose.getX());
+    // SmartDashboard.putNumber("Y_Field",computedPose.getY());
+    // SmartDashboard.putNumber("X_Field2", m_photonsubsystem.getEstimatedFieldPose().getX());
+    // SmartDashboard.putNumber("Y_Field2",m_photonsubsystem.getEstimatedFieldPose().getY());
+    // SmartDashboard.putNumber("Omega_Fielf", m_photonsubsystem.getEstimatedFieldPose().getRotation().getDegrees());
     SmartDashboard.updateValues();
 
 

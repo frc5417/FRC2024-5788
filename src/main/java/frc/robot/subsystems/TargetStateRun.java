@@ -7,8 +7,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -49,12 +51,12 @@ public class TargetStateRun extends SubsystemBase {
         // SmartDashboard.putNumber("X_SPEED", MathUtil.clamp(x_pid.calculate(currentX, targetPose.getX()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
         // SmartDashboard.putNumber("Y_SPEED", MathUtil.clamp(y_pid.calculate(currentY, targetPose.getY()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
         // SmartDashboard.putNumber("Omega_SPEED", MathUtil.clamp(omega_pid.calculate(currentTheta, targetPose.getRotation().getDegrees()), -Constants.Auton.speedClamp, Constants.Auton.speedClamp));
-        // double[] hehe = {x_pid.getPositionError(), y_pid.getPositionError(), omega_pid.getPositionError()};
-        // SmartDashboard.putNumberArray("Error", hehe);
+        double[] hehe = {x_pid.getPositionError(), y_pid.getPositionError(), omega_pid.getPositionError()};
+        SmartDashboard.putNumberArray("Error", hehe);
       } else {
         m_drivebase.setAutoSpeed(RobotContainer.getSaturatedSpeeds(0, 0, 0));
       }
-      // SmartDashboard.updateValues();
+      SmartDashboard.updateValues();
     }
   }
 }

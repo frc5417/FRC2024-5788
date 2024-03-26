@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Bezier;
 import frc.robot.subsystems.TargetStateRun;
@@ -40,7 +41,7 @@ public class FollowBezier extends Command {
     steps = stepsToComplete;
     bezierFunction = Bezier.computeBezier(points);
     for (int i=0; i < 10; i++) {
-      System.out.printf("%s, %s\n", i/10.0, bezierFunction.apply(i/10.0));
+      System.out.printf("%s, %s\n", i/10.0, RobotContainer.WPI_to_Custom(bezierFunction.apply(i/10.0)));
     }
     time = 0.0;
     finalPose = points[points.length-1];
@@ -54,12 +55,15 @@ public class FollowBezier extends Command {
     double currentTheta = m_targetstaterun.m_drivebase.getCurrentPose().getRotation().getDegrees();
     if (Math.abs(currentX-finalPose.getX())>Constants.Auton.poseTolerance || Math.abs(currentY-finalPose.getY())>Constants.Auton.poseTolerance || Math.abs(currentTheta-finalPose.getRotation().getDegrees())>Constants.Auton.thetaTolerance) {
     // if (finalPose != bezierFunction.apply(time)) {
-      Pose2d computedPose = RobotContainer.WPI_to_Custom(bezierFunction.apply(time));
-      m_targetstaterun.setTarget(computedPose);
-      // m_targetstaterun.m_drivebase.resetOdometry(computedPose);
+      // Pose2d computedPose = RobotContainer.WPI_to_Custom(bezierFunction.apply(time));
+      m_targetstaterun.setTarget(bezierFunction.apply(time));
+      // System.out.println(computedPose);
+      // Pose2d stupid = new Pose2d(computedPose.getX()*-1, computedPose.getY(), computedPose.getRotation());
+      // m_targetstaterun.m_drivebase.resetOdometry(computedPose.times(-1));
       time += 1/steps;
     } else {
       terminate = true;
+      m_targetstaterun.m_drivebase.setAutoSpeed(new ChassisSpeeds());
     }
     // SmartDashboard.putData(field);
     SmartDashboard.putString(getSubsystem(), "Running Bezier");

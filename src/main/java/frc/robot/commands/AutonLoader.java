@@ -10,7 +10,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.commands.Autos.TwoNoteCenter;
+import frc.robot.commands.Autos.BlueFarSide;
+import frc.robot.commands.Autos.BlueNotStupid;
+import frc.robot.commands.Autos.Fire;
+import frc.robot.commands.Autos.RedFarSide;
+import frc.robot.commands.Autos.RedNotStupid;
 import frc.robot.subsystems.DriveBase;
 
 import frc.robot.subsystems.Intake;
@@ -24,7 +28,10 @@ public class AutonLoader {
     private final TargetStateRun m_targetStateRun;
     private final PhotonSubsystem m_photonsubsystem;
     private final HolonomicPathFollowerConfig holonomic_config = new HolonomicPathFollowerConfig(new PIDConstants(2.0, 0.5, 0.0), new PIDConstants(0.05, 0.0, 0.0), Constants.Swerve.maxModuleSpeed, Constants.DriveBaseConstants.driveBaseRadius, new ReplanningConfig());
-    private TwoNoteCenter follower;
+    // private BlueFarSide blueFarSide;
+    // private RedFarSide redFarSide;
+    // private RedNotStupid redNotStupid;
+    private BlueNotStupid blueNotStupid;
 
     
 
@@ -37,16 +44,10 @@ public class AutonLoader {
         A_Star.rectangularObstacle(Constants.Auton.BlueObstacle_TopLeft, Constants.Auton.BlueObstacle_BottomRight);
         A_Star.rectangularObstacle(Constants.Auton.RedObstacle_TopLeft, Constants.Auton.RedObstacle_BottomRight);
 
-        var alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-            if (alliance.get() == DriverStation.Alliance.Red) {
-                follower = new TwoNoteCenter(targetStateRun, m_photonsubsystem, new Pose2d(2, 2, new Rotation2d()), false);
-            } else {
-                follower = new TwoNoteCenter(targetStateRun, m_photonsubsystem, new Pose2d(2, 2, new Rotation2d()), true);
-            }
-        } else {
-            follower = new TwoNoteCenter(targetStateRun, m_photonsubsystem, new Pose2d(2, 2, new Rotation2d()), false);
-        }
+        // blueFarSide = new BlueFarSide(targetStateRun, m_photonsubsystem);
+        // redFarSide = new RedFarSide(targetStateRun, photon);
+        // redNotStupid = new RedNotStupid(targetStateRun, photon);
+        blueNotStupid = new BlueNotStupid(targetStateRun, photon);
         
 
         
@@ -58,7 +59,7 @@ public class AutonLoader {
 
     public Command getAuton() {
         // Pose2d.setPath(path, 200);
-        return follower;
+        return blueNotStupid;
         // return new PathPlannerAuto("2Note_He");
     }    
 }

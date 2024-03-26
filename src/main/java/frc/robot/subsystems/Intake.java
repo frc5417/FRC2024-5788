@@ -3,12 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -19,11 +23,15 @@ public class Intake extends SubsystemBase {
   private final CANSparkMax intakeMotor1;
 
   public final RelativeEncoder intakeEncoder;
+
+  private List<Double> amps = new ArrayList<Double>();
+  private double amps_avg;
   
   public Intake() {
     intakeMotor1 = new CANSparkMax(Constants.ManipulatorConstants.intake, MotorType.kBrushless);
     intakeEncoder = intakeMotor1.getEncoder();
     intakeMotor1.setIdleMode(IdleMode.kCoast);
+    amps.add(0.0);
   }
 
   public void setIntakePower(double power) {
@@ -32,7 +40,7 @@ public class Intake extends SubsystemBase {
   }
 
   public Boolean noteInIntake() {
-    if (intakeMotor1.getOutputCurrent() >= Constants.ManipulatorConstants.intakeCurrentLimit) {
+    if (amps_avg >= Constants.ManipulatorConstants.intakeCurrentLimit) {
       return true;
     } else {
       return false;
@@ -47,5 +55,19 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
+    if (amps.size() < 60) {
+      amps.add(intakeMotor1.getOutputCurrent());
+    } else {
+      amps.remove(0);
+      amps.add(intakeMotor1.getOutputCurrent());
+    }
+    amps_avg = 0;
+    for (double a : amps) {
+      amps_avg += a;
+    }
+    amps_avg /= 60;
+    SmartDashboard.putNumber("POWER", amps_avg);
+    SmartDashboard.updateValues();
   }
 }

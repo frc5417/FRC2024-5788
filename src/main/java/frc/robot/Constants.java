@@ -55,11 +55,11 @@ public final class Constants {
     public static final double kD = 0;
     public static final double wristTolerance = 0.02;
     public static final double shooterNominalAngle = 67;
-    public static final int intakeCurrentLimit = 50;
+    public static final double intakeCurrentLimit = 7;
   }
   
   public static class Swerve {
-    public static final Double angularPercentage = -0.5;
+    public static final Double angularPercentage = -0.7;
     public static final Double XPercentage = -1.0;
     public static final Double YPercentage = -1.0;
 
@@ -76,9 +76,9 @@ public final class Constants {
   }
 
   public static class Auton {
-    public static final PIDController X_Pos = new PIDController(1.5, 0, 0);
-    public static final PIDController Y_Pos = new PIDController(1.5, 0, 0);
-    public static final PIDController Theta_Pos = new PIDController(0.5, 0.15, 0.035);
+    public static final PIDController X_Pos = new PIDController(1.3, 0, 0);
+    public static final PIDController Y_Pos = new PIDController(1.3, 0, 0);
+    public static final PIDController Theta_Pos = new PIDController(0.0, 0.0, 0.0); //0.5 p 0.15 0.035
     public static final double speedClamp = 0.4;
     public static final double speedRotClamp = 0.3;
     public static final double poseTolerance = 0.1;
@@ -119,7 +119,7 @@ public final class Constants {
   public static class FieldConstants {
     public static final double length = Units.feetToMeters(54);
     public static final double width = Units.feetToMeters(27);
-    public static final double speakerHeightOptimal = 2.0+0.5;
+    public static final double speakerHeightOptimal = 2.0-0.2;
     
     public static final double speakerExtensionOptimal = 0.15;
     public static final double pivotHeight = 0.381; //FIX THIS BUFFOON
