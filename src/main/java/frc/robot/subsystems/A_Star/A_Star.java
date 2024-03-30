@@ -141,18 +141,18 @@ public class A_Star
         throw new RuntimeException("No path found");
     }
 
-    public static Pose2d[] nodeListToPoses(List<Node> path) {
+    public static Pose2d[] nodeListToPoses(List<Node> path, Rotation2d rotation) {
         Pose2d[] finalList = new Pose2d[path.size()];
         for (int i=0; i<path.size(); i++) {
-            finalList[i] = new Pose2d(path.get(i).getLocation()[0], path.get(i).getLocation()[1], new Rotation2d());
+            finalList[i] = new Pose2d(path.get(i).getLocation()[0], path.get(i).getLocation()[1], rotation);
         }
         return finalList;
     }
 
-    public static Pose2d[] nodeListToPosesWPI(List<Node> path) {
+    public static Pose2d[] nodeListToPosesWPI(List<Node> path, Rotation2d rotation) {
         Pose2d[] finalList = new Pose2d[path.size()];
         for (int i=0; i<path.size(); i++) {
-            finalList[i] = RobotContainer.Custom_to_WPI(new Pose2d(path.get(i).getLocation()[0], path.get(i).getLocation()[1], new Rotation2d()));
+            finalList[i] = RobotContainer.Custom_to_WPI(new Pose2d(path.get(i).getLocation()[0], path.get(i).getLocation()[1], rotation));
         }
         return finalList;
     }
@@ -179,18 +179,19 @@ public class A_Star
         }
     }
 
-    public static void setRotation(Pose2d[] path, int nodeOnPath, Rotation2d rotation) {
+    public static Pose2d[] setRotation(Pose2d[] path, int nodeOnPath, Rotation2d rotation) {
         if (nodeOnPath < 0) {
             path[path.length-1] = new Pose2d(path[path.length-1].getX(), path[path.length-1].getY(), Rotation2d.fromDegrees(90));
         } else {
             path[nodeOnPath] = new Pose2d(path[nodeOnPath].getX(), path[nodeOnPath].getY(), Rotation2d.fromDegrees(90));
         }
-    }
-
-    public static Pose2d[] setEndRotation(Pose2d[] path, Rotation2d rotation) {
-        for (int i=1; i<path.length; i++) {
-            path[i] = new Pose2d(path[i].getX(), path[i].getY(), rotation);
-        }
         return path;
     }
+
+    // public static Pose2d[] setAllRotation(Pose2d[] path, Rotation2d rotation) {
+    //     for (int i=0; i<path.length; i++) {
+    //         path[i] = new Pose2d(path[i].getX(), path[i].getY(), rotation);
+    //     }
+    //     return path;
+    // }
 }

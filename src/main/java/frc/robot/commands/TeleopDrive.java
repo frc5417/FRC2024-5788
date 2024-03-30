@@ -15,6 +15,8 @@ import java.util.Timer;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.Time;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Intake;
@@ -71,6 +73,9 @@ public class TeleopDrive extends Command {
     m_wrist = wrist;
     m_photonsubsystem = photonsubsystem;
     m_lightscontrol = lightscontrol;
+
+    // m_driveBase.resetOdometry(new Pose2d(1.5, 5.5, new Rotation2d()));
+    // m_driveBase.resetOdometry(new Pose2d(15.5, 5.5, Rotation2d.fromDegrees(180)));
   }
 
   @Override
@@ -95,7 +100,6 @@ public class TeleopDrive extends Command {
     SmartDashboard.putNumber("Omega Vel Input", omega);
     
     m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(xVel, yVel, omega));
-
     // m_elevator.setElevatorPower(RobotContainer.getElevatorLeftJoystick());
 
     m_intake.setIntakePower(RobotContainer.getIntakeRightTrigger() - RobotContainer.getIntakeLeftTrigger());

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.A_Star;
 
+import edu.wpi.first.math.geometry.Translation2d;
+
 public class Node
 {
     public double x, y;
@@ -15,6 +17,12 @@ public class Node
     public Node(double _x, double _y, boolean _obstacle) {
         x = _x;
         y = _y;
+        obstacle = _obstacle;
+    }
+
+    public Node(Translation2d translation, boolean _obstacle) {
+        x = translation.getX();
+        y = translation.getY();
         obstacle = _obstacle;
     }
 

@@ -78,11 +78,11 @@ public final class Constants {
   public static class Auton {
     public static final PIDController X_Pos = new PIDController(1.3, 0, 0);
     public static final PIDController Y_Pos = new PIDController(1.3, 0, 0);
-    public static final PIDController Theta_Pos = new PIDController(0.0, 0.0, 0.0); //0.5 p 0.15 0.035
+    public static final PIDController Theta_Pos = new PIDController(0.01, 0.0, 0.0); //0.5 p 0.15 0.035
     public static final double speedClamp = 0.4;
     public static final double speedRotClamp = 0.3;
     public static final double poseTolerance = 0.1;
-    public static final double thetaTolerance = 5; //degrees
+    public static final double thetaTolerance = 3; //rotations
     public static final Double[] robot_size = {0.66, 0.66};
     public static final Double[] field_size = {8.2, 16.0};
     public static final Double[] BlueObstacle_TopLeft = {2.5, 6.0};

@@ -32,7 +32,6 @@ import frc.robot.subsystems.Kinematics;
 import frc.robot.subsystems.LightsControl;
 import frc.robot.subsystems.PhotonSubsystem;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.TargetStateRun;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.A_Star.A_Star;
 
@@ -55,10 +54,9 @@ public class RobotContainer {
   public static Wrist wrist = new Wrist();
   public static PhotonSubsystem photonsubsystem = new PhotonSubsystem();
   public static Bezier bezier = new Bezier();
-  public static TargetStateRun targetStateRun = new TargetStateRun(driveBase);
   private static final LightsControl lightscontrol = new LightsControl();
 
-  public static AutonLoader autonLoader = new AutonLoader(driveBase, intake, targetStateRun, photonsubsystem); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
+  public static AutonLoader autonLoader = new AutonLoader(driveBase, intake, photonsubsystem); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
   public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, intake, shooter, wrist, photonsubsystem, lightscontrol); //ALL SUBSYSTEMS
   private final static CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverPort);
   private final static CommandXboxController m_manipulatorController = new CommandXboxController(OperatorConstants.kManipulatorPort);

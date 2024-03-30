@@ -15,6 +15,7 @@ import frc.robot.RobotContainer;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -79,10 +80,10 @@ public class DriveBase extends SubsystemBase {
 
         m_sdkOdom = new SwerveDriveOdometry(
             m_skdKine, m_ahrs.getRotation2d(), new SwerveModulePosition[] {
-                new SwerveModulePosition(odomDeltas[0], new Rotation2d(odomAngles[0])),
-                new SwerveModulePosition(odomDeltas[1], new Rotation2d(odomAngles[1])),
                 new SwerveModulePosition(odomDeltas[2], new Rotation2d(odomAngles[2])),
-                new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3]))
+                new SwerveModulePosition(odomDeltas[0], new Rotation2d(odomAngles[0])),
+                new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3])),
+                new SwerveModulePosition(odomDeltas[1], new Rotation2d(odomAngles[1]))
             });
 
 
@@ -90,42 +91,34 @@ public class DriveBase extends SubsystemBase {
     } 
 
     public Pose2d getCurrentPose() {
-        Pose2d pose = new Pose2d(-m_sdkOdom.getPoseMeters().getX(), -m_sdkOdom.getPoseMeters().getY(), m_sdkOdom.getPoseMeters().getRotation());
-        return pose;
+        Pose2d inverted = new Pose2d(m_sdkOdom.getPoseMeters().getY() * -1.0, m_sdkOdom.getPoseMeters().getX(), m_sdkOdom.getPoseMeters().getRotation());
+        return inverted;
     }
 
-    public ChassisSpeeds getRobotRelativeChassisSpeeds() {
-        SwerveModuleState[] states = new SwerveModuleState[moduleGroup.length];
-        states[0] = new SwerveModuleState(moduleGroup[0].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[0].getAngleInRadians())); //The velocity is RPM so convert to M/S
-        states[1] = new SwerveModuleState(moduleGroup[1].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[1].getAngleInRadians()));//The velocity is RPM so convert to M/S
-        states[2] = new SwerveModuleState(moduleGroup[2].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[2].getAngleInRadians()));//The velocity is RPM so convert to M/S
-        states[3] = new SwerveModuleState(moduleGroup[3].getDriveVelocity(), Rotation2d.fromRadians(moduleGroup[3].getAngleInRadians()));//The velocity is RPM so convert to M/S
 
-        return new ChassisSpeeds(); //m_skdKine.toChassisSpeeds(states);
-    }
 
-    public boolean shouldFlipPath() {
-        // var alliance = DriverStation.getAlliance();
-        // if (alliance.isPresent()) {
-        //     return alliance.get() == DriverStation.Alliance.Red;
-        // }
-        // return false;
+    public boolean isRed() {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+        }
         return false;
     }
 
     public void resetOdometry(Pose2d pose) {
+        Pose2d inverted = new Pose2d(pose.getY(), pose.getX() * -1.0, pose.getRotation());
         for (int i = 0; i < 4; i++) {
             moduleGroup[i].setSpeedAndAngle(targetModuleStates[i]);
             odomDeltas[i] = (((moduleGroup[i].integratedDriveEncoder.getPosition() - encoderDriveOffset[i])/6.12) * (0.102*Math.PI));// - odomPrevDeltas[i];
             odomAngles[i] = smallestAngle(moduleGroup[i].getAngleInRadians());//smallestAngle(moduleGroup[i].getAngleInRadians()*(180.0/Math.PI)) * (Math.PI/180.0);
         }
         SwerveModulePosition[] modulePositions = new SwerveModulePosition[] {
-                new SwerveModulePosition(odomDeltas[0], new Rotation2d(odomAngles[0])),
-                new SwerveModulePosition(odomDeltas[1], new Rotation2d(odomAngles[1])),
                 new SwerveModulePosition(odomDeltas[2], new Rotation2d(odomAngles[2])),
-                new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3]))
+                new SwerveModulePosition(odomDeltas[0], new Rotation2d(odomAngles[0])),
+                new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3])),
+                new SwerveModulePosition(odomDeltas[1], new Rotation2d(odomAngles[1]))
         };
-        m_sdkOdom.resetPosition(m_ahrs.getRotation2d(), modulePositions, pose);
+        m_sdkOdom.resetPosition(m_ahrs.getRotation2d(), modulePositions, inverted);
     }
 
     public void setHardStates(Module.ModuleState[] targetState) {
@@ -136,8 +129,17 @@ public class DriveBase extends SubsystemBase {
         targetModuleStates = m_kinematics.getComputedModuleStates(chassisSpeeds);
     }
 
-    public void setAutoSpeed(ChassisSpeeds chassisSpeeds) {
-        ChassisSpeeds inverted = new ChassisSpeeds(chassisSpeeds.vxMetersPerSecond * -1.0, chassisSpeeds.vyMetersPerSecond * -1.0, chassisSpeeds.omegaRadiansPerSecond * -1.0);
+    // public void setAutoSpeed(ChassisSpeeds chassisSpeeds) {
+    //     ChassisSpeeds inverted = new ChassisSpeeds(chassisSpeeds.vxMetersPerSecond * -1.0, chassisSpeeds.vyMetersPerSecond * -1.0, chassisSpeeds.omegaRadiansPerSecond * -1.0); //TODO Make sure that this works with manson
+    //     targetModuleStates = m_kinematics.getComputedModuleStates(inverted);
+    // }
+    public void setBlueAutoSpeed(ChassisSpeeds chassisSpeeds) {
+        ChassisSpeeds inverted = new ChassisSpeeds(chassisSpeeds.vyMetersPerSecond, chassisSpeeds.vxMetersPerSecond * -1.0, chassisSpeeds.omegaRadiansPerSecond);
+        targetModuleStates = m_kinematics.getComputedModuleStates(inverted);
+    }
+
+    public void setRedAutoSpeed(ChassisSpeeds chassisSpeeds) {
+        ChassisSpeeds inverted = new ChassisSpeeds(chassisSpeeds.vyMetersPerSecond * -1.0, chassisSpeeds.vxMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond);
         targetModuleStates = m_kinematics.getComputedModuleStates(inverted);
     }
 
@@ -169,10 +171,10 @@ public class DriveBase extends SubsystemBase {
         }
 
         m_sdkOdom.update(m_ahrs.getRotation2d(), new SwerveModulePosition[] {
-            new SwerveModulePosition(Math.abs(odomDeltas[0]), new Rotation2d(odomAngles[0])),
-            new SwerveModulePosition(Math.abs(odomDeltas[1]), new Rotation2d(odomAngles[1])),
             new SwerveModulePosition(Math.abs(odomDeltas[2]), new Rotation2d(odomAngles[2])),
-            new SwerveModulePosition(Math.abs(odomDeltas[3]), new Rotation2d(odomAngles[3]))
+            new SwerveModulePosition(Math.abs(odomDeltas[0]), new Rotation2d(odomAngles[0])),
+            new SwerveModulePosition(Math.abs(odomDeltas[3]), new Rotation2d(odomAngles[3])),
+            new SwerveModulePosition(Math.abs(odomDeltas[1]), new Rotation2d(odomAngles[1]))
         });
 
         if (snappingOn) {
@@ -180,7 +182,7 @@ public class DriveBase extends SubsystemBase {
             setDriveSpeed(RobotContainer.getSaturatedSpeeds(0, 0, snapToNearestTheta.calculate(m_ahrs.getYaw())));
         }
         
-        field.setRobotPose(RobotContainer.Custom_to_WPI(getCurrentPose()));
+        field.setRobotPose(getCurrentPose());
         SmartDashboard.putData(field);
 
         // field.setRobotPose(m_sdkOdom.getPoseMeters());
