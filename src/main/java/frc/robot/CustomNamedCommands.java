@@ -6,8 +6,6 @@ package frc.robot;
 
 import java.util.HashMap;
 
-import com.pathplanner.lib.auto.CommandUtil;
-
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** Add your docs here. */
@@ -20,6 +18,6 @@ public class CustomNamedCommands {
     }
 
     public static Command getCommand(String name) {
-        return CommandUtil.wrappedEventCommand(command_map.get(name));
+        return RobotContainer.wrappedEventCommand(command_map.get(name));
     }
 }
