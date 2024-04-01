@@ -110,7 +110,7 @@ public class TeleopDrive extends Command {
 
     
     wristPos += -RobotContainer.getWristRightJoystick() * 0.01;
-    wristPos =MathUtil.clamp(wristPos, 0, 0.7);
+    wristPos =MathUtil.clamp(wristPos, 0, 0.2);
 
     m_wrist.setWristPos(wristPos);
 
@@ -123,7 +123,8 @@ public class TeleopDrive extends Command {
     }
 
     if (RobotContainer.getManipulatorYBool()) { //experimental amp
-      wristPos = 0.0015;
+      wristPos = 0.0398;
+      m_shooter.setShooterPower(-0.5);
     }
 
     if(RobotContainer.getManipulatorXBool()) { //photon shoot
