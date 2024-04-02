@@ -7,7 +7,6 @@ import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.hal.simulation.RoboRioDataJNI;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants;

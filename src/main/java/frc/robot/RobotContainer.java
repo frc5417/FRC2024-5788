@@ -61,10 +61,6 @@ public class RobotContainer {
   private final static CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverPort);
   private final static CommandXboxController m_manipulatorController = new CommandXboxController(OperatorConstants.kManipulatorPort);
 
-  public static SimpleLinear auto_MoveToPosFWD = new SimpleLinear(driveBase);
-  public static SimpleLinear auto_MoveToPosBWD = new SimpleLinear(driveBase);
-
-
   // public static final PhotonSubsystem m_photonsubsystem = new PhotonSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -72,19 +68,6 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    auto_MoveToPosFWD.setTarget(new Pose2d(0, -2, new Rotation2d()));
-    auto_MoveToPosBWD.setTarget(new Pose2d(0, 2, new Rotation2d()));
-    // CustomNamedCommands.registerCommand("3MFWD", auto_MoveToPosFWD.withTimeout(3.0));
-    // CustomNamedCommands.registerCommand("3MBWD", auto_MoveToPosBWD.withTimeout(3.0));
-    CustomNamedCommands.registerCommand("IntakeOn", intake.IntakeDaNote(0.75).withTimeout(0.1)); 
-    CustomNamedCommands.registerCommand("IntakeOff", intake.IntakeDaNote(0.0).withTimeout(0.1)); 
-    CustomNamedCommands.registerCommand("HandoffWrist", wrist.AngleDaWrist(0.0523).withTimeout(0.1));
-    CustomNamedCommands.registerCommand("ShootWrist", wrist.AngleDaWrist(0.0238).withTimeout(0.1));
-    CustomNamedCommands.registerCommand("ShooterOn", shooter.ShootDaNote(-0.75).withTimeout(0.1));
-    CustomNamedCommands.registerCommand("ShooterOff", shooter.ShootDaNote(0.0).withTimeout(0.1));
-    CustomNamedCommands.registerCommand("IndexOn", shooter.IndexDaNote(-0.2).withTimeout(0.1));
-    CustomNamedCommands.registerCommand("IndexReverse", shooter.IndexDaNote(0.1).withTimeout(0.1));
-    CustomNamedCommands.registerCommand("IndexOff", shooter.IndexDaNote(0.0).withTimeout(0.1));
     configureBindings();
   }
 
