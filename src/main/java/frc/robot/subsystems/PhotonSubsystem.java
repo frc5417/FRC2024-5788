@@ -4,26 +4,26 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.Optional;
+
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import java.util.Optional;
-import java.lang.Math;
-
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonUtils;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.targeting.PhotonTrackedTarget;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class PhotonSubsystem extends SubsystemBase {
     /** Creates a new PhotonSubsystem. */
     public static PhotonCamera photonCamera = new PhotonCamera(Constants.VisionConstants.cameraName);
     public static PhotonPoseEstimator photonPoseEstimator;
+
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
     
 
@@ -36,10 +36,6 @@ public class PhotonSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run
         // updatePose();
     }
-
-    // public PhotonCamera getCamera() {
-    //     return photonCamera;
-    // }
 
     public double getYaw() {
         var result = photonCamera.getLatestResult();
@@ -92,7 +88,7 @@ public class PhotonSubsystem extends SubsystemBase {
         var result = photonCamera.getLatestResult();
         if(result.hasTargets()) {
             for (PhotonTrackedTarget target : result.getTargets()) {
-                if ((target.getFiducialId() == 7) || (target.getFiducialId() == 4)) { //FIX THE 8 APRILTAG TO 7 IN ACTUAL FIELD
+                if ((target.getFiducialId() == 8) || (target.getFiducialId() == 4)) { //FIX THE 8 APRILTAG TO 7 IN ACTUAL FIELD
                     double distance = Math.sqrt((target.getBestCameraToTarget().getX()*target.getBestCameraToTarget().getX())+(target.getBestCameraToTarget().getY()*target.getBestCameraToTarget().getY()));
                     return (180.0/Math.PI)*Math.atan((Constants.FieldConstants.speakerHeightOptimal - Constants.FieldConstants.pivotHeight)/(distance - Constants.FieldConstants.speakerExtensionOptimal));
                 }

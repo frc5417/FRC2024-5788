@@ -2,7 +2,6 @@ package frc.robot;
 
 
 import com.kauailabs.navx.frc.AHRS;
-import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.hal.HALUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -11,6 +10,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -21,19 +22,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutonLoader;
-// import frc.robot.commands.SetLightConfig;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.commands.AutoControllers.SimpleLinear;
 import frc.robot.subsystems.Bezier;
 import frc.robot.subsystems.DriveBase;
-// import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kinematics;
 import frc.robot.subsystems.LightsControl;
 import frc.robot.subsystems.PhotonSubsystem;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Wrist;
-import frc.robot.subsystems.A_Star.A_Star;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -112,6 +110,15 @@ public class RobotContainer {
 
   public static Pose2d Custom_to_WPI(Pose2d pose) {
     return new Pose2d(pose.getY(), Constants.Auton.field_size[0]-pose.getX(), pose.getRotation());
+  }
+
+  public static Command wrappedEventCommand(Command eventCommand) {
+    return new FunctionalCommand(
+        eventCommand::initialize,
+        eventCommand::execute,
+        eventCommand::end,
+        eventCommand::isFinished,
+        eventCommand.getRequirements().toArray(Subsystem[]::new));
   }
 
     public static double getLeftJoyX() {
