@@ -5,7 +5,6 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.hal.HALUtil;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -23,12 +22,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutonLoader;
 import frc.robot.commands.TeleopDrive;
-import frc.robot.commands.AutoControllers.SimpleLinear;
 import frc.robot.subsystems.Bezier;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kinematics;
 import frc.robot.subsystems.LightsControl;
+import frc.robot.subsystems.Loggy;
 import frc.robot.subsystems.PhotonSubsystem;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Wrist;
@@ -56,8 +55,11 @@ public class RobotContainer {
 
   public static AutonLoader autonLoader = new AutonLoader(driveBase, intake, photonsubsystem); //NEEDED SUBSYSTEMS FOR AUTON, ELEVATOR NOT USED
   public static TeleopDrive teleopDrive = new TeleopDrive(driveBase, intake, shooter, wrist, photonsubsystem, lightscontrol); //ALL SUBSYSTEMS
-  private final static CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverPort);
-  private final static CommandXboxController m_manipulatorController = new CommandXboxController(OperatorConstants.kManipulatorPort);
+
+  public static Loggy loggy = new Loggy(ahrs, driveBase, intake, shooter, wrist, photonsubsystem, bezier, lightscontrol, autonLoader, teleopDrive);
+
+  public final static CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverPort);
+  public final static CommandXboxController m_manipulatorController = new CommandXboxController(OperatorConstants.kManipulatorPort);
 
   // public static final PhotonSubsystem m_photonsubsystem = new PhotonSubsystem();
 
@@ -180,6 +182,10 @@ public class RobotContainer {
 
   public static Boolean getDriveBBool() {
     return m_driverController.b().getAsBoolean();
+  }
+
+  public static Boolean getDriveXBool() {
+    return m_driverController.x().getAsBoolean();
   }
 
   // =========================================================

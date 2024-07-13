@@ -11,7 +11,6 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -77,11 +76,11 @@ public class Wrist extends SubsystemBase {
     // }
         
     wristMotor.set(MathUtil.clamp(wristPID.calculate(wristEncoder.getPosition()), -1.0, 1.0));
-    SmartDashboard.putNumber("WristPosition", wristEncoder.getPosition());    
-    SmartDashboard.putNumber("Wrist Power", wristMotor.get());
-    SmartDashboard.putNumber("SetpointWrist", wristPID.getSetpoint());
-    SmartDashboard.putNumber("PID", 0);
+    // SmartDashboard.putNumber("WristPosition", wristEncoder.getPosition());    
+    // SmartDashboard.putNumber("Wrist Power", wristMotor.get());
+    // SmartDashboard.putNumber("SetpointWrist", wristPID.getSetpoint());
+    // SmartDashboard.putNumber("PID", 0);
 
-    SmartDashboard.updateValues();
+    // SmartDashboard.updateValues();
   }
 }

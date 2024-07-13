@@ -4,28 +4,16 @@
 
 package frc.robot.commands;
 
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveBase;
-// import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import java.util.Timer;
-
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.units.Time;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.PhotonSubsystem;
 import frc.robot.subsystems.LightsControl;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 
@@ -74,6 +62,8 @@ public class TeleopDrive extends Command {
     m_photonsubsystem = photonsubsystem;
     m_lightscontrol = lightscontrol;
 
+    m_photonsubsystem.setDriverMode(true);
+
     // m_driveBase.resetOdometry(new Pose2d(1.5, 5.5, new Rotation2d()));
     // m_driveBase.resetOdometry(new Pose2d(15.5, 5.5, Rotation2d.fromDegrees(180)));
   }
@@ -95,11 +85,16 @@ public class TeleopDrive extends Command {
     prev_yVel = yVel;
     prev_omega = omega;
 
-    SmartDashboard.putNumber("X-Vel Input", xVel);
-    SmartDashboard.putNumber("Y-Vel Input", yVel);
-    SmartDashboard.putNumber("Omega Vel Input", omega);
+    // SmartDashboard.putNumber("X-Vel Input", xVel);
+    // SmartDashboard.putNumber("Y-Vel Input", yVel);
+    // SmartDashboard.putNumber("Omega Vel Input", omega);
     
-    m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(xVel, yVel, omega));
+    if (RobotContainer.getDriveXBool()) {
+      m_driveBase.X_MODE();
+    } else {
+      m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(xVel, yVel, omega));
+    }
+
     // m_elevator.setElevatorPower(RobotContainer.getElevatorLeftJoystick());
 
     m_intake.setIntakePower(RobotContainer.getIntakeRightTrigger() - RobotContainer.getIntakeLeftTrigger());
@@ -129,7 +124,7 @@ public class TeleopDrive extends Command {
 
     if(RobotContainer.getManipulatorXBool()) { //photon shoot
       wristPos = m_wrist.setWristDeg(m_photonsubsystem.getOptimalAngle());
-      SmartDashboard.putNumber("Ideal Deg Wrist", m_photonsubsystem.getOptimalAngle());
+      // SmartDashboard.putNumber("Ideal Deg Wrist", m_photonsubsystem.getOptimalAngle());
     }
     // m_lightscontrol.setLed(4);
 
@@ -156,7 +151,7 @@ public class TeleopDrive extends Command {
     // SmartDashboard.putNumber("X_Field2", m_photonsubsystem.getEstimatedFieldPose().getX());
     // SmartDashboard.putNumber("Y_Field2",m_photonsubsystem.getEstimatedFieldPose().getY());
     // SmartDashboard.putNumber("Omega_Fielf", m_photonsubsystem.getEstimatedFieldPose().getRotation().getDegrees());
-    SmartDashboard.updateValues();
+    // SmartDashboard.updateValues();
 
 
 

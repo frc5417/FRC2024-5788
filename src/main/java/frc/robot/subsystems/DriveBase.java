@@ -11,7 +11,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -92,7 +91,14 @@ public class DriveBase extends SubsystemBase {
         return inverted;
     }
 
-
+    public void X_MODE() {
+        Module.ModuleState mod1 = new Module.ModuleState(0.0, Math.PI/4);
+        Module.ModuleState mod2 = new Module.ModuleState(0.0, (3 * Math.PI)/4);
+        Module.ModuleState mod3 = new Module.ModuleState(0.0, (5 * Math.PI)/4);
+        Module.ModuleState mod4 = new Module.ModuleState(0.0, (7 * Math.PI)/4);
+        Module.ModuleState[] states = {mod1, mod2, mod3, mod4};
+        targetModuleStates = states;
+    }
 
     public boolean isRed() {
         var alliance = DriverStation.getAlliance();
@@ -180,12 +186,12 @@ public class DriveBase extends SubsystemBase {
         }
         
         field.setRobotPose(getCurrentPose());
-        SmartDashboard.putData(field);
+        // SmartDashboard.putData(field);
 
         // field.setRobotPose(m_sdkOdom.getPoseMeters());
 
 
-        SmartDashboard.putNumber("Yaw", m_ahrs.getYaw());
+        // SmartDashboard.putNumber("Yaw", m_ahrs.getYaw());
 
 
         // SmartDashboard.putNumber("Mod1_theta", -Math.abs(Math.toDegrees(odomAngles[0]))-90);
@@ -193,13 +199,13 @@ public class DriveBase extends SubsystemBase {
         // SmartDashboard.putNumber("Mod3_theta", -Math.abs(Math.toDegrees(odomAngles[2]))-90);
         // SmartDashboard.putNumber("Mod4_theta", -Math.abs(Math.toDegrees(odomAngles[3]))-90);
 
-        Pose2d pose = getCurrentPose();
         
-        SmartDashboard.putNumber("GLOBAL POSE X: ", pose.getX());
-        SmartDashboard.putNumber("GLOBAL POSE Y: ", pose.getY());
-        SmartDashboard.putNumber("GLOBAL ROT", pose.getRotation().getDegrees());
+        // SmartDashboard.putNumber("GLOBAL POSE X: ", pose.getX());
+        // SmartDashboard.putNumber("GLOBAL POSE Y: ", pose.getY());
+        // SmartDashboard.putNumber("GLOBAL ROT", pose.getRotation().getDegrees());
 
-        SmartDashboard.updateValues();
+        // SmartDashboard.updateValues();
         
     }
+
 }

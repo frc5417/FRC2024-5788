@@ -11,74 +11,23 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "0,0": {
+          "7,3": {
             "size": [
               1,
               1
             ],
             "content": {
-              "_type": "ComboBox Chooser",
+              "_type": "Split Button Chooser",
               "_source0": "network_table:///SmartDashboard/SendableChooser[0]",
-              "_title": "Auton Selector",
+              "_title": "Auton",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "1,0": {
+          "0,0": {
             "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Gyro",
-              "_source0": "network_table:///SmartDashboard/Yaw",
-              "_title": "Yaw",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Visuals/Major tick spacing": 45.0,
-              "Visuals/Starting angle": 180.0,
-              "Visuals/Show tick mark ring": true,
-              "Visuals/Counter clockwise": false
-            }
-          },
-          "2,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Gyro",
-              "_source0": "network_table:///SmartDashboard/Pitch",
-              "_title": "Pitch",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Visuals/Major tick spacing": 45.0,
-              "Visuals/Starting angle": 180.0,
-              "Visuals/Show tick mark ring": true,
-              "Visuals/Counter clockwise": false
-            }
-          },
-          "3,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Gyro",
-              "_source0": "network_table:///SmartDashboard/Roll",
-              "_title": "Roll",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Visuals/Major tick spacing": 45.0,
-              "Visuals/Starting angle": 180.0,
-              "Visuals/Show tick mark ring": true,
-              "Visuals/Counter clockwise": false
-            }
-          },
-          "5,0": {
-            "size": [
-              1,
-              1
+              2,
+              2
             ],
             "content": {
               "_type": "Gyro",
@@ -92,10 +41,10 @@
               "Visuals/Counter clockwise": false
             }
           },
-          "6,0": {
+          "2,0": {
             "size": [
-              1,
-              1
+              2,
+              2
             ],
             "content": {
               "_type": "Gyro",
@@ -109,10 +58,10 @@
               "Visuals/Counter clockwise": false
             }
           },
-          "7,0": {
+          "0,2": {
             "size": [
-              1,
-              1
+              2,
+              2
             ],
             "content": {
               "_type": "Gyro",
@@ -126,93 +75,158 @@
               "Visuals/Counter clockwise": false
             }
           },
-          "1,3": {
+          "2,2": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Gyro",
+              "_source0": "network_table:///SmartDashboard/Mod4_theta",
+              "_title": "Mod4_theta",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Visuals/Major tick spacing": 45.0,
+              "Visuals/Starting angle": 180.0,
+              "Visuals/Show tick mark ring": true,
+              "Visuals/Counter clockwise": false
+            }
+          },
+          "4,2": {
             "size": [
               1,
               1
             ],
             "content": {
-              "_type": "Number Bar",
+              "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/GLOBAL POSE X: ",
               "_title": "GLOBAL POSE X: ",
               "_glyph": 148,
-              "_showGlyph": false,
-              "Range/Min": -50.0,
-              "Range/Max": 50.0,
-              "Range/Center": 0.0,
-              "Visuals/Num tick marks": 5,
-              "Visuals/Show text": true,
-              "Visuals/Orientation": "HORIZONTAL"
+              "_showGlyph": false
             }
           },
-          "2,3": {
+          "5,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/GLOBAL POSE Y: ",
+              "_title": "GLOBAL POSE Y: ",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "4,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Gyro",
+              "_source0": "network_table:///SmartDashboard/Yaw",
+              "_title": "Yaw",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Visuals/Major tick spacing": 45.0,
+              "Visuals/Starting angle": 180.0,
+              "Visuals/Show tick mark ring": true,
+              "Visuals/Counter clockwise": false
+            }
+          },
+          "6,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Gyro",
+              "_source0": "network_table:///SmartDashboard/Pitch",
+              "_title": "Pitch",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Visuals/Major tick spacing": 45.0,
+              "Visuals/Starting angle": 180.0,
+              "Visuals/Show tick mark ring": true,
+              "Visuals/Counter clockwise": false
+            }
+          },
+          "8,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Gyro",
+              "_source0": "network_table:///SmartDashboard/Roll",
+              "_title": "Roll",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Visuals/Major tick spacing": 45.0,
+              "Visuals/Starting angle": 180.0,
+              "Visuals/Show tick mark ring": true,
+              "Visuals/Counter clockwise": false
+            }
+          },
+          "4,3": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Number Bar",
-              "_source0": "network_table:///SmartDashboard/GLOBAL POSE Y: ",
-              "_title": "GLOBAL POSE Y: ",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Range/Min": -50.0,
-              "Range/Max": 50.0,
-              "Range/Center": 0.0,
-              "Visuals/Num tick marks": 5,
-              "Visuals/Show text": true,
-              "Visuals/Orientation": "HORIZONTAL"
-            }
-          },
-          "4,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Simple Dial",
               "_source0": "network_table:///SmartDashboard/X-Vel Input",
               "_title": "X-Vel Input",
               "_glyph": 148,
               "_showGlyph": false,
               "Range/Min": -1.0,
               "Range/Max": 1.0,
-              "Visuals/Show value": true
+              "Range/Center": 0.0,
+              "Visuals/Num tick marks": 5,
+              "Visuals/Show text": true,
+              "Visuals/Orientation": "HORIZONTAL"
             }
           },
-          "5,1": {
+          "5,3": {
             "size": [
               1,
               1
             ],
             "content": {
-              "_type": "Simple Dial",
+              "_type": "Number Bar",
               "_source0": "network_table:///SmartDashboard/Y-Vel Input",
               "_title": "Y-Vel Input",
               "_glyph": 148,
               "_showGlyph": false,
               "Range/Min": -1.0,
               "Range/Max": 1.0,
-              "Visuals/Show value": true
+              "Range/Center": 0.0,
+              "Visuals/Num tick marks": 5,
+              "Visuals/Show text": true,
+              "Visuals/Orientation": "HORIZONTAL"
             }
           },
-          "6,1": {
+          "6,3": {
             "size": [
               1,
               1
             ],
             "content": {
-              "_type": "Simple Dial",
+              "_type": "Number Bar",
               "_source0": "network_table:///SmartDashboard/Omega Vel Input",
               "_title": "Omega Vel Input",
               "_glyph": 148,
               "_showGlyph": false,
               "Range/Min": -1.0,
               "Range/Max": 1.0,
-              "Visuals/Show value": true
+              "Range/Center": 0.0,
+              "Visuals/Num tick marks": 5,
+              "Visuals/Show text": true,
+              "Visuals/Orientation": "HORIZONTAL"
             }
           },
-          "7,1": {
+          "6,2": {
             "size": [
               1,
               1
@@ -228,7 +242,7 @@
               "Visuals/Show value": true
             }
           },
-          "8,1": {
+          "7,2": {
             "size": [
               1,
               1
@@ -244,7 +258,7 @@
               "Visuals/Show value": true
             }
           },
-          "3,2": {
+          "8,2": {
             "size": [
               1,
               1
@@ -260,7 +274,7 @@
               "Visuals/Show value": true
             }
           },
-          "4,2": {
+          "9,2": {
             "size": [
               1,
               1
@@ -276,45 +290,31 @@
               "Visuals/Show value": true
             }
           },
-          "8,0": {
+          "8,3": {
             "size": [
               1,
               1
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Distance Travelled",
-              "_title": "Distance Travelled",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Gyro",
-              "_source0": "network_table:///SmartDashboard/Mod4_theta",
-              "_title": "Mod4_theta",
+              "_type": "Simple Dial",
+              "_source0": "network_table:///SmartDashboard/Encoder",
+              "_title": "Encoder",
               "_glyph": 148,
               "_showGlyph": false,
-              "Visuals/Major tick spacing": 45.0,
-              "Visuals/Starting angle": 180.0,
-              "Visuals/Show tick mark ring": true,
-              "Visuals/Counter clockwise": false
+              "Range/Min": 0.0,
+              "Range/Max": 1.0,
+              "Visuals/Show value": true
             }
-          },  
-          "4,3": {
+          },
+          "9,3": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Elevator",
-              "_title": "Elevator",
+              "_source0": "network_table:///SmartDashboard/Rotations",
+              "_title": "Rotations",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -337,9 +337,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -5.333333492279053,
-    "y": -5.333333492279053,
-    "width": 1290.6666259765625,
-    "height": 704.0
+    "x": 0.0,
+    "y": 27.0,
+    "width": 1366.0,
+    "height": 741.0
   }
 }

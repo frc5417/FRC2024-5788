@@ -63,7 +63,7 @@ public final class Constants {
     public static final Double YPercentage = -1.0;
 
     public static final IdleMode angleNeutralMode = IdleMode.kBrake;
-    public static final IdleMode driveNeutralMode = IdleMode.kBrake;
+    public static final IdleMode driveNeutralMode = IdleMode.kCoast;
     public static final double maxVelocity = 3.8; // m/s
     public static final double maxAngularVelocity = 10; //rad/sec
     public static final double maxModuleSpeed = 0.3;
@@ -81,7 +81,7 @@ public final class Constants {
     public static final double speedClamp = 0.4;
     public static final double speedRotClamp = 0.3;
     public static final double poseTolerance = 0.1;
-    public static final double thetaTolerance = 3; //rotations
+    public static final double thetaTolerance = 3; //deg
     public static final Double[] robot_size = {0.66, 0.66};
     public static final Double[] field_size = {8.2, 16.0};
     public static final Double[] BlueObstacle_TopLeft = {2.5, 6.0};

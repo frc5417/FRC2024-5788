@@ -9,7 +9,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Bezier;
@@ -100,23 +99,22 @@ public class FollowBezier extends Command {
       m_driveBase.setBlueAutoSpeed(new ChassisSpeeds());
     }
 
-    double stupid = m_driveBase.getCurrentPose().getRotation().getRotations();
     
 
-    SmartDashboard.putNumber("OLDTHETA", stupid);
-    SmartDashboard.putNumber("CURRENT_THETA", currentTheta);
-    SmartDashboard.putNumber("OMEGASETPOINT", omega_pid.getSetpoint());
+    // SmartDashboard.putNumber("OLDTHETA", stupid);
+    // SmartDashboard.putNumber("CURRENT_THETA", currentTheta);
+    // SmartDashboard.putNumber("OMEGASETPOINT", omega_pid.getSetpoint());
 
     // SmartDashboard.putData(field);
-    SmartDashboard.putString(getSubsystem(), "Running Bezier");
-    SmartDashboard.updateValues();
+    // SmartDashboard.putString(getSubsystem(), "Running Bezier");
+    // SmartDashboard.updateValues();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_driveBase.setDriveSpeed(new ChassisSpeeds());
-    SmartDashboard.putString(getSubsystem(), "BezierEnded");
+    // SmartDashboard.putString(getSubsystem(), "BezierEnded");
   }
 
   // Returns true when the command should end.

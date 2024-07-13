@@ -12,7 +12,7 @@ public class Node
     public boolean obstacle;
     public Node parent = null;
 
-    private double g_cost, h_cost, f_cost;
+    private double g_cost, h_cost;
 
     public Node(double _x, double _y, boolean _obstacle) {
         x = _x;

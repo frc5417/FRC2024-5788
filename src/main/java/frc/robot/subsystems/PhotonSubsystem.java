@@ -31,6 +31,10 @@ public class PhotonSubsystem extends SubsystemBase {
         // photonCameraWrapper();
     }
 
+    public void setDriverMode(boolean driverMode) {
+        photonCamera.setDriverMode(driverMode);
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
