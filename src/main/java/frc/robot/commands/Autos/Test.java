@@ -13,21 +13,17 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Test extends SequentialCommandGroup {
-  Pose2d startPose = new Pose2d(0.73, 4.72, Rotation2d.fromDegrees(-60));
-  Pose2d startPoseY = new Pose2d(3.0, 4.09, Rotation2d.fromDegrees(0));
-  Pose2d note1 = new Pose2d(1.7, 4.09, Rotation2d.fromDegrees(0));
+  Pose2d startPose = new Pose2d(1.2, 5.5, Rotation2d.fromDegrees(0));
+  Pose2d startPoseY = new Pose2d(1.2, 5.0, Rotation2d.fromDegrees(0));
 
-  Pose2d[] path1 = {startPose, note1};
-  Pose2d[] path2 = {note1, startPoseY};
-  Pose2d[] path3 = {startPoseY, startPose};
+  Pose2d[] path1 = {startPose, startPoseY};
 
   /** Creates a new Test. */
   public Test(DriveBase driveBase) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new FollowBezier(driveBase, path1, 200, true),
-      new FollowBezier(driveBase, path2, 200, false)
+      new FollowBezier(driveBase, path1, 200, true)
     );
   }
 }

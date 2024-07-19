@@ -1,6 +1,8 @@
 package frc.robot;
 
 
+import java.util.function.DoubleSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.hal.HALUtil;
@@ -187,6 +189,7 @@ public class RobotContainer {
   public static Boolean getDriveXBool() {
     return m_driverController.x().getAsBoolean();
   }
+ 
 
   // =========================================================
   public static double getManipulatorLeftJoyY() {

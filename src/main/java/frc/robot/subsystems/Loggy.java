@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.commands.AutonLoader;
 import frc.robot.commands.TeleopDrive;
 
@@ -29,7 +30,6 @@ public class Loggy extends SubsystemBase {
   ShuffleboardTab UserInputs = Shuffleboard.getTab("User Inputs");
   ShuffleboardTab Auton = Shuffleboard.getTab("Autonomous");
   ShuffleboardTab Teleop = Shuffleboard.getTab("Teleoperated");
-  Field2d field = new Field2d();
 
   public Loggy(AHRS ahrs, DriveBase driveBase, Intake intake, Shooter shooter, Wrist wrist, PhotonSubsystem photonSubsystem, Bezier bezier, LightsControl lightsControl, AutonLoader autonLoader, TeleopDrive teleopDrive) {
     m_ahrs = ahrs;
@@ -44,8 +44,11 @@ public class Loggy extends SubsystemBase {
     m_teleopDrive = teleopDrive;
     
     Auton.add(m_autonLoader.getChooser());
-    Auton.add(field);
+    Auton.add(driveBase.field);
     Teleop.add(ahrs);
+    
+    Teleop.addDouble("Wrist", m_wrist.wristSupplier);
+    // Teleop.addDouble("Drive Right X", RobotContainer.getDriverRightJoyX());
   }
 
 
@@ -53,6 +56,5 @@ public class Loggy extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    field.setRobotPose(m_driveBase.getCurrentPose());
   }
 }

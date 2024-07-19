@@ -9,6 +9,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Bezier;
@@ -26,6 +28,7 @@ public class FollowBezier extends Command {
   PIDController x_pid = Constants.Auton.X_Pos;
   PIDController y_pid = Constants.Auton.Y_Pos;
   PIDController omega_pid = Constants.Auton.Theta_Pos;
+
 
   /** Creates a new FollowBezier. */
   public FollowBezier(DriveBase driveBase, Pose2d[] path, int steps, boolean resetInit) {
@@ -98,16 +101,6 @@ public class FollowBezier extends Command {
       terminate = true;
       m_driveBase.setBlueAutoSpeed(new ChassisSpeeds());
     }
-
-    
-
-    // SmartDashboard.putNumber("OLDTHETA", stupid);
-    // SmartDashboard.putNumber("CURRENT_THETA", currentTheta);
-    // SmartDashboard.putNumber("OMEGASETPOINT", omega_pid.getSetpoint());
-
-    // SmartDashboard.putData(field);
-    // SmartDashboard.putString(getSubsystem(), "Running Bezier");
-    // SmartDashboard.updateValues();
   }
 
   // Called once the command ends or is interrupted.

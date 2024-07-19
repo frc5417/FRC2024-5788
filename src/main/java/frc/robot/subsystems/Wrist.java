@@ -6,6 +6,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
@@ -26,6 +29,7 @@ public class Wrist extends SubsystemBase {
   public final PIDController wristPID = new PIDController(2.0, 0.0, 0.0);
 
   private double wristPos = 0.0;
+  public DoubleSupplier wristSupplier = ()-> wristPos;
 
   public Wrist() {
     wristMotor = new CANSparkMax(Constants.ManipulatorConstants.wrist, MotorType.kBrushless);
@@ -33,7 +37,7 @@ public class Wrist extends SubsystemBase {
     wristEncoder.setPosition(0);
     wristEncoder.setPositionConversionFactor(1/80.0);
     wristMotor.setIdleMode(IdleMode.kBrake);
-
+    
     // wristPID.setTolerance(0.0);
   }
 
