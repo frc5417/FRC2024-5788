@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.DoubleSupplier;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -24,6 +25,8 @@ public class Intake extends SubsystemBase {
 
   private List<Double> amps = new ArrayList<Double>();
   private double amps_avg;
+
+  // public DoubleSupplier intakeSpeedSupplier = ()->intakeMotor1.getAppliedOutput();
   
   public Intake() {
     intakeMotor1 = new CANSparkMax(Constants.ManipulatorConstants.intake, MotorType.kBrushless);

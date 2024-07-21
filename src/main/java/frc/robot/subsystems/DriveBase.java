@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
+import java.util.function.DoubleSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.hal.simulation.RoboRioDataJNI;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -58,6 +61,9 @@ public class DriveBase extends SubsystemBase {
     private PIDController snapToNearestTheta = new PIDController(1, 0, 0);
     private boolean snappingOn = false;
 
+    private double systemVoltage = RoboRioDataJNI.getVInVoltage();
+    public DoubleSupplier voltageSupplier = ()->systemVoltage;
+
     public DriveBase(Kinematics kinematics, AHRS ahrs) {
         m_kinematics = kinematics;
         m_ahrs = ahrs;
@@ -97,6 +103,7 @@ public class DriveBase extends SubsystemBase {
         Module.ModuleState mod3 = new Module.ModuleState(0.0, (5 * Math.PI)/4);
         Module.ModuleState mod4 = new Module.ModuleState(0.0, (7 * Math.PI)/4);
         Module.ModuleState[] states = {mod1, mod2, mod3, mod4};
+
         targetModuleStates = states;
     }
 
@@ -166,7 +173,8 @@ public class DriveBase extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // RobotContainer.m_photonsubsystem.updatePose();
+        systemVoltage = RoboRioDataJNI.getVInVoltage();
+
         for (int i = 0; i < 4; i++) {
             moduleGroup[i].setSpeedAndAngle(targetModuleStates[i]);
             odomDeltas[i] = (((moduleGroup[i].integratedDriveEncoder.getPosition() - encoderDriveOffset[i])/6.12) * (0.102*Math.PI));// - odomPrevDeltas[i];
@@ -186,25 +194,6 @@ public class DriveBase extends SubsystemBase {
         }
         
         field.setRobotPose(getCurrentPose());
-        // SmartDashboard.putData(field);
-
-        // field.setRobotPose(m_sdkOdom.getPoseMeters());
-
-
-        // SmartDashboard.putNumber("Yaw", m_ahrs.getYaw());
-
-
-        // SmartDashboard.putNumber("Mod1_theta", -Math.abs(Math.toDegrees(odomAngles[0]))-90);
-        // SmartDashboard.putNumber("Mod2_theta", -Math.abs(Math.toDegrees(odomAngles[1]))-90);
-        // SmartDashboard.putNumber("Mod3_theta", -Math.abs(Math.toDegrees(odomAngles[2]))-90);
-        // SmartDashboard.putNumber("Mod4_theta", -Math.abs(Math.toDegrees(odomAngles[3]))-90);
-
-        
-        // SmartDashboard.putNumber("GLOBAL POSE X: ", pose.getX());
-        // SmartDashboard.putNumber("GLOBAL POSE Y: ", pose.getY());
-        // SmartDashboard.putNumber("GLOBAL ROT", pose.getRotation().getDegrees());
-
-        // SmartDashboard.updateValues();
         
     }
 

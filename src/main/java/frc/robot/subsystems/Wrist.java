@@ -17,6 +17,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class Wrist extends SubsystemBase {
   /** Creates a new Wrist. */
@@ -61,7 +62,7 @@ public class Wrist extends SubsystemBase {
   // }
 
   public double setWristDeg(double degrees) {
-    double flatRot = 0.16484375;
+    double flatRot = Constants.Wrist.flatWristPos;
     double inputRot = (degrees/360.0);
     return flatRot - inputRot;
   }

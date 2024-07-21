@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveBase;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,6 +15,9 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.PhotonSubsystem;
 import frc.robot.subsystems.LightsControl;
+
+import java.io.Console;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 
@@ -91,6 +95,7 @@ public class TeleopDrive extends Command {
     
     if (RobotContainer.getDriveXBool()) {
       m_driveBase.X_MODE();
+      
     } else {
       m_driveBase.setDriveSpeed(RobotContainer.getSaturatedSpeeds(xVel, yVel, omega));
     }
@@ -105,20 +110,21 @@ public class TeleopDrive extends Command {
 
     
     wristPos += -RobotContainer.getWristRightJoystick() * 0.01;
-    wristPos =MathUtil.clamp(wristPos, 0, 0.2);
+    wristPos = MathUtil.clamp(wristPos, 0, 0.3);
 
     m_wrist.setWristPos(wristPos);
 
     if (RobotContainer.getManipulatorBBool()) { //shoot from subwoofer
-      wristPos = 0.0238;
+      wristPos = Constants.Wrist.shoot_from_subwoofer;
     }
 
     if (RobotContainer.getManipulatorABool()) { //handoff
-      wristPos = 0.0523;
+      wristPos = Constants.Wrist.handoff;
+
     }
 
     if (RobotContainer.getManipulatorYBool()) { //experimental amp
-      wristPos = 0.0398;
+      wristPos = Constants.Wrist.amp;
       m_shooter.setShooterPower(-0.5);
     }
 

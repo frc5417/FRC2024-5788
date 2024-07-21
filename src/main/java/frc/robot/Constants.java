@@ -56,6 +56,13 @@ public final class Constants {
     public static final double shooterNominalAngle = 67;
     public static final double intakeCurrentLimit = 7;
   }
+
+  public static class Wrist {
+    public static final double flatWristPos = 0.18069375;
+    public static final double shoot_from_subwoofer = 0.04958;
+    public static final double handoff = 0.0421;
+    public static final double amp = 0.0398;
+  }
   
   public static class Swerve {
     public static final Double angularPercentage = -0.7;

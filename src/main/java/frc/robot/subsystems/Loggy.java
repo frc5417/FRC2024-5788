@@ -45,7 +45,8 @@ public class Loggy extends SubsystemBase {
     
     Auton.add(m_autonLoader.getChooser());
     Auton.add(driveBase.field);
-    Teleop.add(ahrs);
+    Teleop.add(m_ahrs);
+    Teleop.addDouble("Rio Voltage", m_driveBase.voltageSupplier);
     
     Teleop.addDouble("Wrist", m_wrist.wristSupplier);
     // Teleop.addDouble("Drive Right X", RobotContainer.getDriverRightJoyX());
