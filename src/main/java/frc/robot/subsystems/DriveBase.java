@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -48,21 +49,16 @@ public class DriveBase extends SubsystemBase {
 
     SwerveDriveKinematics m_skdKine = new SwerveDriveKinematics(m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
 
-    SwerveDriveOdometry m_sdkOdom;
-
-
-    // Pose2d globalPose = new Pose2d(0.0, 0.0, new Rotation2d());
-    // double X = 0.0;
-    // double Y = 0.0;
-    
+    SwerveDriveOdometry m_sdkOdom;    
 
     ChassisSpeeds autoSetSpeed = new ChassisSpeeds();
 
     private PIDController snapToNearestTheta = new PIDController(1, 0, 0);
     private boolean snappingOn = false;
 
-    private double systemVoltage = RoboRioDataJNI.getVInVoltage();
-    public DoubleSupplier voltageSupplier = ()->systemVoltage;
+    private double[] chassisSpeed_pub = {0.0, 0.0, 0.0};
+
+    public Supplier<double[]> chassisSpeed_supp = ()->chassisSpeed_pub;
 
     public DriveBase(Kinematics kinematics, AHRS ahrs) {
         m_kinematics = kinematics;
@@ -86,10 +82,7 @@ public class DriveBase extends SubsystemBase {
                 new SwerveModulePosition(odomDeltas[0], new Rotation2d(odomAngles[0])),
                 new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3])),
                 new SwerveModulePosition(odomDeltas[1], new Rotation2d(odomAngles[1]))
-            });
-
-
-    
+            }); 
     } 
 
     public Pose2d getCurrentPose() {
@@ -136,6 +129,10 @@ public class DriveBase extends SubsystemBase {
     }
 
     public void setDriveSpeed(ChassisSpeeds chassisSpeeds) {
+        chassisSpeed_pub[0] = chassisSpeeds.vxMetersPerSecond;
+        chassisSpeed_pub[1] = chassisSpeeds.vyMetersPerSecond;
+        chassisSpeed_pub[2] = chassisSpeeds.omegaRadiansPerSecond;
+        
         targetModuleStates = m_kinematics.getComputedModuleStates(chassisSpeeds);
     }
 
@@ -173,8 +170,6 @@ public class DriveBase extends SubsystemBase {
 
     @Override
     public void periodic() {
-        systemVoltage = RoboRioDataJNI.getVInVoltage();
-
         for (int i = 0; i < 4; i++) {
             moduleGroup[i].setSpeedAndAngle(targetModuleStates[i]);
             odomDeltas[i] = (((moduleGroup[i].integratedDriveEncoder.getPosition() - encoderDriveOffset[i])/6.12) * (0.102*Math.PI));// - odomPrevDeltas[i];

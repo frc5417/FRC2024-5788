@@ -44,12 +44,18 @@ public class Loggy extends SubsystemBase {
     m_teleopDrive = teleopDrive;
     
     Auton.add(m_autonLoader.getChooser());
-    Auton.add(driveBase.field);
+    Auton.add("Odometry", driveBase.field);
     Teleop.add(m_ahrs);
-    Teleop.addDouble("Rio Voltage", m_driveBase.voltageSupplier);
-    
+    Teleop.addDoubleArray("Supplied Chassis Speed", m_driveBase.chassisSpeed_supp);
+    Teleop.addDouble("Intake Speed", m_intake.intakeSpeed_supp);
+    Teleop.addDouble("Intake Amps", m_intake.intakeAmps_supp);
+    Teleop.addDoubleArray("Shooter Speeds", m_shooter.shooterSpeed_supp);
+    Teleop.addDouble("Indexer Speed", m_shooter.indexSpeed_supp);
+    Teleop.add("Limelight", m_photonSubsystem.estFieldPose);
+    Teleop.addDouble("Distance to Nearest Target", m_photonSubsystem.distanceToTarget_supp);
+    Teleop.addDouble("Estimated Shoot Angle", m_photonSubsystem.estShootAngle_supp);
+
     Teleop.addDouble("Wrist", m_wrist.wristSupplier);
-    // Teleop.addDouble("Drive Right X", RobotContainer.getDriverRightJoyX());
   }
 
 

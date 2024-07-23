@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import java.util.Optional;
+import java.util.function.DoubleSupplier;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -16,6 +17,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -26,6 +28,13 @@ public class PhotonSubsystem extends SubsystemBase {
 
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
     
+    private double estShootAngle_pub = 0.0;
+    public DoubleSupplier estShootAngle_supp = ()->estShootAngle_pub;
+
+    private double distanceToTarget_pub = 0.0;
+    public DoubleSupplier distanceToTarget_supp = ()->distanceToTarget_pub;
+
+    public Field2d estFieldPose = new Field2d();
 
     public PhotonSubsystem() {
         // photonCameraWrapper();
@@ -38,7 +47,9 @@ public class PhotonSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        // updatePose();
+        estFieldPose.setRobotPose(getEstimatedFieldPose());
+        estShootAngle_pub = getOptimalAngle();
+        distanceToTarget_pub = getDistance();
     }
 
     public double getYaw() {
@@ -100,15 +111,4 @@ public class PhotonSubsystem extends SubsystemBase {
         }
         return Constants.ManipulatorConstants.shooterNominalAngle;
     }
-
-  /**
-   * @param estimatedRobotPose The current best guess at robot pose
-   * @return A pair of the fused camera observations to a single Pose2d on the field, and the time
-   *     of the observation. Assumes a planar field and the robot is always firmly on the ground
-   */
-//   public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
-//       photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
-//       return photonPoseEstimator.update();
-//   }
-
 }

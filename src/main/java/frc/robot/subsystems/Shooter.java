@@ -6,6 +6,10 @@ package frc.robot.subsystems;
 // import com.revrobotics.RelativeEncoder;
 // import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,6 +22,12 @@ public class Shooter extends SubsystemBase {
   private final CANSparkMax shooterMotor1;
   private final CANSparkMax shooterMotor2;
   private final CANSparkMax shooterIndex;
+
+  private double[] shooterSpeed_pub = {0.0, 0.0};
+  public Supplier<double[]> shooterSpeed_supp = ()->shooterSpeed_pub;
+
+  private double indexSpeed_pub = 0.0;
+  public DoubleSupplier indexSpeed_supp = ()->indexSpeed_pub;
 
   public Shooter() {
     shooterMotor1 = new CANSparkMax(Constants.ManipulatorConstants.shooterMaster, MotorType.kBrushless);
@@ -50,5 +60,8 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    shooterSpeed_pub[0] = shooterMotor1.get();
+    shooterSpeed_pub[1] = shooterMotor2.get();
+    indexSpeed_pub = shooterIndex.get();
   }
 }

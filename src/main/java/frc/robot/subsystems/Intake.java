@@ -26,6 +26,11 @@ public class Intake extends SubsystemBase {
   private List<Double> amps = new ArrayList<Double>();
   private double amps_avg;
 
+  private double intakeSpeed_pub = 0.0;
+  public DoubleSupplier intakeSpeed_supp = ()->intakeSpeed_pub;
+  private double intakeAmps_pub = 0.0;
+  public DoubleSupplier intakeAmps_supp = ()->intakeAmps_pub;
+
   // public DoubleSupplier intakeSpeedSupplier = ()->intakeMotor1.getAppliedOutput();
   
   public Intake() {
@@ -50,13 +55,13 @@ public class Intake extends SubsystemBase {
 
   public Command IntakeDaNote(double speed) {
     return run(() -> intakeMotor1.set(speed));
-    // return Commands.startEnd(() -> intakeMotor1.set(speed), () -> intakeMotor1.set(0), null);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
+    intakeSpeed_pub = intakeMotor1.get();
+    intakeAmps_pub = intakeMotor1.getOutputCurrent();
     if (amps.size() < 60) {
       amps.add(intakeMotor1.getOutputCurrent());
     } else {
@@ -68,7 +73,5 @@ public class Intake extends SubsystemBase {
       amps_avg += a;
     }
     amps_avg /= 60;
-    // SmartDashboard.putNumber("POWER", amps_avg);
-    // SmartDashboard.updateValues();
   }
 }
