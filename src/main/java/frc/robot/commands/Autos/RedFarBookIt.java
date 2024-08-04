@@ -21,8 +21,8 @@ public class RedFarBookIt extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
 
     Pose2d startPose = new Pose2d(15.75, 4.60, Rotation2d.fromDegrees(-135));
-    Pose2d pose2 = new Pose2d(13.5, 0.6, Rotation2d.fromDegrees(0));
-    Pose2d pose3 = new Pose2d(8.75, 0.75, Rotation2d.fromDegrees(0));
+    Pose2d pose2 = new Pose2d(13.5, 0.6, Rotation2d.fromDegrees(-180));
+    Pose2d pose3 = new Pose2d(8.75, 0.75, Rotation2d.fromDegrees(-180));
 
 
     Pose2d[] path1 = {startPose, pose2, pose3};
@@ -30,7 +30,7 @@ public class RedFarBookIt extends SequentialCommandGroup {
     // FollowBezier follow1 = new FollowBezier(driveBase, path1, 200, true);
 
     addCommands(
-      new ResetOdom(driveBase, new Pose2d(15.75, 4.60, Rotation2d.fromDegrees(-135))),
+      new ResetOdom(driveBase, startPose),
       new Fire(1.5),
       new FollowBezier(driveBase, path1, 120, false),
       CustomNamedCommands.getCommand("IntakeOn")

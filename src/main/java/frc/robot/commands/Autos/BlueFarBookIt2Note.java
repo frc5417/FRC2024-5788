@@ -32,19 +32,23 @@ public class BlueFarBookIt2Note extends SequentialCommandGroup {
 
     Pose2d[] path2 = {pose3, pose4};
 
-    Pose2d[] path3 = {pose4, startPose};
+    Pose2d[] path3 = {pose4, pose2, startPose};
 
     // FollowBezier follow1 = new FollowBezier(driveBase, path1, 200, true);
 
     addCommands(
-      new ResetOdom(driveBase, new Pose2d(0.8, 4.60, Rotation2d.fromDegrees(-60))),
-      new Fire(1.5),
-      new FollowBezier(driveBase, path1, 120, false),
+      new ResetOdom(driveBase, startPose),
+      new Fire(0.2),
+      new FollowBezier(driveBase, path1, 70, false),
       CustomNamedCommands.getCommand("IntakeOn"),
-      new FollowBezier(driveBase, path2, 1, false),
+      CustomNamedCommands.getCommand("IndexOn"),
+      new FollowBezier(driveBase, path2, 70, false),
+      CustomNamedCommands.getCommand("IndexOff"),
       CustomNamedCommands.getCommand("IntakeOff"),
       new FollowBezier(driveBase, path3, 70, false),
-      new Fire(0.2)
+      CustomNamedCommands.getCommand("IndexReverse"),
+      new WaitCommand(0.5),
+      new Fire(3)
     );
   }
 }

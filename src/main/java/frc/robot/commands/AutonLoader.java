@@ -34,6 +34,8 @@ public class AutonLoader {
         m_chooser.addOption("Red AmpSide 2 Note", new RedAmpSide(driveBase));
         m_chooser.addOption("Red FarSide 2 Note", new RedFarBookIt2Note(driveBase));
         m_chooser.addOption("Blue FarSide 2 Note", new BlueFarBookIt2Note(driveBase));
+        m_chooser.addOption("Blue Center 3 Note", new BlueCenter3Note(driveBase));
+        m_chooser.addOption("Red Center 3 Note", new RedCenter3Note(driveBase));
 
         // SmartDashboard.putData(m_chooser);
         // SmartDashboard.updateValues();

@@ -20,25 +20,42 @@ public class BlueCenter3Note extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    Pose2d startPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
-    Pose2d startPoseY = new Pose2d(1.2, 0, Rotation2d.fromDegrees(0));
-    Pose2d startPose2 = new Pose2d(-0.1, 0, Rotation2d.fromDegrees(0));
+    Pose2d startPose = new Pose2d(1.25, 5.5, Rotation2d.fromDegrees(0));
+    Pose2d startPoseY = new Pose2d(3, 5.5, Rotation2d.fromDegrees(0));
+    Pose2d startPose2 = new Pose2d(1.2, 5.5, Rotation2d.fromDegrees(0));
 
 
     Pose2d[] path1 = {startPose, startPoseY};
     Pose2d[] path2 = {startPoseY, startPose2};
 
+    Pose2d otherNote = new Pose2d(2.8, 4.1, Rotation2d.fromDegrees(0));
+
+    Pose2d[] path3 = {startPose2, otherNote};
+    Pose2d[] path4 = {otherNote, startPose2};
+
+    // driveBase.resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+
     // FollowBezier follow1 = new FollowBezier(driveBase, path1, 200, true);
 
     addCommands(
-      new ResetOdom(driveBase, new Pose2d(0, 0, Rotation2d.fromDegrees(0))),
-      new Fire(1.5),
+      new ResetOdom(driveBase, startPose),
+      new Fire(0.2),
       CustomNamedCommands.getCommand("IntakeOn"),
       CustomNamedCommands.getCommand("IndexOn"),
-      new FollowBezier(driveBase, path1, 120, false),
+      new FollowBezier(driveBase, path1, 10, false),
       CustomNamedCommands.getCommand("IndexOff"),
       CustomNamedCommands.getCommand("IntakeOff"),
-      new FollowBezier(driveBase, path2, 120, false),
+      new FollowBezier(driveBase, path2, 10, false),
+      CustomNamedCommands.getCommand("IndexReverse"),
+      new WaitCommand(0.5),
+      new Fire(3),
+      //---------------------------------
+      CustomNamedCommands.getCommand("IntakeOn"),
+      CustomNamedCommands.getCommand("IndexOn"),
+      new FollowBezier(driveBase, path3, 70, false),
+      CustomNamedCommands.getCommand("IndexOff"),
+      CustomNamedCommands.getCommand("IntakeOff"),
+      new FollowBezier(driveBase, path4, 70, false),
       CustomNamedCommands.getCommand("IndexReverse"),
       new WaitCommand(0.5),
       new Fire(3)

@@ -85,6 +85,7 @@ public class FollowBezier extends Command {
     if (finalPose != bezierFunction.apply(time)) {
       // Pose2d computedPose = RobotContainer.WPI_to_Custom(bezierFunction.apply(time));
       setPIDSetpoints(bezierFunction.apply(time));
+      m_driveBase.resetOdometry(bezierFunction.apply(time)); //DELETE THIS BEFORE RUNNING
       // m_driveBase.resetOdometry(bezierFunction.apply(time));
       // Pose2d stupid = new Pose2d(computedPose.getX()*-1, computedPose.getY(), computedPose.getRotation());
       // m_targetstaterun.m_drivebase.resetOdometry(computedPose.times(-1));

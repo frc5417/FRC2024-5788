@@ -20,15 +20,15 @@ public class RedCenter3Note extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    Pose2d startPose = new Pose2d(1.25, 5.5, Rotation2d.fromDegrees(0));
-    Pose2d startPoseY = new Pose2d(3, 5.5, Rotation2d.fromDegrees(0));
-    Pose2d startPose2 = new Pose2d(1.15, 5.5, Rotation2d.fromDegrees(0));
+    Pose2d startPose = new Pose2d(15.3, 5.5, Rotation2d.fromDegrees(180));
+    Pose2d startPoseY = new Pose2d(13.7, 5.5, Rotation2d.fromDegrees(180));
+    Pose2d startPose2 = new Pose2d(15.35, 5.5, Rotation2d.fromDegrees(180));
 
 
     Pose2d[] path1 = {startPose, startPoseY};
     Pose2d[] path2 = {startPoseY, startPose2};
 
-    Pose2d otherNote = new Pose2d(2.8, 4.1, Rotation2d.fromDegrees(0));
+    Pose2d otherNote = new Pose2d(13.8, 4.1, Rotation2d.fromDegrees(180));
 
     Pose2d[] path3 = {startPose2, otherNote};
     Pose2d[] path4 = {otherNote, startPose2};
@@ -38,7 +38,7 @@ public class RedCenter3Note extends SequentialCommandGroup {
     // FollowBezier follow1 = new FollowBezier(driveBase, path1, 200, true);
 
     addCommands(
-      new ResetOdom(driveBase, new Pose2d(0, 0, Rotation2d.fromDegrees(180))),
+      new ResetOdom(driveBase, startPose),
       new Fire(0.2),
       CustomNamedCommands.getCommand("IntakeOn"),
       CustomNamedCommands.getCommand("IndexOn"),
