@@ -66,7 +66,7 @@ public class TeleopDrive extends Command {
     m_photonsubsystem = photonsubsystem;
     m_lightscontrol = lightscontrol;
 
-    m_photonsubsystem.setDriverMode(true);
+    // m_photonsubsystem.setDriverMode(true);
 
     // m_driveBase.resetOdometry(new Pose2d(1.5, 5.5, new Rotation2d()));
     // m_driveBase.resetOdometry(new Pose2d(15.5, 5.5, Rotation2d.fromDegrees(180)));
@@ -125,14 +125,19 @@ public class TeleopDrive extends Command {
 
     if (RobotContainer.getManipulatorYBool()) { //experimental amp
       wristPos = Constants.Wrist.amp;
-      m_shooter.setShooterPower(-0.5);
+      m_shooter.setDifferentialShooterPower(-0.45, -0.09);
     }
 
     if(RobotContainer.getManipulatorXBool()) { //photon shoot
-      wristPos = m_wrist.setWristDeg(m_photonsubsystem.getOptimalAngle());
+      // wristPos = m_wrist.setWristDeg(m_photonsubsystem.getOptimalAngle());
       // SmartDashboard.putNumber("Ideal Deg Wrist", m_photonsubsystem.getOptimalAngle());
     }
     // m_lightscontrol.setLed(4);
+
+    if (RobotContainer.getManipulatorRightBumperBool()) {
+      wristPos = Constants.Wrist.passing;
+      m_shooter.setShooterPower(-0.75);
+    }
 
     timer += 1;
 

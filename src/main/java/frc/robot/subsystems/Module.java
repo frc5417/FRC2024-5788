@@ -16,6 +16,8 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants;
 
 public class Module {
@@ -29,9 +31,9 @@ public class Module {
 
   private final int moduleNum; // ZERO INDEXED
 
-  private static final double kP = 0.4; //0.4
+  private static final double kP = 0.50; //0.4
   private static final double kI = 0.0;
-  private static final double kD = 0.006; //0.005
+  private static final double kD = 0.013; //0.006
 
   public final PIDController pid = new PIDController(kP, kI, kD);
 
@@ -128,21 +130,23 @@ public class Module {
     return integratedAngleEncoder.getVelocity();
   }
 
-  public double setAngle(double angle_in_rad) {
-    // //code to make the angle motor turn the least amount possible and drive direction if necessary
-    // double targetAngle = angle_in_rad + Constants.MotorConstants.angleOffsets[this.moduleNum - 1];
-    // double cudoublerrentAngle = getAngle();
-    // double normalDifference = currentAngle - targetAngle;
-    // double difference180 = currentAngle - normalizeAngle(targetAngle+180.0);
+  private void invertDrive() {
+    invertDriveSpeed = invertDriveSpeed == false;
+  }
 
-    // //if going to targetAngle + 180 degrees is not less than the distance of going just to targetAngle
-    // //then turn normally and also do not invert the motor direction
-    // if (Math.abs(normalDifference) <= Math.abs(difference180)) {
-    //   pid.setSetpoint(targetAngle); // angles are in TRUE BEARING ( angles are negated )
-    // } else {
-    //   pid.setSetpoint(targetAngle+180.0); // angles are in TRUE BEARING ( angles are negated )
-    //   invertSpeed();
+  public double setAngle(double angle_in_rad) {
+    
+    // Rotation2d desiredState = Rotation2d.fromRadians(MathUtil.inputModulus(angle_in_rad, -Math.PI/2, Math.PI/2));
+    // var delta = desiredState.minus(Rotation2d.fromRadians(MathUtil.inputModulus(this.getAngleInRadians(), -Math.PI/2, Math.PI/2)));
+    // if (Math.abs(delta.getDegrees()) > 90.0) {
+    //   invertDrive();
+    //   desiredState = desiredState.rotateBy(Rotation2d.fromDegrees(180));
+    // } 
+    // angle_in_rad = desiredState.getRadians();
+    // if (angle_in_rad < 0) {
+    //   angle_in_rad += 2 * Math.PI;
     // }
+
 
     double x = (angle_in_rad);
 
@@ -188,7 +192,7 @@ public class Module {
 
   private void configDriveMotor() {
     driveMotor.restoreFactoryDefaults();
-    driveMotor.setSmartCurrentLimit(45);
+    driveMotor.setSmartCurrentLimit(50);
     // CANSparkMaxUtil.setCANSparkMaxBusUsage(driveMotor, Usage.kVelocityOnly);
     // driveMotor.setSmartCurrentLimit(Constants.Swerve.driveContinuousCurrentLimit);
     // driveMotor.setInverted(Constants.Swerve.driveInvert);

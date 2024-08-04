@@ -38,7 +38,7 @@ public class FollowBezier extends Command {
     if (resetInit) {
       m_driveBase.resetOdometry(path[0]);
     }
-    finalPose = m_driveBase.getCurrentPose();
+    finalPose = path[0]; //m_driveBase.getCurrentPose();
     setPath(path, steps);
     
   }

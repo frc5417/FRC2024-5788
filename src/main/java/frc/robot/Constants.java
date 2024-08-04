@@ -61,7 +61,8 @@ public final class Constants {
     public static final double flatWristPos = 0.18069375;
     public static final double shoot_from_subwoofer = 0.04958;
     public static final double handoff = 0.0421;
-    public static final double amp = 0.0398;
+    public static final double amp = 0.02;
+    public static final double passing = 0.049;
   }
   
   public static class Swerve {
@@ -112,7 +113,7 @@ public final class Constants {
     public static final Transform3d robotToCam = new Transform3d(new Translation3d(-0.229, 0.254, 0.514), new Rotation3d(0,(75.0*(Math.PI/180.0)),(180.0*(Math.PI/180.0)))); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
 
   //   // Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-    public static final String cameraName = "limelight";
+    public static final String cameraName = "limelight-bozo";
     public static final double maxDistanceAway = 2.0;
     public static final double forwardKP = 0.1;
     public static final double forwardToAngleRatio = 0.5;

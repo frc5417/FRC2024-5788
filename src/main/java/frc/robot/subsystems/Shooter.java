@@ -45,6 +45,11 @@ public class Shooter extends SubsystemBase {
     shooterMotor2.set(power);
   }
 
+  public void setDifferentialShooterPower(double power1, double power2) {
+    shooterMotor1.set(power1);
+    shooterMotor2.set(power2);
+  }
+
   public void setShooterIntake(double speed) {
     shooterIndex.set(speed);
   }

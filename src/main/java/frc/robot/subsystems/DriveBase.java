@@ -60,6 +60,11 @@ public class DriveBase extends SubsystemBase {
 
     public Supplier<double[]> chassisSpeed_supp = ()->chassisSpeed_pub;
 
+    private String alliancecolor_pub = "IDK";
+
+    public Supplier<String> alliancecolor_supp = ()->alliancecolor_pub;
+
+
     public DriveBase(Kinematics kinematics, AHRS ahrs) {
         m_kinematics = kinematics;
         m_ahrs = ahrs;
@@ -83,6 +88,8 @@ public class DriveBase extends SubsystemBase {
                 new SwerveModulePosition(odomDeltas[3], new Rotation2d(odomAngles[3])),
                 new SwerveModulePosition(odomDeltas[1], new Rotation2d(odomAngles[1]))
             }); 
+
+        field.setRobotPose(getCurrentPose());
     } 
 
     public Pose2d getCurrentPose() {
@@ -91,8 +98,8 @@ public class DriveBase extends SubsystemBase {
     }
 
     public void X_MODE() {
-        Module.ModuleState mod1 = new Module.ModuleState(0.0, Math.PI/4);
-        Module.ModuleState mod2 = new Module.ModuleState(0.0, (3 * Math.PI)/4);
+        Module.ModuleState mod1 = new Module.ModuleState(0.0, (3 * Math.PI/4));
+        Module.ModuleState mod2 = new Module.ModuleState(0.0, (1 * Math.PI)/4);
         Module.ModuleState mod3 = new Module.ModuleState(0.0, (5 * Math.PI)/4);
         Module.ModuleState mod4 = new Module.ModuleState(0.0, (7 * Math.PI)/4);
         Module.ModuleState[] states = {mod1, mod2, mod3, mod4};
@@ -103,8 +110,14 @@ public class DriveBase extends SubsystemBase {
     public boolean isRed() {
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
+            if (alliance.get() == DriverStation.Alliance.Red) {
+                alliancecolor_pub = "RED";
+            } else {
+                alliancecolor_pub = "BLUE";
+            }
             return alliance.get() == DriverStation.Alliance.Red;
         }
+        alliancecolor_pub = "KYS";
         return false;
     }
 
@@ -189,7 +202,6 @@ public class DriveBase extends SubsystemBase {
         }
         
         field.setRobotPose(getCurrentPose());
-        
     }
 
 }

@@ -78,8 +78,10 @@ public class RobotContainer {
     // CustomNamedCommands.registerCommand("3MBWD", auto_MoveToPosBWD.withTimeout(3.0));
     CustomNamedCommands.registerCommand("IntakeOn", intake.IntakeDaNote(0.75).withTimeout(0.1)); 
     CustomNamedCommands.registerCommand("IntakeOff", intake.IntakeDaNote(0.0).withTimeout(0.1)); 
-    CustomNamedCommands.registerCommand("HandoffWrist", wrist.AngleDaWrist(0.0523).withTimeout(0.1));
-    CustomNamedCommands.registerCommand("ShootWrist", wrist.AngleDaWrist(0.0238).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("HandoffWrist", wrist.AngleDaWrist(Constants.Wrist.handoff).withTimeout(0.1));
+    CustomNamedCommands.registerCommand("WristTest1", wrist.AngleDaWrist(Constants.Wrist.handoff).withTimeout(0.5));
+    CustomNamedCommands.registerCommand("WristTest2", wrist.AngleDaWrist(Constants.Wrist.flatWristPos).withTimeout(0.5));
+    CustomNamedCommands.registerCommand("ShootWrist", wrist.AngleDaWrist(Constants.Wrist.shoot_from_subwoofer).withTimeout(0.1));
     CustomNamedCommands.registerCommand("ShooterOn", shooter.ShootDaNote(-0.75).withTimeout(0.1));
     CustomNamedCommands.registerCommand("ShooterOff", shooter.ShootDaNote(0.0).withTimeout(0.1));
     CustomNamedCommands.registerCommand("IndexOn", shooter.IndexDaNote(-0.2).withTimeout(0.1));

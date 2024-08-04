@@ -9,10 +9,15 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.CustomNamedCommands;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AutonLoader;
 import frc.robot.commands.TeleopDrive;
+import frc.robot.commands.Autos.Fire;
 
 public class Loggy extends SubsystemBase {
   /** Creates a new Loggy. */
@@ -30,6 +35,7 @@ public class Loggy extends SubsystemBase {
   ShuffleboardTab UserInputs = Shuffleboard.getTab("User Inputs");
   ShuffleboardTab Auton = Shuffleboard.getTab("Autonomous");
   ShuffleboardTab Teleop = Shuffleboard.getTab("Teleoperated");
+  ShuffleboardTab Testing = Shuffleboard.getTab("Testing");
 
   public Loggy(AHRS ahrs, DriveBase driveBase, Intake intake, Shooter shooter, Wrist wrist, PhotonSubsystem photonSubsystem, Bezier bezier, LightsControl lightsControl, AutonLoader autonLoader, TeleopDrive teleopDrive) {
     m_ahrs = ahrs;
@@ -45,17 +51,22 @@ public class Loggy extends SubsystemBase {
     
     Auton.add(m_autonLoader.getChooser());
     Auton.add("Odometry", driveBase.field);
+    Auton.addString("Alliance Color", driveBase.alliancecolor_supp);
     Teleop.add(m_ahrs);
     Teleop.addDoubleArray("Supplied Chassis Speed", m_driveBase.chassisSpeed_supp);
     Teleop.addDouble("Intake Speed", m_intake.intakeSpeed_supp);
     Teleop.addDouble("Intake Amps", m_intake.intakeAmps_supp);
     Teleop.addDoubleArray("Shooter Speeds", m_shooter.shooterSpeed_supp);
     Teleop.addDouble("Indexer Speed", m_shooter.indexSpeed_supp);
-    Teleop.add("Limelight", m_photonSubsystem.estFieldPose);
-    Teleop.addDouble("Distance to Nearest Target", m_photonSubsystem.distanceToTarget_supp);
-    Teleop.addDouble("Estimated Shoot Angle", m_photonSubsystem.estShootAngle_supp);
+    // Teleop.add("Limelight", m_photonSubsystem.estFieldPose);
+    // Teleop.addDouble("Distance to Nearest Target", m_photonSubsystem.distanceToTarget_supp);
+    // Teleop.addDouble("Estimated Shoot Angle", m_photonSubsystem.estShootAngle_supp);
 
     Teleop.addDouble("Wrist", m_wrist.wristSupplier);
+
+    Testing.add("Fire", new Fire(3));
+    Testing.add("Intake", new SequentialCommandGroup(CustomNamedCommands.getCommand("IntakeOn"), new WaitCommand(2), CustomNamedCommands.getCommand("IntakeOff")));
+    Testing.add("Wrist", new SequentialCommandGroup(CustomNamedCommands.getCommand("WristTest1"), new WaitCommand(3), CustomNamedCommands.getCommand("WristTest2")));
   }
 
 

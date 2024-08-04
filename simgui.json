@@ -21,7 +21,13 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Autonomous/Odometry": "Field2d",
+      "/Shuffleboard/Autonomous/SendableChooser[0]": "String Chooser",
       "/Shuffleboard/Tab1/DriveBase": "Subsystem",
+      "/Shuffleboard/Teleoperated/navX-Sensor[1]": "Gyro",
+      "/Shuffleboard/Testing/Fire": "Command",
+      "/Shuffleboard/Testing/Intake": "Command",
+      "/Shuffleboard/Testing/Wrist": "Command",
       "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/SendableChooser[0]": "String Chooser"

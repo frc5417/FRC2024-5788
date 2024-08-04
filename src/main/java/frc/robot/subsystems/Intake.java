@@ -23,8 +23,8 @@ public class Intake extends SubsystemBase {
 
   public final RelativeEncoder intakeEncoder;
 
-  private List<Double> amps = new ArrayList<Double>();
-  private double amps_avg;
+  // private List<Double> amps = new ArrayList<Double>();
+  // private double amps_avg;
 
   private double intakeSpeed_pub = 0.0;
   public DoubleSupplier intakeSpeed_supp = ()->intakeSpeed_pub;
@@ -37,7 +37,8 @@ public class Intake extends SubsystemBase {
     intakeMotor1 = new CANSparkMax(Constants.ManipulatorConstants.intake, MotorType.kBrushless);
     intakeEncoder = intakeMotor1.getEncoder();
     intakeMotor1.setIdleMode(IdleMode.kCoast);
-    amps.add(0.0);
+    intakeMotor1.setSmartCurrentLimit(40);
+    // amps.add(0.0);
   }
 
   public void setIntakePower(double power) {
@@ -46,7 +47,7 @@ public class Intake extends SubsystemBase {
   }
 
   public Boolean noteInIntake() {
-    if (amps_avg >= Constants.ManipulatorConstants.intakeCurrentLimit) {
+    if (10 >= Constants.ManipulatorConstants.intakeCurrentLimit) {
       return true;
     } else {
       return false;
@@ -57,21 +58,25 @@ public class Intake extends SubsystemBase {
     return run(() -> intakeMotor1.set(speed));
   }
 
+  public Command StopIntake() {
+    return run(() -> intakeMotor1.set(0.0));
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     intakeSpeed_pub = intakeMotor1.get();
     intakeAmps_pub = intakeMotor1.getOutputCurrent();
-    if (amps.size() < 60) {
-      amps.add(intakeMotor1.getOutputCurrent());
-    } else {
-      amps.remove(0);
-      amps.add(intakeMotor1.getOutputCurrent());
-    }
-    amps_avg = 0;
-    for (double a : amps) {
-      amps_avg += a;
-    }
-    amps_avg /= 60;
+    // if (amps.size() < 60) {
+    //   amps.add(intakeMotor1.getOutputCurrent());
+    // } else {
+    //   amps.remove(0);
+    //   amps.add(intakeMotor1.getOutputCurrent());
+    // }
+    // amps_avg = 0;
+    // for (double a : amps) {
+    //   amps_avg += a;
+    // }
+    // amps_avg /= 60;
   }
 }
